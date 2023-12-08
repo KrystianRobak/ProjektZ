@@ -4,6 +4,9 @@
 #include "Character/PlayerCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/ProjektZPlayerState.h"
+#include "Player/PC_PlayerController.h"
+#include <UI/HUD/ProjektZHUD.h>
+#include <AbilitySystem/ProjektZAbilitySystemComponent.h>
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -32,8 +35,17 @@ void APlayerCharacter::InitAbilityActorInfo()
 	AProjektZPlayerState* ProjektZPlayerState = GetPlayerState<AProjektZPlayerState>();
 	check(ProjektZPlayerState);
 	ProjektZPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(ProjektZPlayerState, this);
+	Cast<UProjektZAbilitySystemComponent>(ProjektZPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = ProjektZPlayerState->GetAbilitySystemComponent();
 	AttributeSet = ProjektZPlayerState->GetAttributeSet();
+
+	if (APC_PlayerController* ProjektZPlayerController = Cast<APC_PlayerController>(GetController())) 
+	{
+		if (AProjektZHUD* ProjektZHUD = Cast<AProjektZHUD>(ProjektZPlayerController->GetHUD()))
+		{
+			ProjektZHUD->InitOverlay(ProjektZPlayerController, ProjektZPlayerState, AbilitySystemComponent, AttributeSet);
+		}
+	}
 }
 
 
