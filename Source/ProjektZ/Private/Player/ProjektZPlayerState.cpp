@@ -4,6 +4,7 @@
 #include "Player/ProjektZPlayerState.h"
 #include <AbilitySystem/ProjektZAbilitySystemComponent.h>
 #include <AbilitySystem/ProjektZAttributeSet.h>
+#include <Net/UnrealNetwork.h>
 
 AProjektZPlayerState::AProjektZPlayerState()
 {
@@ -16,7 +17,19 @@ AProjektZPlayerState::AProjektZPlayerState()
 	NetUpdateFrequency = 100.f;
 }
 
+void AProjektZPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AProjektZPlayerState, Level);
+}
+
 UAbilitySystemComponent* AProjektZPlayerState::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+void AProjektZPlayerState::OnRep_Level(int32 OldLevel)
+{
+
 }

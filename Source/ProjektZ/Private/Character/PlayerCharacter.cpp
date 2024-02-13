@@ -30,6 +30,13 @@ void APlayerCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
+int32 APlayerCharacter::GetPlayerLevel()
+{
+	AProjektZPlayerState* ProjektZPlayerState = GetPlayerState<AProjektZPlayerState>();
+	check(ProjektZPlayerState);
+	return ProjektZPlayerState->GetPlayerLevel();
+}
+
 void APlayerCharacter::InitAbilityActorInfo()
 {
 	AProjektZPlayerState* ProjektZPlayerState = GetPlayerState<AProjektZPlayerState>();
@@ -46,6 +53,7 @@ void APlayerCharacter::InitAbilityActorInfo()
 			ProjektZHUD->InitOverlay(ProjektZPlayerController, ProjektZPlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
+	InitializeDefaultAttributes();
 }
 
 
