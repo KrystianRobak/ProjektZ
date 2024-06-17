@@ -62,6 +62,10 @@ public:
 
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
+	TMap<FGameplayTag, FGameplayAttribute> TagsToAttributes;
+
+	void PopulateTagsToAttributesMap();
+
 	/*
 	 *	Primary Attributes
 	 */
@@ -80,6 +84,14 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Vigor, Category = "Primary Attributes")
 	FGameplayAttributeData Vigor;
 	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, Vigor)
+
+	 /*
+	 *	Meta Attributes
+	 */
+
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, IncomingDamage)
 
 	 /*
 	  *	Secondary Attributes
@@ -137,7 +149,6 @@ public:
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, Mana)
 
-
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldMana) const;
 
@@ -189,4 +200,6 @@ public:
 private:
 
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
+
+	
 };

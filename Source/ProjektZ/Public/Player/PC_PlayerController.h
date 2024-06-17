@@ -4,12 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "GameplayTagContainer.h"
+#include "../AbilitySystem/ProjektZAbilitySystemComponent.h"
 #include "PC_PlayerController.generated.h"
 
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 class IEnemyInterface;
+class UProjektZInputConfig;
 
 /**
  * 
@@ -27,6 +30,18 @@ protected:
 	virtual void SetupInputComponent() override;
 
 private:
+	void Move(const FInputActionValue& InputActionValue);
+	void Look(const FInputActionValue& InputActionValue);
+
+	void CursorTrace();
+
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
+
+	UProjektZAbilitySystemComponent* GetASC();
+
+private:
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputMappingContext> PlayerContext;
@@ -40,11 +55,12 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Controller")
 	float SensitivityScale = 1;
 
-	void Move(const FInputActionValue& InputActionValue);
-	void Look(const FInputActionValue& InputActionValue);
-
-	void CursorTrace();
-
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
+
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	TObjectPtr<UProjektZInputConfig> InputConfig;
+
+	UPROPERTY()
+	TObjectPtr<UProjektZAbilitySystemComponent> ProjektZAbilitySystemComponent;
 }; 

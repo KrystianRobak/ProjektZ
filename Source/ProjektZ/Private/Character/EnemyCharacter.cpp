@@ -4,7 +4,9 @@
 #include "Character/EnemyCharacter.h"
 #include "ProjektZ/ProjektZ.h"
 #include "AbilitySystem/ProjektZAbilitySystemComponent.h"
+#include "Components/WidgetComponent.h"
 #include "AbilitySystem/ProjektZAttributeSet.h"
+#include "AbilitySystem/ProjektZAbilitySystemLibrary.h"
 
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -15,6 +17,10 @@ AEnemyCharacter::AEnemyCharacter()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
 	AttributeSet = CreateDefaultSubobject<UProjektZAttributeSet>("AttributeSet");
+
+	HealthBarWidget = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
+	HealthBarWidget->SetupAttachment(GetRootComponent());
+
 }
 
 void AEnemyCharacter::HighlightActor()
@@ -41,10 +47,40 @@ void AEnemyCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	InitAbilityActorInfo();
+
+	if (UProjektZUserWidget* UserWidget = Cast<UProjektZUserWidget>(HealthBarWidget->GetUserWidgetObject()))
+	{
+		UserWidget->SetWidgetController(this);
+	}
+
+	if (const UProjektZAttributeSet* AS = Cast<UProjektZAttributeSet>(AttributeSet))
+	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AS->GetHealthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnHealthChanged.Broadcast(Data.NewValue);
+			});
+
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AS->GetMaxHealthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnMaxHealthChanged.Broadcast(Data.NewValue);
+			});
+
+		OnHealthChanged.Broadcast(AS->GetHealth());
+		OnMaxHealthChanged.Broadcast(AS->GetMaxHealth());
+	}
 }
 
 void AEnemyCharacter::InitAbilityActorInfo()
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	Cast<UProjektZAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+
+	InitializeDefaultAttributes();
+}
+
+void AEnemyCharacter::InitializeDefaultAttributes() const
+{
+	UProjektZAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }

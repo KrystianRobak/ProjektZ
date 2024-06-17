@@ -36,9 +36,14 @@ class PROJEKTZ_API UProjektZWidgetController : public UObject
 {
 	GENERATED_BODY()
 public:
+
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetControllerParams(const FWidgetControllerParams& WCParams);
+
+	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValues();
+
+
 	virtual void BindCallbackToDependencies();
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")

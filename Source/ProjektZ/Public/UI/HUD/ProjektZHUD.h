@@ -6,6 +6,7 @@
 #include "GameFramework/HUD.h"
 #include "ProjektZHUD.generated.h"
 
+class UAttributeMenuWidgetController;
 class UOverlayWidgetController;
 class UProjektZUserWidget;
 class UAbilitySystemComponent;
@@ -19,14 +20,18 @@ class PROJEKTZ_API AProjektZHUD : public AHUD
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY()
-	TObjectPtr<UProjektZUserWidget> OverlayWidget;
 
 	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WcParams);
+
+	UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const FWidgetControllerParams& WcParams);
 
 	void InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet);
 
 private:
+
+	UPROPERTY()
+	TObjectPtr<UProjektZUserWidget> OverlayWidget;
+
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UProjektZUserWidget> OverlayWidgetClass;
 
@@ -35,4 +40,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UOverlayWidgetController> OverlayWidgetControllerClass;
+
+	UPROPERTY()
+	TObjectPtr<UAttributeMenuWidgetController> AttributeMenuWidgetController;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
 };

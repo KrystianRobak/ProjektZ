@@ -3,8 +3,10 @@
 
 #include "Player/PC_PlayerController.h"
 #include "EnhancedInputSubsystems.h"
-#include "EnhancedInputComponent.h"
 #include <Interaction/EnemyInterface.h>
+#include "AbilitySystemBlueprintLibrary.h"
+#include <Input/ProjektZInputComponent.h>
+
 
 APC_PlayerController::APC_PlayerController()
 {
@@ -40,10 +42,13 @@ void APC_PlayerController::BeginPlay()
 void APC_PlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	UEnhancedInputComponent* EnchancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
+	UProjektZInputComponent* ProjektZInputComponent = CastChecked<UProjektZInputComponent>(InputComponent);
 
-	EnchancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APC_PlayerController::Move);
-	EnchancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APC_PlayerController::Look);
+	ProjektZInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APC_PlayerController::Move);
+	ProjektZInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APC_PlayerController::Look);
+
+
+	ProjektZInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
 void APC_PlayerController::Move(const FInputActionValue& InputActionValue)
@@ -75,12 +80,28 @@ void APC_PlayerController::Look(const FInputActionValue& Value)
 
 void APC_PlayerController::CursorTrace()
 {
-	FHitResult CursorHit;
-	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
-	if (!CursorHit.bBlockingHit) return;
+	FHitResult CameraHit;
+
+	FInt32Vector2 ViewPoint;
+	FRotator ViewRotation;
+	GetViewportSize(ViewPoint.X, ViewPoint.Y);
+
+	ViewPoint.X = ViewPoint.X / 2;
+	ViewPoint.Y = ViewPoint.Y / 2;
+
+	FVector WorldPosition, WorldDirection;
+	DeprojectScreenPositionToWorld(ViewPoint.X, ViewPoint.Y, WorldPosition, WorldDirection);
+
+
+
+	GetWorld()->LineTraceSingleByChannel(CameraHit, WorldPosition, WorldPosition + WorldDirection * 500000.f, ECC_Visibility);
+
+	if (!CameraHit.bBlockingHit) return;
 	
 	LastActor = ThisActor;
-	ThisActor = Cast<IEnemyInterface>(CursorHit.GetActor());
+	ThisActor = Cast<IEnemyInterface>(CameraHit.GetActor());
+
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, CameraHit.GetActor()->GetName());
 
 	if (LastActor == nullptr)
 	{
@@ -104,6 +125,32 @@ void APC_PlayerController::CursorTrace()
 			}
 		}
 	}
+}
+
+void APC_PlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
+}
+
+void APC_PlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	if (GetASC() == nullptr) return;
+	GetASC()->AbilityInputTagHeld(InputTag);
+}
+
+void APC_PlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+	if (GetASC() == nullptr) return;
+	GetASC()->AbilityInputTagHeld(InputTag);
+}
+
+UProjektZAbilitySystemComponent* APC_PlayerController::GetASC()
+{
+	if (ProjektZAbilitySystemComponent == nullptr)
+	{
+		ProjektZAbilitySystemComponent = Cast<UProjektZAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
+	}
+	return ProjektZAbilitySystemComponent;
 }
 
 
