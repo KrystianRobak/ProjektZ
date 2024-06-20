@@ -9,7 +9,17 @@
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /* AssetTags */);
 
+USTRUCT()
+struct FAbilityData
+{
+	GENERATED_BODY()
 
+	UPROPERTY()
+	FGameplayAbilitySpecHandle AbilitySpecHandle;
+
+	UPROPERTY()
+	TSubclassOf<UGameplayAbility> AbilityClass;
+};
 /**
  * 
  */
@@ -22,7 +32,7 @@ public:
 
 	FEffectAssetTags EffectAssetTags;
 
-	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
+	void AddAbility(const TSubclassOf<UGameplayAbility>& Ability, float Level, FAbilityData& Data);
 
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);

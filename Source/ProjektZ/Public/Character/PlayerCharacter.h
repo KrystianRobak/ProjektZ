@@ -18,6 +18,18 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 
+	UFUNCTION(BlueprintCallable)
+	float GetFirstFreeSlot();
+
+	UFUNCTION(BlueprintCallable)
+	void AddCharacterAbility(TSubclassOf<UGameplayAbility>& Ability, float Level, float Slot);
+
+	UFUNCTION(BlueprintCallable)
+	void SwapSlotsAbilities(float Slot1, float Slot2);
+
+	UFUNCTION(BlueprintCallable)
+	void RemoveCharacterAbility(float Slot);
+
 	// Combat Interface
 
 	virtual int32 GetPlayerLevel() override;
@@ -25,6 +37,18 @@ public:
 	// End Combat Interface
 
 protected:
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Abilities")
+	float MaxAbilities;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
+	float CurrentAbilities;
+
+	UPROPERTY(EditAnywhere, Category = "Abilities")
+	TArray<FAbilityData> Abilities;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
+	TArray<bool> SlotsOccupancy;
 
 private:
 	virtual void InitAbilityActorInfo() override;

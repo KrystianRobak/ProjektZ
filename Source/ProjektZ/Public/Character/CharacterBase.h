@@ -6,7 +6,9 @@
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "AbilitySystemInterface.h"
+#include <AbilitySystem/ProjektZAbilitySystemComponent.h>
 #include "CharacterBase.generated.h"
+
 
 
 
@@ -14,6 +16,7 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayEffect;
 class UGameplayAbility;
+
 
 UCLASS()
 class PROJEKTZ_API ACharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
@@ -26,18 +29,20 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; };
 
+
+
+	bool HasAbility();
 protected:
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
 
 	virtual void InitializeDefaultAttributes() const;
-
-	void AddCharacterAbilities();
 
 	virtual void InitAbilityActorInfo();
 
 	virtual FVector GetCombatSocetLocation() override;
 
 	virtual void BeginPlay() override;
+
 protected:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
@@ -60,8 +65,8 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
+
 private:
 
-	UPROPERTY(EditAnywhere, Category = "Abilities")
-	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
 };

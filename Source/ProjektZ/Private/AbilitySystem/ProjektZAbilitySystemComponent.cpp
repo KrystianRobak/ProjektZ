@@ -12,17 +12,14 @@ void UProjektZAbilitySystemComponent::AbilityActorInfoSet()
 
 }
 
-void UProjektZAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities)
+void UProjektZAbilitySystemComponent::AddAbility(const TSubclassOf<UGameplayAbility>& Ability, float Level, FAbilityData &Data)
 {
-	for (const TSubclassOf<UGameplayAbility> AbilityClass : StartupAbilities)
+	FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability, Level);
+	Data.AbilityClass = Ability;
+	if (const UProjektZGameplayAbility* CastedAbility = Cast<UProjektZGameplayAbility>(AbilitySpec.Ability))
 	{
-		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
-
-		if (const UProjektZGameplayAbility* Ability = Cast<UProjektZGameplayAbility>(AbilitySpec.Ability))
-		{
-			AbilitySpec.DynamicAbilityTags.AddTag(Ability->StartupInputTag);
-			GiveAbility(AbilitySpec);
-		}
+		AbilitySpec.DynamicAbilityTags.AddTag(CastedAbility->StartupInputTag);
+		Data.AbilitySpecHandle = GiveAbility(AbilitySpec);
 	}
 }
 

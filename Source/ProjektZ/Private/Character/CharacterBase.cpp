@@ -1,6 +1,5 @@
 #include "Character/CharacterBase.h"
 #include "AbilitySystemComponent.h"
-#include <AbilitySystem/ProjektZAbilitySystemComponent.h>
 #include "Components/CapsuleComponent.h"
 #include <ProjektZ/ProjektZ.h>
 
@@ -29,6 +28,7 @@ void ACharacterBase::BeginPlay()
 	Super::BeginPlay();
 }
 
+
 FVector ACharacterBase::GetCombatSocetLocation()
 {
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
@@ -36,7 +36,6 @@ FVector ACharacterBase::GetCombatSocetLocation()
 
 void ACharacterBase::InitAbilityActorInfo()
 {
-
 }
 
 void ACharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
@@ -57,11 +56,3 @@ void ACharacterBase::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultVitalAttributes, 1);
 }
 
-void ACharacterBase::AddCharacterAbilities()
-{
-	UProjektZAbilitySystemComponent* ASC = CastChecked<UProjektZAbilitySystemComponent>(AbilitySystemComponent);
-	if (!HasAuthority()) return;
-
-	ASC->AddCharacterAbilities(StartupAbilities);
-
-}

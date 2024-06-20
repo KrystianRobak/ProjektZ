@@ -12,6 +12,12 @@ APlayerCharacter::APlayerCharacter()
 {
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 400.f, 0.f);
+
+	for (int i = 0; i < MaxAbilities; i++)
+	{
+		SlotsOccupancy.Add(false);
+		Abilities.Add(FAbilityData());
+	}
 }
 
 void APlayerCharacter::PossessedBy(AController* NewController)
@@ -20,7 +26,6 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 
 	// Init ability actor info for the Server
 	InitAbilityActorInfo();
-	AddCharacterAbilities();
 }
 
 void APlayerCharacter::OnRep_PlayerState()
@@ -28,6 +33,54 @@ void APlayerCharacter::OnRep_PlayerState()
 	Super::OnRep_PlayerState();
 	// Init ability actor info for the Client
 	InitAbilityActorInfo();
+}
+
+float APlayerCharacter::GetFirstFreeSlot()
+{
+	for (int i = 0; i < MaxAbilities; i++)
+	{
+		if (!SlotsOccupancy[i])
+			return i;
+	}
+	return -1;
+}
+
+void APlayerCharacter::RemoveCharacterAbility(float Slot)
+{
+	if (AbilitySystemComponent && HasAuthority())
+	{
+		UProjektZAbilitySystemComponent* ASC = CastChecked<UProjektZAbilitySystemComponent>(AbilitySystemComponent);
+		ASC->ClearAbility(Abilities[Slot].AbilitySpecHandle);
+		SlotsOccupancy[Slot] = false;
+	}
+}
+
+void APlayerCharacter::AddCharacterAbility(TSubclassOf<UGameplayAbility>& Ability, float Level, float Slot)
+{
+	if (AbilitySystemComponent && HasAuthority())
+	{
+		if (SlotsOccupancy[Slot])
+		{
+			RemoveCharacterAbility(Slot);
+		}
+		UProjektZAbilitySystemComponent* ASC = CastChecked<UProjektZAbilitySystemComponent>(AbilitySystemComponent);
+
+		FAbilityData& Data = Abilities[Slot];
+		ASC->AddAbility(Ability, Level, Data);
+		SlotsOccupancy[Slot] = true;
+	}
+}
+
+void APlayerCharacter::SwapSlotsAbilities(float Slot1, float Slot2)
+{
+	FAbilityData TempData = Abilities[Slot1];
+	bool TempOccupancy = SlotsOccupancy[Slot1];
+
+	Abilities[Slot1] = Abilities[Slot2];
+	SlotsOccupancy[Slot1] = SlotsOccupancy[Slot2];
+
+	Abilities[Slot2] = TempData;
+	SlotsOccupancy[Slot2] = TempOccupancy;
 }
 
 int32 APlayerCharacter::GetPlayerLevel()
