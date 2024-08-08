@@ -42,11 +42,17 @@ int32 AEnemyCharacter::GetPlayerLevel()
 	return Level;
 }
 
+void AEnemyCharacter::Die()
+{
+	SetLifeSpan(LifeSpan);
+	Super::Die();
+}
+
 void AEnemyCharacter::BeginPlay()
 {
-	Super::BeginPlay();
-
 	InitAbilityActorInfo();
+
+	Super::BeginPlay();
 
 	if (UProjektZUserWidget* UserWidget = Cast<UProjektZUserWidget>(HealthBarWidget->GetUserWidgetObject()))
 	{
@@ -77,7 +83,10 @@ void AEnemyCharacter::InitAbilityActorInfo()
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	Cast<UProjektZAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 
-	InitializeDefaultAttributes();
+	if (HasAuthority())
+	{
+		InitializeDefaultAttributes();
+	}
 }
 
 void AEnemyCharacter::InitializeDefaultAttributes() const

@@ -36,6 +36,8 @@ public:
 
 	virtual int32 GetPlayerLevel() override;
 
+	virtual void Die() override;
+
 	// End Combat Interface
 
 	UPROPERTY(BlueprintAssignable)
@@ -59,5 +61,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBarWidget;
 
-	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Combat")
+	float LifeSpan = 5.f;
 };

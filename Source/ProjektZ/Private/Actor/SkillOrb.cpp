@@ -29,7 +29,7 @@ void ASkillOrb::GiveAbilityToTarget(AActor* TargetActor)
 		{
 			return;
 		}
-		Target->AddCharacterAbility(Ability, 1, Slot);
+		Target->AddCharacterAbility(Ability, Level, Slot);
 	}
 	this->Destroy();
 }

@@ -41,6 +41,9 @@ private:
 
 	UProjektZAbilitySystemComponent* GetASC();
 
+	UFUNCTION(BlueprintCallable, Category = "Tags")
+	void BP_GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const;
+
 private:
 
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -63,4 +66,7 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UProjektZAbilitySystemComponent> ProjektZAbilitySystemComponent;
+
+	UPROPERTY()
+	FGameplayTagContainer CharacterTags;
 }; 

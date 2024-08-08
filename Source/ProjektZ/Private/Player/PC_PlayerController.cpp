@@ -153,4 +153,10 @@ UProjektZAbilitySystemComponent* APC_PlayerController::GetASC()
 	return ProjektZAbilitySystemComponent;
 }
 
+void APC_PlayerController::BP_GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const
+{
+	TagContainer.Reset();
+	TagContainer = ProjektZAbilitySystemComponent->GetOwnedGameplayTags();
+}
+
 

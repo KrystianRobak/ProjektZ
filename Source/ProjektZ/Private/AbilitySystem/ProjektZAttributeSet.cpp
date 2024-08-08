@@ -7,6 +7,8 @@
 #include <Net/UnrealNetwork.h>
 #include <AbilitySystemBlueprintLibrary.h>
 #include <ProjektZGameplayTags.h>
+#include <Interaction/CombatInterface.h>
+#include <AbilitySystem/ProjektZAbilitySystemLibrary.h>
 
 UProjektZAttributeSet::UProjektZAttributeSet()
 {
@@ -36,6 +38,14 @@ void UProjektZAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, ManaRegeneration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+
+	//Resistance Attributes
+
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, FireResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, FrostResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, LightningResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, PhysicalResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, PoisonResistance, COND_None, REPNOTIFY_Always);
 
 	//Vital Attributes
 
@@ -124,6 +134,27 @@ void UProjektZAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCa
 			SetHealth(FMath::Clamp(NewHealth, 0, GetMaxHealth()));
 
 			const bool bFatal = NewHealth <= 0.f;
+			if (bFatal)
+			{
+				ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
+				if (CombatInterface)
+				{
+					CombatInterface->Die();
+				}
+			}
+			else
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FProjektZGameplayTags::Get().Effects_HitReact);
+				Props.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
+			}
+
+			if (UProjektZAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandler)) {
+				GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("Crit!"));
+			}
+			if (UProjektZAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandler)) {
+				GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("Zablokowa?em!"));
+			}
 		}
 	}
 }
@@ -203,11 +234,35 @@ void UProjektZAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMax
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, MaxHealth, OldMaxHealth);
 }
 
+void UProjektZAttributeSet::OnRep_FireResistance(const FGameplayAttributeData& OldFireResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, FireResistance, OldFireResistance);
+}
+
+void UProjektZAttributeSet::OnRep_LightningResistance(const FGameplayAttributeData& OldLightningResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, LightningResistance, OldLightningResistance);
+}
+
+void UProjektZAttributeSet::OnRep_FrostResistance(const FGameplayAttributeData& OldFrostResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, FrostResistance, OldFrostResistance);
+}
+
+void UProjektZAttributeSet::OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, PhysicalResistance, OldPhysicalResistance);
+}
+
+void UProjektZAttributeSet::OnRep_PoisonResistance(const FGameplayAttributeData& OldPoisonResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, PoisonResistance, OldPoisonResistance);
+}
+
 void UProjektZAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, MaxMana, OldMaxMana);
 }
-
 
 void UProjektZAttributeSet::PopulateTagsToAttributesMap()
 {
@@ -217,6 +272,7 @@ void UProjektZAttributeSet::PopulateTagsToAttributesMap()
 	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Intelligence, GetIntelligenceAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Resilience, GetResilienceAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Vigor, GetVigorAttribute());
+
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_Armor, GetArmorAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_BlockChance, GetBlockChanceAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitChance, GetStrengthAttribute());
@@ -228,4 +284,9 @@ void UProjektZAttributeSet::PopulateTagsToAttributesMap()
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_MaxHealth, GetMaxHealthAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_MaxMana, GetMaxManaAttribute());
 
+	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Fire, GetFireResistanceAttribute());
+	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Frost, GetFrostResistanceAttribute());
+	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Lightning, GetLightningResistanceAttribute());
+	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Physical, GetPhysicalResistanceAttribute());
+	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Poison, GetPoisonResistanceAttribute());
 }

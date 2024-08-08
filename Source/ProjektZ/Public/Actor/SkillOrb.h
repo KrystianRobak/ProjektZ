@@ -32,4 +32,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TSubclassOf<UGameplayAbility> Ability;
 
+	UPROPERTY(EditAnywhere, Category = "Abilities")
+	float Level;
+
 };

@@ -20,8 +20,6 @@ public:
 	FGameplayTag Attributes_Primary_Resilience;
 	FGameplayTag Attributes_Primary_Vigor;
 
-
-
 	FGameplayTag Attributes_Secondary_MaxHealth;
 	FGameplayTag Attributes_Secondary_MaxMana;
 
@@ -33,6 +31,12 @@ public:
 	FGameplayTag Attributes_Secondary_CriticalHitDamage;
 	FGameplayTag Attributes_Secondary_HealthRegeneration;
 	FGameplayTag Attributes_Secondary_ManaRegeneration;
+
+	FGameplayTag Attributes_Resistance_Fire;
+	FGameplayTag Attributes_Resistance_Frost;
+	FGameplayTag Attributes_Resistance_Lightning;
+	FGameplayTag Attributes_Resistance_Physical;
+	FGameplayTag Attributes_Resistance_Poison;
 
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
@@ -46,6 +50,15 @@ public:
 	FGameplayTag InputTag_E;
 
 	FGameplayTag Damage;
+	FGameplayTag Damage_Fire;
+	FGameplayTag Damage_Frost;
+	FGameplayTag Damage_Lightning;
+	FGameplayTag Damage_Physical;
+	FGameplayTag Damage_Poison;
+
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
+
+	FGameplayTag Effects_HitReact;
 
 
 private:

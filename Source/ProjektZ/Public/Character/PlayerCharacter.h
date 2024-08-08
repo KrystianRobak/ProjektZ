@@ -36,12 +36,14 @@ public:
 
 	// End Combat Interface
 
+	void virtual BeginPlay() override;
+
 protected:
 
-	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Abilities")
+	UPROPERTY(EditAnywhere, Category = "Abilities")
 	float MaxAbilities;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
+	UPROPERTY(BlueprintReadOnly, Category = "Abilities")
 	float CurrentAbilities;
 
 	UPROPERTY(EditAnywhere, Category = "Abilities")

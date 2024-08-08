@@ -50,16 +50,9 @@ void UTargetDataUnderCursor::SendCameraCursorData()
 
     if (PC->DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldPosition, WorldDirection))
     {
-        FCollisionQueryParams Params;
-        Params.AddIgnoredActor(PC->GetPawn());
-
-        FVector TraceEnd = WorldPosition + (WorldDirection * 10000.0f);
-        FHitResult HitResult;
-
-        GetWorld()->LineTraceSingleByChannel(HitResult, WorldPosition, TraceEnd, ECollisionChannel::ECC_Visibility, Params);
-
-        Data->HitResult = HitResult;
-        DataHandle.Add(Data);
+		Data->HitResult.Location = WorldPosition + (WorldDirection * 10000.0f);
+		Data->HitResult.ImpactPoint = Data->HitResult.Location;
+		DataHandle.Add(Data);
 
         AbilitySystemComponent->ServerSetReplicatedTargetData(GetAbilitySpecHandle(), GetActivationPredictionKey(), DataHandle, FGameplayTag(), AbilitySystemComponent->ScopedPredictionKey);
 
@@ -79,3 +72,14 @@ void UTargetDataUnderCursor::OnTargetDataReplicatedCallback(const FGameplayAbili
 		ValidData.Broadcast(DataHandle);
 	}
 }
+
+
+//FCollisionQueryParams Params;
+//Params.AddIgnoredActor(PC->GetPawn());
+
+//FVector TraceEnd = WorldPosition + (WorldDirection * 10000.0f);
+//FHitResult HitResult;
+
+//GetWorld()->LineTraceSingleByChannel(HitResult, WorldPosition, TraceEnd, ECollisionChannel::ECC_Visibility, Params);
+
+//Data->HitResult = HitResult;

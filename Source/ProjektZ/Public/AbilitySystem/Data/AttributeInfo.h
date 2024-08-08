@@ -20,7 +20,7 @@ struct FProjektZAttributeInfo
 	FText AttributeName = FText();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FText Desicprtion = FText();
+	FText Description = FText();
 
 	UPROPERTY(BlueprintReadOnly)
 	float AttributeValue = 0.f;

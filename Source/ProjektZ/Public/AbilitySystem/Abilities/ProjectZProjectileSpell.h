@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbilitySystem/Abilities/ProjektZGameplayAbility.h"
+#include "AbilitySystem/Abilities/ProjektZDamageGameplayAbility.h"
 #include "ProjectZProjectileSpell.generated.h"
 
 
@@ -12,7 +12,7 @@ class AProjectile;
  * 
  */
 UCLASS()
-class PROJEKTZ_API UProjectZProjectileSpell : public UProjektZGameplayAbility
+class PROJEKTZ_API UProjectZProjectileSpell : public UProjektZDamageGameplayAbility
 {
 	GENERATED_BODY()
 protected:
@@ -25,7 +25,4 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<AProjectile> ProjectileClass;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UGameplayEffect> DamageEffectClass;
 };

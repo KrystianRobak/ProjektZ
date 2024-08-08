@@ -13,11 +13,7 @@ APlayerCharacter::APlayerCharacter()
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 400.f, 0.f);
 
-	for (int i = 0; i < MaxAbilities; i++)
-	{
-		SlotsOccupancy.Add(false);
-		Abilities.Add(FAbilityData());
-	}
+
 }
 
 void APlayerCharacter::PossessedBy(AController* NewController)
@@ -88,6 +84,17 @@ int32 APlayerCharacter::GetPlayerLevel()
 	AProjektZPlayerState* ProjektZPlayerState = GetPlayerState<AProjektZPlayerState>();
 	check(ProjektZPlayerState);
 	return ProjektZPlayerState->GetPlayerLevel();
+}
+
+void APlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	for (int i = 0; i < MaxAbilities; i++)
+	{
+		SlotsOccupancy.Add(false);
+		Abilities.Add(FAbilityData());
+	}
 }
 
 void APlayerCharacter::InitAbilityActorInfo()
