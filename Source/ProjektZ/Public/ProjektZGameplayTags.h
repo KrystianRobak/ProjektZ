@@ -56,6 +56,12 @@ public:
 	FGameplayTag Damage_Physical;
 	FGameplayTag Damage_Poison;
 
+	FGameplayTag Abilities_Fire_FireBolt;
+	FGameplayTag Abilities_Frost_FrostBolt;
+
+	FGameplayTag Cooldown_Fire_FireBolt;
+	FGameplayTag Cooldown_Frost_FrostBolt;
+
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 
 	FGameplayTag Effects_HitReact;

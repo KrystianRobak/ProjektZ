@@ -79,7 +79,29 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical , GameplayTags.Attributes_Resistance_Physical);
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Poison, GameplayTags.Attributes_Resistance_Poison);
 
+	/*
+	* Abilities Tags
+	*/
+	
+	//Fire
+	
+	GameplayTags.Abilities_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Fire.FireBolt"), FString("FireBolt Ability"));
+	
+	//Frost
+	
+	GameplayTags.Abilities_Frost_FrostBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Frost.FrostBolt"), FString("FrostBolt Ability"));
 
+	/*
+	* Abilities Cooldowns Tags
+	*/
+
+	//Fire
+
+	GameplayTags.Cooldown_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Fire.FireBolt"), FString("FireBolt Ability Cooldown"));
+
+	//Frost
+
+	GameplayTags.Cooldown_Frost_FrostBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Frost.FrostBolt"), FString("FrostBolt Ability Cooldown"));
 
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"), FString("Reaction to beeing hit"));
 }

@@ -18,7 +18,7 @@ public:
 	void SetIsCriticalHit(bool bInIsCritcalHit) { bIsCriticalHit = bInIsCritcalHit; };
 	void SetIsBlockedHit(bool bInIsBlockedHit) { bIsBlockedHit = bInIsBlockedHit; };
 
-	virtual UScriptStruct* GetScriptStruct() const
+	virtual UScriptStruct* GetScriptStruct() const override
 	{
 		return StaticStruct();
 	}
@@ -36,7 +36,7 @@ public:
 	}
 
 	/** Custom serialization, subclasses must override this */
-	virtual bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess);
+	virtual bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess) override;
 
 protected:
 
@@ -52,7 +52,7 @@ struct TStructOpsTypeTraits<FProjektZGameplayEffectContext> : public TStructOpsT
 {
 	enum
 	{
-		WithNetSerialize = true,
+		WithNetSerializer = true,
 		WithCopy = true
 	};
 };

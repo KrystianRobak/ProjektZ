@@ -22,7 +22,7 @@ public:
 	float GetFirstFreeSlot();
 
 	UFUNCTION(BlueprintCallable)
-	void AddCharacterAbility(TSubclassOf<UGameplayAbility>& Ability, float Level, float Slot);
+	void AddCharacterAbility(TSubclassOf<UProjektZGameplayAbility>& Ability, float Level, float Slot);
 
 	UFUNCTION(BlueprintCallable)
 	void SwapSlotsAbilities(float Slot1, float Slot2);

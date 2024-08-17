@@ -2,7 +2,6 @@
 
 
 #include "UI/WidgetController/OverlayWidgetController.h"
-#include "AbilitySystem/ProjektZAbilitySystemComponent.h"
 #include "AbilitySystem/ProjektZAttributeSet.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
@@ -15,6 +14,13 @@ void UOverlayWidgetController::BroadcastInitialValues()
 	OnManaChanged.Broadcast(ProjektZAttributeSet->GetMana());
 	OnMaxManaChanged.Broadcast(ProjektZAttributeSet->GetMaxMana());
 
+	if (UProjektZAbilitySystemComponent* ASC = Cast<UProjektZAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		if (ASC->bStarupAbilitiesGiven)
+		{
+			OnAbilityAdded(ASC);
+		}
+	}
 }
 
 void UOverlayWidgetController::BindCallbackToDependencies()
@@ -49,19 +55,45 @@ void UOverlayWidgetController::BindCallbackToDependencies()
 		}
 	);
 
-	
-	Cast<UProjektZAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
-		[this](const FGameplayTagContainer& AssetsTags)
+	if (UProjektZAbilitySystemComponent* ProjektZASC = Cast<UProjektZAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		if (ProjektZASC->bStarupAbilitiesGiven)
 		{
-			for (const FGameplayTag& Tag : AssetsTags)
+			OnAbilityAdded(ProjektZASC);
+		}
+		else
+		{
+			ProjektZASC->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnAbilityAdded);
+		}
+
+		ProjektZASC->EffectAssetTags.AddLambda(
+			[this](const FGameplayTagContainer& AssetsTags)
 			{
-				FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag("Message");
-				if (Tag.MatchesTag(MessageTag))
+				for (const FGameplayTag& Tag : AssetsTags)
 				{
-					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
-					MessageWidgetRowDelegate.Broadcast(*Row);
+					FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag("Message");
+					if (Tag.MatchesTag(MessageTag))
+					{
+						const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+						MessageWidgetRowDelegate.Broadcast(*Row);
+					}
 				}
 			}
-		}
-	);
+		);
+	}
+}
+
+void UOverlayWidgetController::OnAbilityAdded(UProjektZAbilitySystemComponent* ASC)
+{
+	if (!ASC->bStarupAbilitiesGiven) return;
+
+	FForEachAbility BroadcastDelegate;
+	BroadcastDelegate.BindLambda([this, ASC](const FGameplayAbilitySpec& AbilitySpec)
+		{
+			FProjektZAbilityInfo Info = AbilityInfo->FindAbilityInfoByTag(ASC->GetAbilityTagFromSpec(AbilitySpec));
+			Info.InputTag = ASC->GetInputTagFromSpec(AbilitySpec);
+			AbilityInfoDelegate.Broadcast(Info);
+		});
+
+	ASC->ForEachAbility(BroadcastDelegate);
 }

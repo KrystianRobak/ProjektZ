@@ -7,6 +7,7 @@
 #include "Player/PC_PlayerController.h"
 #include <UI/HUD/ProjektZHUD.h>
 #include <AbilitySystem/ProjektZAbilitySystemComponent.h>
+#include <AbilitySystem/Abilities/ProjektZGameplayAbility.h>
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -51,7 +52,7 @@ void APlayerCharacter::RemoveCharacterAbility(float Slot)
 	}
 }
 
-void APlayerCharacter::AddCharacterAbility(TSubclassOf<UGameplayAbility>& Ability, float Level, float Slot)
+void APlayerCharacter::AddCharacterAbility(TSubclassOf<UProjektZGameplayAbility>& Ability, float Level, float Slot)
 {
 	if (AbilitySystemComponent && HasAuthority())
 	{

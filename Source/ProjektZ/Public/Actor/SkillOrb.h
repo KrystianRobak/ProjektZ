@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include <Abilities/GameplayAbility.h>
+#include <AbilitySystem/Abilities/ProjektZGameplayAbility.h>
 #include "SkillOrb.generated.h"
+
 
 
 UCLASS()
@@ -30,7 +31,7 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
-	TSubclassOf<UGameplayAbility> Ability;
+	TSubclassOf<UProjektZGameplayAbility> Ability;
 
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	float Level;

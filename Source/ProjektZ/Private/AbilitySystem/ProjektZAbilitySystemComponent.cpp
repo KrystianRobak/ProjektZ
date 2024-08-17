@@ -21,6 +21,8 @@ void UProjektZAbilitySystemComponent::AddAbility(const TSubclassOf<UGameplayAbil
 		AbilitySpec.DynamicAbilityTags.AddTag(CastedAbility->StartupInputTag);
 		Data.AbilitySpecHandle = GiveAbility(AbilitySpec);
 	}
+	bStarupAbilitiesGiven = true;
+	AbilitiesGivenDelegate.Broadcast(this);
 }
 
 void UProjektZAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)
@@ -51,6 +53,46 @@ void UProjektZAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag
 			AbilitySpecInputReleased(AbilitySpec);
 		}
 	}
+}
+
+void UProjektZAbilitySystemComponent::ForEachAbility(const FForEachAbility& Delegate)
+{
+	FScopedAbilityListLock ActivableScopeLock(*this);
+	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (!Delegate.ExecuteIfBound(AbilitySpec))
+		{
+			UE_LOG(LogTemp, Error, TEXT("Failed to execute delegate in %hs"), __FUNCTION__);
+		}
+	}
+}
+
+FGameplayTag UProjektZAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+	if (AbilitySpec.Ability)
+	{
+		for (FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags)
+		{
+			if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Abilities"))))
+			{
+				return Tag;
+			}
+		}
+	}
+	
+	return FGameplayTag();
+}
+
+FGameplayTag UProjektZAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+	for (FGameplayTag Tag : AbilitySpec.DynamicAbilityTags)
+	{
+		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("InputTag"))))
+		{
+			return Tag;
+		}
+	}
+	return FGameplayTag();
 }
 
 void UProjektZAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
