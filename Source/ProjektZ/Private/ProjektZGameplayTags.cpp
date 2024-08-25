@@ -43,6 +43,22 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_Resistance_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Poison"), FString("Resistance to poison"));
 
 	/*
+	* Debuffs Tags
+	*/
+
+	GameplayTags.Debuff_DamageOverTime = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.DamageOverTime"), FString("Damage over Time"));
+	GameplayTags.Debuff_Silence = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Silence"), FString("Can't use spells"));
+	GameplayTags.Debuff_Slow = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Slow"), FString("Reduced movementspeed"));
+	GameplayTags.Debuff_Stun = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Stun"), FString("Can't do any actions"));
+	GameplayTags.Debuff_ManaDrain = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.ManaDrain"), FString("Draining mana from target"));
+
+
+	GameplayTags.Debuff_Chance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Chance"), FString("Chance to apply debuff"));
+	GameplayTags.Debuff_Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Damage"), FString("Damage for damage over time debuffs"));
+	GameplayTags.Debuff_Duration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Duration"), FString("Duration of debuff"));
+	GameplayTags.Debuff_Frequency = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Frequency"), FString("Frequency of applying debuff to target"));
+
+	/*
 	* Input Tags
 	*/
 

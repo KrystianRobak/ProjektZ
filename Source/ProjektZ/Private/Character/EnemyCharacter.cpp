@@ -85,6 +85,7 @@ void AEnemyCharacter::InitAbilityActorInfo()
 
 	if (HasAuthority())
 	{
+		UProjektZAbilitySystemLibrary::InitializeDefaultAbilities(this, CharacterClass, Level, AbilitySystemComponent);
 		InitializeDefaultAttributes();
 	}
 }

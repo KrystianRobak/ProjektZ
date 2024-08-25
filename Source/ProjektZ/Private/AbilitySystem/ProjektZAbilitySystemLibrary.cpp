@@ -7,6 +7,8 @@
 #include <UI/HUD/ProjektZHUD.h>
 #include <ProjektZGameModeBase.h>
 #include <ProjektZAbilityTypes.h>
+#include "ProjektZGameplayTags.h"
+#include <AbilitySystemBlueprintLibrary.h>
 
 UOverlayWidgetController* UProjektZAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -44,6 +46,12 @@ UAttributeMenuWidgetController* UProjektZAbilitySystemLibrary::GetAttributeMenuW
 	}
 
 	return nullptr;
+}
+
+void UProjektZAbilitySystemLibrary::InitializeDefaultAbilities(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
+{
+	FCharacterClassDefaultInfo ClassDefaultInfo = GetCharacterClassInfo(WorldContextObject)->GetClassDefaultInfo(CharacterClass);
+
 }
 
 void UProjektZAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
@@ -113,6 +121,29 @@ bool UProjektZAbilitySystemLibrary::IsCriticalHit(const FGameplayEffectContextHa
 	return false;
 }
 
+bool UProjektZAbilitySystemLibrary::IsSuccessfulDebuff(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	const FGameplayEffectContext* Context = EffectContextHandle.Get();
+	if (const FProjektZGameplayEffectContext* CurrentContext = static_cast<const FProjektZGameplayEffectContext*>(Context))
+	{
+		return CurrentContext->IsSuccessfullDebuff();
+	}
+	return false;
+}
+
+TArray<FEffectParams> UProjektZAbilitySystemLibrary::GetDebuffs(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	const FGameplayEffectContext* Context = EffectContextHandle.Get();
+	if  (const FProjektZGameplayEffectContext* CurrentContext = static_cast<const FProjektZGameplayEffectContext*>(Context))
+	{
+		if (CurrentContext->IsSuccessfullDebuff())
+		{
+			return CurrentContext->GetContextEffects();
+		}
+	}
+	return TArray<FEffectParams>();
+}
+
 void UProjektZAbilitySystemLibrary::SetIsBlockedHit(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit)
 {
 	FGameplayEffectContext* Context = EffectContextHandle.Get();
@@ -129,6 +160,29 @@ void UProjektZAbilitySystemLibrary::SetIsCriticalHit(UPARAM(ref)FGameplayEffectC
 	{
 		CurrentContext->SetIsCriticalHit(bInIsCriticalHit);
 	}
+}
+
+void UProjektZAbilitySystemLibrary::ApplyEffects(const TArray<FEffectParams>& EffectParams, UAbilitySystemComponent* TargetASC)
+{
+	
+}
+
+
+FGameplayEffectContextHandle UProjektZAbilitySystemLibrary::ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams)
+{
+	const FProjektZGameplayTags& GameplayTags = FProjektZGameplayTags::Get();
+	const AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
+
+	FGameplayEffectContextHandle EffectContextHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeEffectContext();
+	EffectContextHandle.AddSourceObject(SourceAvatarActor);
+
+	FGameplayEffectSpecHandle SpecHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectParams.DamageGameplayEffectClass, DamageEffectParams.AbilityLevel, EffectContextHandle);
+
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageEffectParams.DamageType, DamageEffectParams.BaseDamage);
+
+	DamageEffectParams.TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
+
+	return EffectContextHandle;
 }
 
 

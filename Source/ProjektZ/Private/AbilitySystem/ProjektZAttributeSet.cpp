@@ -9,6 +9,8 @@
 #include <ProjektZGameplayTags.h>
 #include <Interaction/CombatInterface.h>
 #include <AbilitySystem/ProjektZAbilitySystemLibrary.h>
+#include <Kismet/GameplayStatics.h>
+#include <Player/PC_PlayerController.h>
 
 UProjektZAttributeSet::UProjektZAttributeSet()
 {
@@ -107,6 +109,8 @@ void UProjektZAttributeSet::SetEffectProperties(const FGameplayEffectModCallback
 	}
 }
 
+
+
 void UProjektZAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
@@ -149,12 +153,19 @@ void UProjektZAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCa
 				Props.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
 			}
 
-			if (UProjektZAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandler)) {
-				GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("Crit!"));
-			}
-			if (UProjektZAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandler)) {
-				GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, TEXT("Zablokowa?em!"));
-			}
+			const bool bBlockedHit = UProjektZAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandler);
+			const bool bCriticalHit = UProjektZAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandler);
+			ShowFloatingText(Props, LocalIncomingDamage, bBlockedHit, bCriticalHit);
+		}
+	}
+}
+
+void UProjektZAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit) const
+{
+	if (Props.SourceCharacter != Props.TargetCharacter) {
+		if (APC_PlayerController* PC = Cast<APC_PlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
 		}
 	}
 }

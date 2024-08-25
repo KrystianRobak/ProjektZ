@@ -8,7 +8,6 @@
 
 #include "../UI/WidgetController/OverlayWidgetController.h"
 #include <AbilitySystem/Data/CharacterClassInfo.h>
-
 #include "EnemyCharacter.generated.h"
 
 
@@ -63,4 +62,5 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Combat")
 	float LifeSpan = 5.f;
+
 };

@@ -32,12 +32,6 @@ public:
 	FGameplayTag Attributes_Secondary_HealthRegeneration;
 	FGameplayTag Attributes_Secondary_ManaRegeneration;
 
-	FGameplayTag Attributes_Resistance_Fire;
-	FGameplayTag Attributes_Resistance_Frost;
-	FGameplayTag Attributes_Resistance_Lightning;
-	FGameplayTag Attributes_Resistance_Physical;
-	FGameplayTag Attributes_Resistance_Poison;
-
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
 	FGameplayTag InputTag_W;
@@ -49,12 +43,30 @@ public:
 	FGameplayTag InputTag_Q;
 	FGameplayTag InputTag_E;
 
+	FGameplayTag Attributes_Resistance_Fire;
+	FGameplayTag Attributes_Resistance_Frost;
+	FGameplayTag Attributes_Resistance_Lightning;
+	FGameplayTag Attributes_Resistance_Physical;
+	FGameplayTag Attributes_Resistance_Poison;
+
 	FGameplayTag Damage;
 	FGameplayTag Damage_Fire;
 	FGameplayTag Damage_Frost;
 	FGameplayTag Damage_Lightning;
 	FGameplayTag Damage_Physical;
 	FGameplayTag Damage_Poison;
+
+	FGameplayTag Debuff_Stun;
+	FGameplayTag Debuff_Slow;
+	FGameplayTag Debuff_DamageOverTime;
+	FGameplayTag Debuff_Silence;
+	FGameplayTag Debuff_ManaDrain;
+
+	FGameplayTag Debuff_Chance;
+	FGameplayTag Debuff_Damage;
+	FGameplayTag Debuff_Duration;
+	FGameplayTag Debuff_Frequency;
+
 
 	FGameplayTag Abilities_Fire_FireBolt;
 	FGameplayTag Abilities_Frost_FrostBolt;
