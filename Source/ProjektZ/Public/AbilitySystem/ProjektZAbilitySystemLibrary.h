@@ -46,10 +46,10 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ProjektZAbilitySystemLibrary|GameplayEffects")
 	static bool IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle);
 
-	UFUNCTION(BlueprintPure, Category = "ProjektZAbilitySystemLibrary|GameplayEffects")
-	static bool IsSuccessfulDebuff(const FGameplayEffectContextHandle& EffectContextHandle);
+	//UFUNCTION(BlueprintPure, Category = "ProjektZAbilitySystemLibrary|GameplayEffects")
+	//static bool IsSuccessfulDebuff(const FGameplayEffectContextHandle& EffectContextHandle);
 
-	static TArray<FEffectParams> GetDebuffs(const FGameplayEffectContextHandle& EffectContextHandle);
+	//static TArray<FEffectParams> GetDebuffs(const FGameplayEffectContextHandle& EffectContextHandle);
 
 	UFUNCTION(BlueprintCallable, Category = "ProjektZAbilitySystemLibrary|GameplayEffects")
 	static void SetIsBlockedHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit);
@@ -57,7 +57,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ProjektZAbilitySystemLibrary|GameplayEffects")
 	static void SetIsCriticalHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsCriticalHit);
 
-	static void ApplyEffects(const TArray<FEffectParams>& EffectParams, UAbilitySystemComponent* TargetASC);
+	UFUNCTION(BlueprintCallable, Category = "ProjektZAbilitySystemLibrary|GameplayEffects")
+	static void ApplyEffect(const FEffectParams& EffectParams, UAbilitySystemComponent* TargetASC, AActor* Instigator);
 
 	UFUNCTION(BlueprintCallable, Category = "ProjektZAbilitySystemLibrary|GameplayEffects")
 	static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams);

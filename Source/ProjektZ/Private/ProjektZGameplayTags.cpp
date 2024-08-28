@@ -53,10 +53,12 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Debuff_ManaDrain = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.ManaDrain"), FString("Draining mana from target"));
 
 
-	GameplayTags.Debuff_Chance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Chance"), FString("Chance to apply debuff"));
-	GameplayTags.Debuff_Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Damage"), FString("Damage for damage over time debuffs"));
-	GameplayTags.Debuff_Duration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Duration"), FString("Duration of debuff"));
-	GameplayTags.Debuff_Frequency = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Frequency"), FString("Frequency of applying debuff to target"));
+	GameplayTags.Debuff_Slow_Chance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Slow.Chance"), FString("Chance to apply debuff"));
+	GameplayTags.Debuff_Slow_Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Slow.Damage"), FString("Damage for damage over time debuffs"));
+	GameplayTags.Debuff_Slow_Duration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Slow.Duration"), FString("Duration of debuff"));
+	GameplayTags.Debuff_Slow_Frequency = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Slow.Frequency"), FString("Frequency of applying debuff to target"));
+
+	GameplayTags.Debuff_DamageOverTime_Magnitude = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.DamageOverTime.Magnitude"), FString("Damage for damage over time debuffs"));
 
 	/*
 	* Input Tags

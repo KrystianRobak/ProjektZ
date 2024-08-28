@@ -22,6 +22,12 @@ public:
 	float GetFirstFreeSlot();
 
 	UFUNCTION(BlueprintCallable)
+	bool GetAbilityQueueWindowStatus() { return IsInActiveAbilityWindowQueue; };
+
+	UFUNCTION(BlueprintCallable)
+	bool IsInputBlocked() { return bInputBlocked; };
+
+	UFUNCTION(BlueprintCallable)
 	void AddCharacterAbility(TSubclassOf<UProjektZGameplayAbility>& Ability, float Level, float Slot);
 
 	UFUNCTION(BlueprintCallable)
@@ -29,6 +35,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void RemoveCharacterAbility(float Slot);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "AI")
+	void CheckAndUpdateAbilityQueue(FGameplayTag InAbilityTag);
 
 	// Combat Interface
 
@@ -51,6 +60,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
 	TArray<bool> SlotsOccupancy;
+
+	UPROPERTY(BlueprintReadWrite, Category = "AbilityInputQueue", meta = (AllowPrivateAccess = "true"))
+	bool IsInActiveAbilityWindowQueue = false;
+
+	UPROPERTY(BlueprintReadWrite, Category = "AbilityInputQueue", meta = (AllowPrivateAccess = "true"))
+	bool bInputBlocked = false;
 
 private:
 	virtual void InitAbilityActorInfo() override;

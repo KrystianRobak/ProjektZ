@@ -42,6 +42,20 @@ void UProjektZAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& In
 	}
 }
 
+FGameplayTag UProjektZAbilitySystemComponent::GetAbilityTagByInputTag(const FGameplayTag& InputTag)
+{
+	if (!InputTag.IsValid()) return FGameplayTag();
+
+	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
+		{
+			return 	AbilitySpec.Ability.Get()->AbilityTags.First();
+		}
+	}
+	return FGameplayTag();
+}
+
 void UProjektZAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& InputTag)
 {
 	if (!InputTag.IsValid()) return;
@@ -51,6 +65,10 @@ void UProjektZAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag
 		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
 		{
 			AbilitySpecInputReleased(AbilitySpec);
+			if (!AbilitySpec.IsActive())
+			{
+				TryActivateAbility(AbilitySpec.Handle);
+			}
 		}
 	}
 }

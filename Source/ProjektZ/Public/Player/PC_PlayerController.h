@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Character/PlayerCharacter.h"
 #include "GameplayTagContainer.h"
 #include "../AbilitySystem/ProjektZAbilitySystemComponent.h"
 #include "PC_PlayerController.generated.h"
@@ -38,8 +39,13 @@ private:
 
 	void CursorTrace();
 
+	UFUNCTION(BlueprintCallable)
 	void AbilityInputTagPressed(FGameplayTag InputTag);
+
+	UFUNCTION(BlueprintCallable)
 	void AbilityInputTagReleased(FGameplayTag InputTag);
+
+	UFUNCTION(BlueprintCallable)
 	void AbilityInputTagHeld(FGameplayTag InputTag);
 
 	UProjektZAbilitySystemComponent* GetASC();
@@ -75,4 +81,10 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
+
+	UPROPERTY()
+	TObjectPtr<APlayerCharacter> PlayerCharacter;
+
+	UPROPERTY(EditDefaultsOnly)
+	bool IsInAbilityInputQueueWindow = false;
 }; 

@@ -5,10 +5,12 @@
 #include "Player/ProjektZPlayerState.h"
 #include "UI/WidgetController/ProjektZWidgetController.h"
 #include <UI/HUD/ProjektZHUD.h>
+#include "AbilitySystem/ProjektZAttributeSet.h"
 #include <ProjektZGameModeBase.h>
 #include <ProjektZAbilityTypes.h>
 #include "ProjektZGameplayTags.h"
 #include <AbilitySystemBlueprintLibrary.h>
+#include <GameplayEffectComponents/TargetTagsGameplayEffectComponent.h>
 
 UOverlayWidgetController* UProjektZAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -121,28 +123,28 @@ bool UProjektZAbilitySystemLibrary::IsCriticalHit(const FGameplayEffectContextHa
 	return false;
 }
 
-bool UProjektZAbilitySystemLibrary::IsSuccessfulDebuff(const FGameplayEffectContextHandle& EffectContextHandle)
-{
-	const FGameplayEffectContext* Context = EffectContextHandle.Get();
-	if (const FProjektZGameplayEffectContext* CurrentContext = static_cast<const FProjektZGameplayEffectContext*>(Context))
-	{
-		return CurrentContext->IsSuccessfullDebuff();
-	}
-	return false;
-}
-
-TArray<FEffectParams> UProjektZAbilitySystemLibrary::GetDebuffs(const FGameplayEffectContextHandle& EffectContextHandle)
-{
-	const FGameplayEffectContext* Context = EffectContextHandle.Get();
-	if  (const FProjektZGameplayEffectContext* CurrentContext = static_cast<const FProjektZGameplayEffectContext*>(Context))
-	{
-		if (CurrentContext->IsSuccessfullDebuff())
-		{
-			return CurrentContext->GetContextEffects();
-		}
-	}
-	return TArray<FEffectParams>();
-}
+//bool UProjektZAbilitySystemLibrary::IsSuccessfulDebuff(const FGameplayEffectContextHandle& EffectContextHandle)
+//{
+//	const FGameplayEffectContext* Context = EffectContextHandle.Get();
+//	if (const FProjektZGameplayEffectContext* CurrentContext = static_cast<const FProjektZGameplayEffectContext*>(Context))
+//	{
+//		return CurrentContext->IsSuccessfullDebuff();
+//	}
+//	return false;
+//}
+//
+//TArray<FEffectParams> UProjektZAbilitySystemLibrary::GetDebuffs(const FGameplayEffectContextHandle& EffectContextHandle)
+//{
+//	const FGameplayEffectContext* Context = EffectContextHandle.Get();
+//	if  (const FProjektZGameplayEffectContext* CurrentContext = static_cast<const FProjektZGameplayEffectContext*>(Context))
+//	{
+//		if (CurrentContext->IsSuccessfullDebuff())
+//		{
+//			return CurrentContext->GetContextEffects();
+//		}
+//	}
+//	return TArray<FEffectParams>();
+//}
 
 void UProjektZAbilitySystemLibrary::SetIsBlockedHit(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit)
 {
@@ -162,9 +164,48 @@ void UProjektZAbilitySystemLibrary::SetIsCriticalHit(UPARAM(ref)FGameplayEffectC
 	}
 }
 
-void UProjektZAbilitySystemLibrary::ApplyEffects(const TArray<FEffectParams>& EffectParams, UAbilitySystemComponent* TargetASC)
+void UProjektZAbilitySystemLibrary::ApplyEffect(const FEffectParams& EffectParams, UAbilitySystemComponent* TargetASC, AActor* Instigator)
 {
-	
+	FGameplayTag BaseTag = EffectParams.EffectType;
+
+	FGameplayTag MagnitudeTag = FGameplayTag::RequestGameplayTag(FName(BaseTag.ToString() + ".Magnitude"));
+
+	FGameplayEffectContextHandle EffectContext = TargetASC->MakeEffectContext();
+	EffectContext.AddInstigator(Instigator, Instigator);
+
+	UGameplayEffect* Effect = NewObject<UGameplayEffect>(GetTransientPackage(), FName(BaseTag.ToString()));
+
+	Effect->DurationPolicy = EGameplayEffectDurationType::HasDuration;
+	Effect->DurationMagnitude = FScalableFloat(EffectParams.EffectDuration);
+	Effect->Period = EffectParams.EffectFrequency;
+
+	Effect->InheritableOwnedTagsContainer.AddTag(EffectParams.EffectType);
+
+	FInheritedTagContainer TagContainer = FInheritedTagContainer();
+	UTargetTagsGameplayEffectComponent& Component = Effect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
+	TagContainer.Added.AddTag(EffectParams.EffectType);
+	Component.SetAndApplyTargetTagChanges(TagContainer);
+
+
+	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
+	Effect->StackLimitCount = 1;
+
+	for (auto Modifier : EffectParams.Modifiers)
+	{
+		int32 Index = Effect->Modifiers.Num();
+		Effect->Modifiers.Add(FGameplayModifierInfo());
+		FGameplayModifierInfo& ModifierInfo = Effect->Modifiers[Index];
+
+		ModifierInfo.ModifierMagnitude = FScalableFloat(Modifier.EffectMagnitude);
+		ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+		ModifierInfo.Attribute = Modifier.EffectModifiedAttribute;
+	}
+
+	FGameplayEffectSpec* MutableSpec = new FGameplayEffectSpec(Effect, EffectContext, 1.f);
+	if (MutableSpec)
+	{
+		TargetASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
+	}
 }
 
 

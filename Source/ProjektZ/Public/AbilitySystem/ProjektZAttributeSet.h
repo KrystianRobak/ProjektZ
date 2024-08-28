@@ -55,6 +55,7 @@ class PROJEKTZ_API UProjektZAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 public:
+	
 	UProjektZAttributeSet();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;

@@ -8,7 +8,6 @@
 bool FProjektZGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutSuccess)
 {
 	uint8 RepBits = 0;
-	uint8 CurrBits = 10;
 	if (Ar.IsSaving())
 	{
 		if (bReplicateInstigator && Instigator.IsValid())
@@ -47,17 +46,17 @@ bool FProjektZGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* Map
 		{
 			RepBits |= 1 << 8;
 		}
-		if (DebuffsAmount > 0)
-		{
-			RepBits |= 1 << 9;
-		}
-		if (bIsSuccessfulDebuff)
-		{
-			RepBits |= 1 << 10;
-		}
+		//if (DebuffsAmount > 0)
+		//{
+		//	RepBits |= 1 << 9;
+		//}
+		//if (bIsSuccessfulDebuff)
+		//{
+		//	RepBits |= 1 << 10;
+		//}
 	}
 
-	Ar.SerializeBits(&RepBits, 11);
+	Ar.SerializeBits(&RepBits, 9);
 
 	if (RepBits & (1 << 0))
 	{
@@ -109,28 +108,28 @@ bool FProjektZGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* Map
 	{
 		Ar << bIsCriticalHit;
 	}
-	if (RepBits & (1 << 9))
-	{
-		Ar << DebuffsAmount;
-	}
+	//if (RepBits & (1 << 9))
+	//{
+	//	Ar << DebuffsAmount;
+	//}
 
-	if (RepBits & (1 << 10))
-	{
-		Ar << bIsSuccessfulDebuff;
+	//if (RepBits & (1 << 10))
+	//{
+	//	Ar << bIsSuccessfulDebuff;
 
-		for (int i = 0; i < DebuffsAmount; i++)
-		{
-			if (Ar.IsLoading())
-			{
-				if (!Effects[i].IsValid())
-				{
-					Effects.Add(TSharedPtr<FEffectParams>(new FEffectParams()));
-				}
-			}
-			Effects[i]->NetSerialize(Ar, Map, bOutSuccess);
-		}
-		
-	}
+	//	for (int i = 0; i < DebuffsAmount; i++)
+	//	{
+	//		if (Ar.IsLoading())
+	//		{
+	//			if (!Effects[i].IsValid())
+	//			{
+	//				Effects.Add(TSharedPtr<FEffectParams>(new FEffectParams()));
+	//			}
+	//		}
+	//		Effects[i]->NetSerialize(Ar, Map, bOutSuccess);
+	//	}
+	//	
+	//}
 
 	if (Ar.IsLoading())
 	{

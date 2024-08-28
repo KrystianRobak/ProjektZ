@@ -61,22 +61,26 @@ void AProjectile::OnHit()
 
 void AProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	const AActor* SourceAvatarAcotr = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
+	if (!DamageEffectParams.SourceAbilitySystemComponent) return;
 
-	if (SourceAvatarAcotr == OtherActor) return;
+	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
+
+	if (SourceAvatarActor == OtherActor) return;
 
 	if(!bHit) OnHit();
 
 	if (HasAuthority())
 	{
-
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
 			DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
 			UProjektZAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
 			if (EffectParams.Num() > 0)
 			{
-				UProjektZAbilitySystemLibrary::ApplyEffects(EffectParams, TargetASC);
+				for (FEffectParams& Param : EffectParams)
+				{
+					UProjektZAbilitySystemLibrary::ApplyEffect(Param, TargetASC, SourceAvatarActor);
+				}
 			}
 		}
 
