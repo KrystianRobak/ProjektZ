@@ -56,6 +56,12 @@ public:
 	FGameplayTag Damage_Physical;
 	FGameplayTag Damage_Poison;
 
+	FGameplayTag Abilities_Attack;
+
+	FGameplayTag Montage_Attack_Weapon;
+	FGameplayTag Montage_Attack_RightHand;
+	FGameplayTag Montage_Attack_LeftHand;
+
 	FGameplayTag Abilities_Fire_FireBolt;
 	FGameplayTag Abilities_Frost_FrostBolt;
 

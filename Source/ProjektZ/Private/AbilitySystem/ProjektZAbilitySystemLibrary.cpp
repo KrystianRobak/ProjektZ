@@ -7,6 +7,7 @@
 #include <UI/HUD/ProjektZHUD.h>
 #include <ProjektZGameModeBase.h>
 #include <ProjektZAbilityTypes.h>
+#include <Interaction/CombatInterface.h>
 
 UOverlayWidgetController* UProjektZAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -45,6 +46,20 @@ UAttributeMenuWidgetController* UProjektZAbilitySystemLibrary::GetAttributeMenuW
 
 	return nullptr;
 }
+
+void UProjektZAbilitySystemLibrary::InitializeDefaultAbilities(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
+{
+	FCharacterClassDefaultInfo ClassDefaultInfo = GetCharacterClassInfo(WorldContextObject)->GetClassDefaultInfo(CharacterClass);
+
+	ClassDefaultInfo.StartupAbilities;
+	for (TSubclassOf<UGameplayAbility> Ability : ClassDefaultInfo.StartupAbilities)
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability, 1);
+		ASC->GiveAbility(AbilitySpec);
+	}
+
+}
+
 
 void UProjektZAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
@@ -129,6 +144,26 @@ void UProjektZAbilitySystemLibrary::SetIsCriticalHit(UPARAM(ref)FGameplayEffectC
 	{
 		CurrentContext->SetIsCriticalHit(bInIsCriticalHit);
 	}
+}
+
+void UProjektZAbilitySystemLibrary::GetLivePlayerWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverLappingActors, const TArray<AActor*>& ActorsToIgnore, float Radius, const FVector& SphereOrigin)
+{
+	FCollisionQueryParams SphereParams;
+	SphereParams.AddIgnoredActors(ActorsToIgnore);
+
+	if (const UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+	{
+		TArray<FOverlapResult> Overlaps;
+		World->OverlapMultiByObjectType(Overlaps, SphereOrigin, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects), FCollisionShape::MakeSphere(Radius), SphereParams);
+		for (FOverlapResult& Overlap : Overlaps)
+		{
+			if (Overlap.GetActor()->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsDead(Overlap.GetActor()))
+			{
+				OutOverLappingActors.AddUnique(ICombatInterface::Execute_GetAvatar(Overlap.GetActor()));
+			}
+		}
+	}
+
 }
 
 

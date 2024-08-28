@@ -6,6 +6,8 @@
 #include "AbilitySystem/ProjektZAbilitySystemLibrary.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include <ProjektZGameplayTags.h>
+#include <AbilitySystem/Data/CharacterClassInfo.h>
+#include <Interaction/CombatInterface.h>
 
 ACharacterBase::ACharacterBase()
 {
@@ -64,9 +66,25 @@ void ACharacterBase::Dissolve()
 }
 
 
-FVector ACharacterBase::GetCombatSocetLocation()
+FVector ACharacterBase::GetCombatSocetLocation_Implementation()
 {
+	check(Weapon);
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
+bool ACharacterBase::IsDead_Implementation() const
+{
+	return bDead;
+}
+
+AActor* ACharacterBase::GetAvatar_Implementation()
+{
+	return this;
+}
+
+TArray<FTaggedMontage> ACharacterBase::GetAttackMontages_Implementation()
+{
+	return AttackMontages;
 }
 
 void ACharacterBase::InitAbilityActorInfo()
@@ -104,6 +122,7 @@ void ACharacterBase::MulticastHandleDeath_Implementation()
 	
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();
+	bDead = true;
 }
 
 void ACharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const

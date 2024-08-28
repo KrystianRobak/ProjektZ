@@ -7,6 +7,10 @@
 #include "Components/WidgetComponent.h"
 #include "AbilitySystem/ProjektZAttributeSet.h"
 #include "AbilitySystem/ProjektZAbilitySystemLibrary.h"
+#include "AI/MyAIController.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -16,10 +20,28 @@ AEnemyCharacter::AEnemyCharacter()
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+
 	AttributeSet = CreateDefaultSubobject<UProjektZAttributeSet>("AttributeSet");
 
 	HealthBarWidget = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
 	HealthBarWidget->SetupAttachment(GetRootComponent());
+
+}
+
+void AEnemyCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (!HasAuthority()) return;
+	MyAIController = Cast<AMyAIController>(NewController);
+	MyAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+	MyAIController->RunBehaviorTree(BehaviorTree);
+	MyAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
+	MyAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), CharacterClass != ECharacterClass::Warrior);
 
 }
 
@@ -46,6 +68,16 @@ void AEnemyCharacter::Die()
 {
 	SetLifeSpan(LifeSpan);
 	Super::Die();
+}
+
+void AEnemyCharacter::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+	CombatTarget = InCombatTarget;
+}
+
+AActor* AEnemyCharacter::GetCombatTarget_Implementation() const
+{
+	return CombatTarget;
 }
 
 void AEnemyCharacter::BeginPlay()
@@ -78,6 +110,17 @@ void AEnemyCharacter::BeginPlay()
 	}
 }
 
+
+void AEnemyCharacter::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount) 
+{
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
+	if (MyAIController && MyAIController->GetBlackboardComponent())
+	{
+		MyAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
+	}
+}
+
 void AEnemyCharacter::InitAbilityActorInfo()
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
@@ -85,7 +128,9 @@ void AEnemyCharacter::InitAbilityActorInfo()
 
 	if (HasAuthority())
 	{
+		UProjektZAbilitySystemLibrary::InitializeDefaultAbilities(this, CharacterClass, Level, AbilitySystemComponent);
 		InitializeDefaultAttributes();
+
 	}
 }
 

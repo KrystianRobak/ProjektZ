@@ -14,6 +14,11 @@ class PROJEKTZ_API UProjektZDamageGameplayAbility : public UProjektZGameplayAbil
 {
 	GENERATED_BODY()
 	
+public:
+
+	UFUNCTION(BlueprintCallable)
+	void CauseDamage(AActor* TargetActor);
+
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
