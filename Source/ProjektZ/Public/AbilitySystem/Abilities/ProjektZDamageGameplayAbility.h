@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Abilities/ProjektZGameplayAbility.h"
+#include <ProjektZAbilityTypes.h>
 #include "ProjektZDamageGameplayAbility.generated.h"
+
 
 /**
  * 
@@ -13,8 +15,10 @@ UCLASS()
 class PROJEKTZ_API UProjektZDamageGameplayAbility : public UProjektZGameplayAbility
 {
 	GENERATED_BODY()
-	
 public:
+
+	FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor = nullptr) const;
+
 
 	UFUNCTION(BlueprintCallable)
 	void CauseDamage(AActor* TargetActor);
@@ -24,5 +28,11 @@ protected:
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
-	TMap<FGameplayTag, FScalableFloat> DamageTypes;
+	FGameplayTag DamageType;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	FScalableFloat Damage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	TArray<FEffectParams> EffectParams;
 };

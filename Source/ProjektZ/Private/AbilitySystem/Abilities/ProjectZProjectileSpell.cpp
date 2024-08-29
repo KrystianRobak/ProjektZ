@@ -44,36 +44,8 @@ void UProjectZProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLo
 			Cast<APawn>(GetOwningActorFromActorInfo()),
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
-		const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
-
-		FGameplayEffectContextHandle EffectContextHandle = SourceASC->MakeEffectContext();
-		EffectContextHandle.SetAbility(this);
-		EffectContextHandle.AddSourceObject(CurrProjectile);
-
-		TArray<TWeakObjectPtr<AActor>> Actors;
-		Actors.Add(CurrProjectile);
-
-		EffectContextHandle.AddActors(Actors);
-
-		FHitResult HitResult;
-		HitResult.Location = ProjectileTargetLocation;
-		EffectContextHandle.AddHitResult(HitResult);
-
-
-		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), EffectContextHandle);
-
-		const FProjektZGameplayTags GameplayTags = FProjektZGameplayTags::Get();
-
-		for (auto& Pair : DamageTypes)
-		{
-			const float ScaledDamage = Pair.Value.GetValueAtLevel(GetAbilityLevel());
-			SpecHandle.Data.Get()->SetSetByCallerMagnitude(Pair.Key, ScaledDamage);
-		}
-		
-
-		
-
-		CurrProjectile->DamageEffectSpecHandle = SpecHandle;
+		CurrProjectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+		CurrProjectile->EffectParams = EffectParams;
 
 		CurrProjectile->FinishSpawning(SpawnTransform);
 	

@@ -15,10 +15,57 @@ UWaitCooldownChange* UWaitCooldownChange::WaitForCooldownChange(UAbilitySystemCo
 		return nullptr;
 	}
 
-	return nullptr;
+
+	//To know when a cooldown has ended (Removed Cooldown Tag)
+	InASC->RegisterGameplayTagEvent(InCooldownTag, EGameplayTagEventType::NewOrRemoved).AddUObject(WaitCooldownChange, &UWaitCooldownChange::CooldownTagChanged);
+
+
+	//To know when a cooldown  effect had been applied
+	InASC->OnActiveGameplayEffectAddedDelegateToSelf.AddUObject(WaitCooldownChange, &UWaitCooldownChange::OnActiveEffectAdded);
+
+	return WaitCooldownChange;
 }
 
 void UWaitCooldownChange::EndTask()
 {
+	if (!ASC) return;
+	ASC->RegisterGameplayTagEvent(CooldownTag, EGameplayTagEventType::NewOrRemoved).RemoveAll(this);
 
+	SetReadyToDestroy();
+	MarkAsGarbage();
+}
+
+void UWaitCooldownChange::CooldownTagChanged(const FGameplayTag InCooldownTag, int32 NewCount)
+{
+	if (NewCount == 0)
+	{
+		CooldownEnd.Broadcast(0.f);
+	}
+
+}
+
+void UWaitCooldownChange::OnActiveEffectAdded(UAbilitySystemComponent* InASC, const FGameplayEffectSpec& InSpecApplied, FActiveGameplayEffectHandle InActiveEffectHandle)
+{
+	FGameplayTagContainer AssetTags;
+	InSpecApplied.GetAllAssetTags(AssetTags);
+
+	FGameplayTagContainer GrantedTags;
+	InSpecApplied.GetAllGrantedTags(GrantedTags);
+
+	if (AssetTags.HasTagExact(CooldownTag) || GrantedTags.HasTagExact(CooldownTag))
+	{
+		FGameplayEffectQuery GameplayEffectQuery = FGameplayEffectQuery::MakeQuery_MatchAnyOwningTags(CooldownTag.GetSingleTagContainer());
+		TArray<float> TimesRemaining = ASC->GetActiveEffectsTimeRemaining(GameplayEffectQuery);
+
+		if (TimesRemaining.Num() > 0)
+		{
+			float TimeRemaining = TimesRemaining[0];
+			for (float Num : TimesRemaining)
+			{
+				if (Num > TimeRemaining) TimeRemaining = Num;
+			}
+
+			CooldownStart.Broadcast(TimeRemaining);
+		}
+	}
 }

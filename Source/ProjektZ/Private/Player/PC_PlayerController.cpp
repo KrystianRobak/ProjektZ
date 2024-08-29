@@ -6,6 +6,8 @@
 #include <Interaction/EnemyInterface.h>
 #include "AbilitySystemBlueprintLibrary.h"
 #include <Input/ProjektZInputComponent.h>
+#include "GameFramework/Character.h"
+#include "UI/Widget/DamageTextComponent.h"
 
 
 APC_PlayerController::APC_PlayerController()
@@ -20,23 +22,35 @@ void APC_PlayerController::PlayerTick(float DeltaTime)
 	CursorTrace();
 }
 
+void APC_PlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+{
+	if (IsValid(TargetCharacter) && DamageTextComponentClass)
+	{
+		UDamageTextComponent* DamageText = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComponentClass);
+		DamageText->RegisterComponent();
+		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		DamageText->SetDamageText(DamageAmount);
+
+	}
+}
+
 void APC_PlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
 	check(PlayerContext);
 
+	PlayerCharacter = Cast<APlayerCharacter>(GetPawn());
+
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+
 	if (Subsystem) 
 	{
 		Subsystem->AddMappingContext(PlayerContext, 0);
 	}
 	
-
 	bShowMouseCursor = false;
-
-	//FInputModeGameAndUI InputModeData;
-	//InputModeData.SetHideCursorDuringCapture(false);
-	//SetInputMode(InputModeData);
 }
 
 void APC_PlayerController::SetupInputComponent()
@@ -135,13 +149,31 @@ void APC_PlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 void APC_PlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
 	if (GetASC() == nullptr) return;
-	GetASC()->AbilityInputTagHeld(InputTag);
+
+	if (PlayerCharacter->GetAbilityQueueWindowStatus())
+	{
+		PlayerCharacter->CheckAndUpdateAbilityQueue(GetASC()->GetAbilityTagByInputTag(InputTag));
+	}
+	else
+	{ 
+		if (PlayerCharacter->IsInputBlocked()) return;
+		GetASC()->AbilityInputTagReleased(InputTag);
+	}
 }
 
 void APC_PlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
 	if (GetASC() == nullptr) return;
-	GetASC()->AbilityInputTagHeld(InputTag);
+	
+	if (PlayerCharacter->GetAbilityQueueWindowStatus())
+	{
+		PlayerCharacter->CheckAndUpdateAbilityQueue(GetASC()->GetAbilityTagByInputTag(InputTag));
+	}
+	else
+	{
+		if (PlayerCharacter->IsInputBlocked()) return;
+		GetASC()->AbilityInputTagHeld(InputTag);
+	}
 }
 
 UProjektZAbilitySystemComponent* APC_PlayerController::GetASC()

@@ -8,13 +8,17 @@
 void UProjektZDamageGameplayAbility::CauseDamage(AActor* TargetActor)
 {
 
-	FGameplayEffectSpecHandle DamageSpecHandle =  MakeOutgoingGameplayEffectSpec(DamageEffectClass, 1.f);
-	for (TTuple<FGameplayTag, FScalableFloat> Pair : DamageTypes)
-	{
-		const float ScaledDamage = Pair.Value.GetValueAtLevel(GetAbilityLevel());
-		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(DamageSpecHandle, Pair.Key, ScaledDamage);
+FDamageEffectParams UProjektZDamageGameplayAbility::MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor) const
+{
+    FDamageEffectParams Params;
+    Params.WorldContextObject = GetAvatarActorFromActorInfo();
+    Params.DamageGameplayEffectClass = DamageEffectClass;
+    Params.SourceAbilitySystemComponent = GetAbilitySystemComponentFromActorInfo();
+    Params.TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 
-	}
-	GetAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectSpecToTarget(*DamageSpecHandle.Data.Get(), UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor));
-	
+    Params.BaseDamage = Damage.GetValueAtLevel(GetAbilityLevel());
+    Params.AbilityLevel = GetAbilityLevel();
+    Params.DamageType = DamageType;
+    
+    return Params;
 }

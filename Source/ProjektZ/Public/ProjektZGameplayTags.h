@@ -15,10 +15,18 @@ public:
 	static const FProjektZGameplayTags& Get() { return GameplayTags;}
 	static void InitializeNativeGameplayTags();
 
+	//=================================
+	//     PRIMARY ATTRIBUTES
+	//=================================
+
 	FGameplayTag Attributes_Primary_Strength;
 	FGameplayTag Attributes_Primary_Intelligence;
 	FGameplayTag Attributes_Primary_Resilience;
 	FGameplayTag Attributes_Primary_Vigor;
+
+	//=================================
+	//     SECONDARY ATTRIBUTES (ATTRIBUTES CALCULATED WITH PRIMARY ATTRIBUTES)
+	//=================================
 
 	FGameplayTag Attributes_Secondary_MaxHealth;
 	FGameplayTag Attributes_Secondary_MaxMana;
@@ -32,22 +40,20 @@ public:
 	FGameplayTag Attributes_Secondary_HealthRegeneration;
 	FGameplayTag Attributes_Secondary_ManaRegeneration;
 
+
+	//=================================
+	//     RESISTANCES
+	//=================================
+
 	FGameplayTag Attributes_Resistance_Fire;
 	FGameplayTag Attributes_Resistance_Frost;
 	FGameplayTag Attributes_Resistance_Lightning;
 	FGameplayTag Attributes_Resistance_Physical;
 	FGameplayTag Attributes_Resistance_Poison;
 
-	FGameplayTag InputTag_LMB;
-	FGameplayTag InputTag_RMB;
-	FGameplayTag InputTag_W;
-	FGameplayTag InputTag_S;
-	FGameplayTag InputTag_A;
-	FGameplayTag InputTag_D;
-	FGameplayTag InputTag_F;
-	FGameplayTag InputTag_R;
-	FGameplayTag InputTag_Q;
-	FGameplayTag InputTag_E;
+	//=================================
+	//     DAMAGE TYPES
+	//=================================
 
 	FGameplayTag Damage;
 	FGameplayTag Damage_Fire;
@@ -55,6 +61,59 @@ public:
 	FGameplayTag Damage_Lightning;
 	FGameplayTag Damage_Physical;
 	FGameplayTag Damage_Poison;
+
+	//=================================
+	//     CONDITIONS
+	//=================================
+
+	FGameplayTag Condition_Frozen;
+	FGameplayTag Condition_OnFire;
+	FGameplayTag Condition_Electrified;
+	FGameplayTag Condition_Burning;
+	FGameplayTag Condition_Shocked;
+	FGameplayTag Condition_Wet;
+	FGameplayTag Condition_Corroded;
+	FGameplayTag Condition_Petrified;
+	FGameplayTag Condition_Rooted;
+
+	//=================================
+	//     DEBUFFS
+	//=================================
+
+	FGameplayTag Debuff_Stun;
+	FGameplayTag Debuff_Slow;
+	FGameplayTag Debuff_DamageOverTime;
+	FGameplayTag Debuff_Silence;
+	FGameplayTag Debuff_ManaDrain;
+
+	FGameplayTag Debuff_Stun_Chance;
+	FGameplayTag Debuff_Stun_Damage;
+	FGameplayTag Debuff_Stun_Duration;
+	FGameplayTag Debuff_Stun_Frequency;
+
+	FGameplayTag Debuff_Slow_Chance;
+	FGameplayTag Debuff_Slow_Damage;
+	FGameplayTag Debuff_Slow_Duration;
+	FGameplayTag Debuff_Slow_Frequency;
+
+	FGameplayTag Debuff_DamageOverTime_Chance;
+	FGameplayTag Debuff_DamageOverTime_Magnitude;
+	FGameplayTag Debuff_DamageOverTime_Duration;
+	FGameplayTag Debuff_DamageOverTime_Frequency;
+
+	FGameplayTag Debuff_Silence_Chance;
+	FGameplayTag Debuff_Silence_Damage;
+	FGameplayTag Debuff_Silence_Duration;
+	FGameplayTag Debuff_Silence_Frequency;
+
+	FGameplayTag Debuff_ManaDrain_Chance;
+	FGameplayTag Debuff_ManaDrain_Damage;
+	FGameplayTag Debuff_ManaDrain_Duration;
+	FGameplayTag Debuff_ManaDrain_Frequency;
+
+	//=================================
+	//     ABILITIES
+	//=================================
 
 	FGameplayTag Abilities_Attack;
 
@@ -71,6 +130,21 @@ public:
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 
 	FGameplayTag Effects_HitReact;
+
+	//=================================
+	//     INPUT
+	//=================================
+
+	FGameplayTag InputTag_LMB;
+	FGameplayTag InputTag_RMB;
+	FGameplayTag InputTag_W;
+	FGameplayTag InputTag_S;
+	FGameplayTag InputTag_A;
+	FGameplayTag InputTag_D;
+	FGameplayTag InputTag_F;
+	FGameplayTag InputTag_R;
+	FGameplayTag InputTag_Q;
+	FGameplayTag InputTag_E;
 
 
 private:

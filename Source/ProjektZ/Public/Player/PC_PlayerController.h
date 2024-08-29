@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Character/PlayerCharacter.h"
 #include "GameplayTagContainer.h"
 #include "../AbilitySystem/ProjektZAbilitySystemComponent.h"
 #include "PC_PlayerController.generated.h"
@@ -13,7 +14,7 @@ class UInputAction;
 struct FInputActionValue;
 class IEnemyInterface;
 class UProjektZInputConfig;
-
+class UDamageTextComponent;
 /**
  * 
  */
@@ -25,6 +26,9 @@ class PROJEKTZ_API APC_PlayerController : public APlayerController
 public:
 	APC_PlayerController();
 	virtual void PlayerTick(float DeltaTime) override;
+
+	UFUNCTION(Client, Reliable)
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -35,8 +39,13 @@ private:
 
 	void CursorTrace();
 
+	UFUNCTION(BlueprintCallable)
 	void AbilityInputTagPressed(FGameplayTag InputTag);
+
+	UFUNCTION(BlueprintCallable)
 	void AbilityInputTagReleased(FGameplayTag InputTag);
+
+	UFUNCTION(BlueprintCallable)
 	void AbilityInputTagHeld(FGameplayTag InputTag);
 
 	UProjektZAbilitySystemComponent* GetASC();
@@ -69,4 +78,13 @@ private:
 
 	UPROPERTY()
 	FGameplayTagContainer CharacterTags;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
+
+	UPROPERTY()
+	TObjectPtr<APlayerCharacter> PlayerCharacter;
+
+	UPROPERTY(EditDefaultsOnly)
+	bool IsInAbilityInputQueueWindow = false;
 }; 

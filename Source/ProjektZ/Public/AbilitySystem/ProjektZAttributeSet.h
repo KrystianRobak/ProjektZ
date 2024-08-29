@@ -55,6 +55,7 @@ class PROJEKTZ_API UProjektZAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 public:
+	
 	UProjektZAttributeSet();
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -241,5 +242,5 @@ private:
 
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
 
-	
+	void ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit) const;
 };

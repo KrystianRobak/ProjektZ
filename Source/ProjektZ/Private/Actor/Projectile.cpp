@@ -10,6 +10,7 @@
 #include <ProjektZ/ProjektZ.h>
 #include "AbilitySystemComponent.h"
 #include <AbilitySystemBlueprintLibrary.h>
+#include <AbilitySystem/ProjektZAbilitySystemLibrary.h>
 
 // Sets default values
 AProjectile::AProjectile()
@@ -44,38 +45,48 @@ void AProjectile::BeginPlay()
 	LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, GetRootComponent());
 }
 
-void AProjectile::Destroy()
+void AProjectile::Destroyed()
 {
-	if (!bHit && !HasAuthority())
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
-		if(LoopingSoundComponent)
-			LoopingSoundComponent->Stop();
-	}
-	Super::Destroy();
+	if (!bHit && !HasAuthority()) OnHit();
+	Super::Destroyed();
 }
 
-void AProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult)
+void AProjectile::OnHit()
 {
 	UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 	UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
 	if (LoopingSoundComponent)
 		LoopingSoundComponent->Stop();
+}
+
+void AProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (!DamageEffectParams.SourceAbilitySystemComponent) return;
+
+	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
+
+	if (SourceAvatarActor == OtherActor) return;
+
+	if(!bHit) OnHit();
+
 	if (HasAuthority())
 	{
-
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
-			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+			DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
+			UProjektZAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
+			if (EffectParams.Num() > 0)
+			{
+				for (FEffectParams& Param : EffectParams)
+				{
+					UProjektZAbilitySystemLibrary::ApplyEffect(Param, TargetASC, SourceAvatarActor);
+				}
+			}
 		}
 
 		Destroy();
 	}
-	else
-	{
-		bHit = true;
-	}
+	else bHit = true;
 }
 
 

@@ -31,11 +31,23 @@
 			"Enabled": true
 		},
 		{
-			"Name": "PCG",
+			"Name": "NaniteDisplacedMesh",
 			"Enabled": true
 		},
 		{
-			"Name": "NaniteDisplacedMesh",
+			"Name": "MotionWarping",
+			"Enabled": true
+		},
+		{
+			"Name": "LandscapePatch",
+			"Enabled": true
+		},
+		{
+			"Name": "PCGBiomeCore",
+			"Enabled": true
+		},
+		{
+			"Name": "PCG",
 			"Enabled": true
 		},
 		{
@@ -48,18 +60,6 @@
 		},
 		{
 			"Name": "PCGWaterInterop",
-			"Enabled": true
-		},
-		{
-			"Name": "PCGBiomeCore",
-			"Enabled": true
-		},
-		{
-			"Name": "MotionWarping",
-			"Enabled": true
-		},
-		{
-			"Name": "LandscapePatch",
 			"Enabled": true
 		}
 	]

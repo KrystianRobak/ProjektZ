@@ -3,7 +3,114 @@
 
 #include "CoreMinimal.h"
 #include "GameplayEffectTypes.h"
+#include <GameplayEffect.h>
 #include "ProjektZAbilityTypes.generated.h"
+
+USTRUCT(BlueprintType)
+struct FEffectAttributeModifierParams
+{
+	GENERATED_BODY()
+
+	FEffectAttributeModifierParams() {};
+
+	UPROPERTY(EditAnywhere)
+	float EffectChance = 0.f;
+
+	UPROPERTY(EditAnywhere)
+	float EffectMagnitude = 0.f;
+
+	UPROPERTY(EditAnywhere)
+	FGameplayAttribute EffectModifiedAttribute = FGameplayAttribute();
+};
+
+USTRUCT(BlueprintType)
+struct FEffectParams
+{
+	GENERATED_BODY()
+
+	FEffectParams() {}
+
+	UPROPERTY(EditAnywhere)
+	FGameplayTag EffectType;
+
+	UPROPERTY(EditAnywhere)
+	float EffectFrequency = 0.f;
+
+	UPROPERTY(EditAnywhere)
+	float EffectDuration = 0.f;
+
+	UPROPERTY(EditAnywhere)
+	TArray<FEffectAttributeModifierParams> Modifiers;
+
+	float GetEffectDuration() const { return EffectDuration; };
+	float GetEffectFrequency() const { return EffectFrequency; };
+
+	FGameplayTag GetEffectType() const { return EffectType.IsValid() ? EffectType : FGameplayTag(); };
+
+	void SetEffectDuration(float InEffectDuration)  { EffectDuration = InEffectDuration; };
+	void SetEffectFrequency(float InEffectFrequency)  { EffectFrequency = InEffectFrequency; };
+
+	void SetEffectType(FGameplayTag InTag)  { EffectType = InTag; };
+	
+};
+
+USTRUCT()
+struct FDebuffEffectParams
+{
+	GENERATED_BODY()
+
+	FDebuffEffectParams() {}
+
+	UPROPERTY()
+	TObjectPtr<UObject> WorldContextObject = nullptr;
+
+	UPROPERTY()
+	TSubclassOf<UGameplayEffect> DamageGameplayEffectClass = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent> SourceAbilitySystemComponent;
+
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent> TargetAbilitySystemComponent;
+
+	UPROPERTY()
+	TArray<FEffectParams> Effects;
+
+	UPROPERTY()
+	FGameplayTag DamageType = FGameplayTag();
+};
+
+
+
+USTRUCT(BlueprintType)
+struct FDamageEffectParams
+{
+	GENERATED_BODY()
+
+	FDamageEffectParams() {}
+
+	UPROPERTY()
+	TObjectPtr<UObject> WorldContextObject = nullptr;
+
+	UPROPERTY()
+	TSubclassOf<UGameplayEffect> DamageGameplayEffectClass = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent> SourceAbilitySystemComponent;
+
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent> TargetAbilitySystemComponent;
+
+	UPROPERTY()
+	float BaseDamage = 0.f;
+
+	UPROPERTY()
+	float AbilityLevel = 1.f;
+
+	UPROPERTY()
+	FGameplayTag DamageType = FGameplayTag();
+};
+
 
 USTRUCT(BlueprintType)
 struct FProjektZGameplayEffectContext : public FGameplayEffectContext
@@ -14,9 +121,11 @@ public:
 
 	bool IsCriticaHit() const { return bIsCriticalHit; };
 	bool IsBlockedHit() const { return bIsBlockedHit; };
+	//bool IsSuccessfullDebuff() const { return bIsSuccessfulDebuff; };
 
 	void SetIsCriticalHit(bool bInIsCritcalHit) { bIsCriticalHit = bInIsCritcalHit; };
 	void SetIsBlockedHit(bool bInIsBlockedHit) { bIsBlockedHit = bInIsBlockedHit; };
+	//void SetIsSuccessfullDebuff(bool bInIsSuccessfulDebuff) { bIsSuccessfulDebuff = bInIsSuccessfulDebuff; };
 
 	virtual UScriptStruct* GetScriptStruct() const override
 	{
