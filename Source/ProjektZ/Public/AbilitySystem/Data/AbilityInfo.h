@@ -27,8 +27,6 @@ struct FProjektZAbilityInfo
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<const UMaterialInterface> BackgroundMaterial = nullptr;
-
-
 };
 
 
