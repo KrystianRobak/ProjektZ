@@ -6,13 +6,13 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Data/CharacterClassInfo.h"
 #include "../ProjektZAbilityTypes.h"
-#include <Inventory/DA_ItemInfo.h>
+#include "../Inventory/DA_BaseItem.h"
 
 #include "ProjektZAbilitySystemLibrary.generated.h"
 
 class UAttributeMenuWidgetController;
 class UOverlayWidgetController;
-class USpellMenuWidgetController;
+//class USpellMenuWidgetController;
 /**
  * 
  */
@@ -28,8 +28,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ProjektZAbilitySystemLibrary|WidgetController")
 	static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
 
-	UFUNCTION(BlueprintPure, Category = "ProjektZAbilitySystemLibrary|WidgetController")
-	static USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
+	//UFUNCTION(BlueprintPure, Category = "ProjektZAbilitySystemLibrary|WidgetController")
+	//static USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintCallable, Category = "ProjektZAbilitySystemLibrary|CharacterClassDefaults")
 	static void InitializeDefaultAbilities(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);

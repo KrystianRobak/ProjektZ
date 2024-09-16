@@ -50,9 +50,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
 
-	UPROPERTY()
-	TObjectPtr<USpellMenuWidgetController> SpellMenuWidgetController;
+	//UPROPERTY()
+	//TObjectPtr<USpellMenuWidgetController> SpellMenuWidgetController;
 
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<USpellMenuWidgetController> SpellMenuWidgetControllerClass;
+	//UPROPERTY(EditAnywhere)
+	//TSubclassOf<USpellMenuWidgetController> SpellMenuWidgetControllerClass;
 };
