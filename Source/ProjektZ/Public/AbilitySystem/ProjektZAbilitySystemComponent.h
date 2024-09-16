@@ -35,13 +35,16 @@ public:
 	FEffectAssetTags EffectAssetTags;
 	FAbilitiesGiven AbilitiesGivenDelegate;
 
-	bool bStarupAbilitiesGiven = false;
-
 	void AddAbility(const TSubclassOf<UGameplayAbility>& Ability, float Level, FAbilityData& Data);
 
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 
 	FGameplayTag GetAbilityTagByInputTag(const FGameplayTag& InputTag);
+
+	FGameplayAbilitySpec* GetAbilitySpecByInputTag(const FGameplayTag& InputTag);
+
+	UFUNCTION(BlueprintCallable)
+	bool ChangeAbilitySpecInputTag(const FGameplayTag& CurrentInputTag, const FGameplayTag& NewInputTag);
 
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);
 
@@ -52,6 +55,9 @@ public:
 
 protected:
 
+	virtual void OnRep_ActivateAbilities();
+	
+	UFUNCTION(Client, Reliable)
 	void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
 	
 };

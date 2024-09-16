@@ -16,10 +16,7 @@ void UOverlayWidgetController::BroadcastInitialValues()
 
 	if (UProjektZAbilitySystemComponent* ASC = Cast<UProjektZAbilitySystemComponent>(AbilitySystemComponent))
 	{
-		if (ASC->bStarupAbilitiesGiven)
-		{
-			OnAbilityAdded(ASC);
-		}
+		OnAbilityAdded(ASC);
 	}
 }
 
@@ -57,14 +54,7 @@ void UOverlayWidgetController::BindCallbackToDependencies()
 
 	if (UProjektZAbilitySystemComponent* ProjektZASC = Cast<UProjektZAbilitySystemComponent>(AbilitySystemComponent))
 	{
-		if (ProjektZASC->bStarupAbilitiesGiven)
-		{
-			OnAbilityAdded(ProjektZASC);
-		}
-		else
-		{
-			ProjektZASC->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnAbilityAdded);
-		}
+		ProjektZASC->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnAbilityAdded);
 
 		ProjektZASC->EffectAssetTags.AddLambda(
 			[this](const FGameplayTagContainer& AssetsTags)
@@ -85,8 +75,6 @@ void UOverlayWidgetController::BindCallbackToDependencies()
 
 void UOverlayWidgetController::OnAbilityAdded(UProjektZAbilitySystemComponent* ASC)
 {
-	if (!ASC->bStarupAbilitiesGiven) return;
-
 	FForEachAbility BroadcastDelegate;
 	BroadcastDelegate.BindLambda([this, ASC](const FGameplayAbilitySpec& AbilitySpec)
 		{

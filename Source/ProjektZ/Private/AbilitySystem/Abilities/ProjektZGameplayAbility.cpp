@@ -3,3 +3,7 @@
 
 #include "AbilitySystem/Abilities/ProjektZGameplayAbility.h"
 
+void UProjektZGameplayAbility::SetInputTag(FGameplayTag InTag)
+{
+	this->StartupInputTag = InTag;
+}

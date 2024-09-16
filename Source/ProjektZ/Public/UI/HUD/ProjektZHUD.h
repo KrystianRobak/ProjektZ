@@ -8,6 +8,7 @@
 
 class UAttributeMenuWidgetController;
 class UOverlayWidgetController;
+class USpellMenuWidgetController;
 class UProjektZUserWidget;
 class UAbilitySystemComponent;
 class UAttributeSet;
@@ -24,6 +25,8 @@ public:
 	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WcParams);
 
 	UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const FWidgetControllerParams& WcParams);
+
+	USpellMenuWidgetController* GetSpellMenuWidgetController(const FWidgetControllerParams& WcParams);
 
 	void InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet);
 
@@ -46,4 +49,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
+
+	UPROPERTY()
+	TObjectPtr<USpellMenuWidgetController> SpellMenuWidgetController;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<USpellMenuWidgetController> SpellMenuWidgetControllerClass;
 };

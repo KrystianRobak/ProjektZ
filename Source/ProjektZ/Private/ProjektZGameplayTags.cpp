@@ -21,6 +21,7 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	* Secondary Attributes
 	*/
 
+	GameplayTags.Attributes_Secondary_WeaponDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.WeaponDamage"), FString("Additional damage weapon gives"));
 	GameplayTags.Attributes_Secondary_Armor =  UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.Armor"), FString("Reduces damage taken, improves block chance"));
 	GameplayTags.Attributes_Secondary_ArmorPenetration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.ArmorPenetration"), FString("Ignores armor of enemy"));
 	GameplayTags.Attributes_Secondary_BlockChance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.BlockChance"), FString("Chance to cut incoming damage in half"));

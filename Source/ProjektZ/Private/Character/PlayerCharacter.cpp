@@ -101,8 +101,11 @@ void APlayerCharacter::InitAbilityActorInfo()
 {
 	AProjektZPlayerState* ProjektZPlayerState = GetPlayerState<AProjektZPlayerState>();
 	check(ProjektZPlayerState);
+
 	ProjektZPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(ProjektZPlayerState, this);
+
 	Cast<UProjektZAbilitySystemComponent>(ProjektZPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
+
 	AbilitySystemComponent = ProjektZPlayerState->GetAbilitySystemComponent();
 	AttributeSet = ProjektZPlayerState->GetAttributeSet();
 

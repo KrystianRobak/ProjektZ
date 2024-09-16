@@ -21,7 +21,7 @@ void UProjektZAbilitySystemComponent::AddAbility(const TSubclassOf<UGameplayAbil
 		AbilitySpec.DynamicAbilityTags.AddTag(CastedAbility->StartupInputTag);
 		Data.AbilitySpecHandle = GiveAbility(AbilitySpec);
 	}
-	bStarupAbilitiesGiven = true;
+
 	AbilitiesGivenDelegate.Broadcast(this);
 }
 
@@ -54,6 +54,36 @@ FGameplayTag UProjektZAbilitySystemComponent::GetAbilityTagByInputTag(const FGam
 		}
 	}
 	return FGameplayTag();
+}
+
+FGameplayAbilitySpec* UProjektZAbilitySystemComponent::GetAbilitySpecByInputTag(const FGameplayTag& InputTag)
+{
+	if (!InputTag.IsValid()) return nullptr;
+
+	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
+		{
+			return &AbilitySpec;
+		}
+	}
+	return nullptr;
+}
+
+bool UProjektZAbilitySystemComponent::ChangeAbilitySpecInputTag(const FGameplayTag& CurrentInputTag, const FGameplayTag& NewInputTag)
+{
+	if (!CurrentInputTag.IsValid()) return false;
+
+	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(CurrentInputTag))
+		{
+			AbilitySpec.DynamicAbilityTags.RemoveTag(CurrentInputTag);
+			AbilitySpec.DynamicAbilityTags.AddTag(NewInputTag);
+			return true;
+		}
+	}
+	return false;
 }
 
 void UProjektZAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& InputTag)
@@ -113,7 +143,14 @@ FGameplayTag UProjektZAbilitySystemComponent::GetInputTagFromSpec(const FGamepla
 	return FGameplayTag();
 }
 
-void UProjektZAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
+void UProjektZAbilitySystemComponent::OnRep_ActivateAbilities()
+{
+	Super::OnRep_ActivateAbilities();
+
+	AbilitiesGivenDelegate.Broadcast(this);
+}
+
+void UProjektZAbilitySystemComponent::EffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
 {
 	FGameplayTagContainer TagContainer;
 	EffectSpec.GetAllAssetTags(TagContainer);

@@ -34,7 +34,7 @@ class UProjektZAbilityInfo;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FProjektZAbilityInfo&, Info);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilitiesSwapedDelegate, const FGameplayTag&, SourceTag, bool, IsEquipped);
 
 /**
  * 
@@ -65,6 +65,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
 	FAbilityInfoSignature AbilityInfoDelegate;
 
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
+	FAbilitiesSwapedDelegate AbilitiesSwappedDelegate;
+
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")
@@ -76,6 +79,7 @@ protected:
 	template<typename T>
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 
+	UFUNCTION(BlueprintCallable)
 	void OnAbilityAdded(UProjektZAbilitySystemComponent* ASC);
 };
 

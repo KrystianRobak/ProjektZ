@@ -30,6 +30,7 @@ void UProjektZAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	
 	//Secondary Attributes
 
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, WeaponDamage, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, Armor, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, ArmorPenetration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, BlockChance, COND_None, REPNOTIFY_Always);
@@ -200,6 +201,11 @@ void UProjektZAttributeSet::OnRep_Vigor(const FGameplayAttributeData& OldVigor) 
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, Vigor, OldVigor);
 }
 
+void UProjektZAttributeSet::OnRep_WeaponDamage(const FGameplayAttributeData& OldWeaponDamage) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, WeaponDamage, OldWeaponDamage);
+}
+
 void UProjektZAttributeSet::OnRep_Armor(const FGameplayAttributeData& OldArmor) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, Armor, OldArmor);
@@ -284,6 +290,7 @@ void UProjektZAttributeSet::PopulateTagsToAttributesMap()
 	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Resilience, GetResilienceAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Vigor, GetVigorAttribute());
 
+	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_WeaponDamage, GetWeaponDamageAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_Armor, GetArmorAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_BlockChance, GetBlockChanceAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitChance, GetStrengthAttribute());

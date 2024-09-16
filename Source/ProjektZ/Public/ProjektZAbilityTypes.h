@@ -30,16 +30,16 @@ struct FEffectParams
 
 	FEffectParams() {}
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FGameplayTag EffectType;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float EffectFrequency = 0.f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float EffectDuration = 0.f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FEffectAttributeModifierParams> Modifiers;
 
 	float GetEffectDuration() const { return EffectDuration; };

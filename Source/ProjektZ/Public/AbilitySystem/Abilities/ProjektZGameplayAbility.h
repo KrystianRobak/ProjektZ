@@ -15,5 +15,8 @@ class PROJEKTZ_API UProjektZGameplayAbility : public UGameplayAbility
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditDefaultsOnly, Category="Input")
-	FGameplayTag StartupInputTag; 
+	FGameplayTag StartupInputTag;
+
+	UFUNCTION(BlueprintCallable)
+	void SetInputTag(FGameplayTag InTag);
 };

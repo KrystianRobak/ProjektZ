@@ -51,6 +51,25 @@ UAttributeMenuWidgetController* UProjektZAbilitySystemLibrary::GetAttributeMenuW
 	return nullptr;
 }
 
+USpellMenuWidgetController* UProjektZAbilitySystemLibrary::GetSpellMenuWidgetController(const UObject* WorldContextObject)
+{
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
+	{
+		if (AProjektZHUD* ProjektZHUD = Cast<AProjektZHUD>(PC->GetHUD()))
+		{
+			AProjektZPlayerState* PS = PC->GetPlayerState<AProjektZPlayerState>();
+			UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent();
+			UAttributeSet* AS = PS->GetAttributeSet();
+
+			const FWidgetControllerParams WidgetControllerParams(PC, PS, ASC, AS);
+
+			return ProjektZHUD->GetSpellMenuWidgetController(WidgetControllerParams);
+		}
+	}
+
+	return nullptr;
+}
+
 void UProjektZAbilitySystemLibrary::InitializeDefaultAbilities(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
 	FCharacterClassDefaultInfo ClassDefaultInfo = GetCharacterClassInfo(WorldContextObject)->GetClassDefaultInfo(CharacterClass);
@@ -173,20 +192,28 @@ void UProjektZAbilitySystemLibrary::SetIsCriticalHit(UPARAM(ref)FGameplayEffectC
 	}
 }
 
-void UProjektZAbilitySystemLibrary::ApplyEffect(const FEffectParams& EffectParams, UAbilitySystemComponent* TargetASC, AActor* Instigator)
+FActiveGameplayEffectHandle UProjektZAbilitySystemLibrary::ApplyEffect(const FEffectParams& EffectParams, UAbilitySystemComponent* TargetASC, AActor* Instigator, bool bIsInfinite)
 {
 	FGameplayTag BaseTag = EffectParams.EffectType;
 
-	FGameplayTag MagnitudeTag = FGameplayTag::RequestGameplayTag(FName(BaseTag.ToString() + ".Magnitude"));
+	//FGameplayTag MagnitudeTag = FGameplayTag::RequestGameplayTag(FName(BaseTag.ToString() + ".Magnitude"));
 
 	FGameplayEffectContextHandle EffectContext = TargetASC->MakeEffectContext();
 	EffectContext.AddInstigator(Instigator, Instigator);
 
 	UGameplayEffect* Effect = NewObject<UGameplayEffect>(GetTransientPackage(), FName(BaseTag.ToString()));
 
-	Effect->DurationPolicy = EGameplayEffectDurationType::HasDuration;
-	Effect->DurationMagnitude = FScalableFloat(EffectParams.EffectDuration);
-	Effect->Period = EffectParams.EffectFrequency;
+	if (bIsInfinite) 
+	{
+		Effect->DurationPolicy = EGameplayEffectDurationType::Infinite;
+		Effect->DurationMagnitude = FScalableFloat(0.f);
+	}
+	else
+	{
+		Effect->DurationPolicy = EGameplayEffectDurationType::HasDuration;
+		Effect->DurationMagnitude = FScalableFloat(EffectParams.EffectDuration);
+		Effect->Period = EffectParams.EffectFrequency;
+	}
 
 	Effect->InheritableOwnedTagsContainer.AddTag(EffectParams.EffectType);
 
@@ -209,12 +236,10 @@ void UProjektZAbilitySystemLibrary::ApplyEffect(const FEffectParams& EffectParam
 		ModifierInfo.ModifierOp = EGameplayModOp::Additive;
 		ModifierInfo.Attribute = Modifier.EffectModifiedAttribute;
 	}
+	
+	FGameplayEffectSpec MutableSpec = FGameplayEffectSpec(Effect, EffectContext, 1.f);
 
-	FGameplayEffectSpec* MutableSpec = new FGameplayEffectSpec(Effect, EffectContext, 1.f);
-	if (MutableSpec)
-	{
-		TargetASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
-	}
+	return TargetASC->ApplyGameplayEffectSpecToSelf(MutableSpec);
 }
 
 
@@ -254,6 +279,8 @@ void UProjektZAbilitySystemLibrary::GetLivePlayerWithinRadius(const UObject* Wor
 	}
 
 }
+
+
 
 
 
