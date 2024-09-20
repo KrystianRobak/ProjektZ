@@ -6,7 +6,9 @@
 #include "Player/PC_PlayerController.h"
 #include <UI/HUD/ProjektZHUD.h>
 #include <AbilitySystem/ProjektZAbilitySystemComponent.h>
+#include "AbilitySystem/ProjektZAbilitySystemLibrary.h"
 #include <AbilitySystem/Abilities/ProjektZGameplayAbility.h>
+
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -95,6 +97,51 @@ void APlayerCharacter::BeginPlay()
 		SlotsOccupancy.Add(false);
 		Abilities.Add(FAbilityData());
 	}
+
+	for (int i = 0; i < 7; i++)
+	{
+		IsItemEquipped.Add(false);
+		ItemInfos.Add(FBaseItemInfo());
+	}
+}
+
+void APlayerCharacter::ApplyItemEffect_Implementation(const FBaseItemInfo& ItemInfo)
+{
+	UProjektZAbilitySystemLibrary::ApplyEffectFromEquippedItem(ItemInfo, AbilitySystemComponent, false);
+}
+
+void APlayerCharacter::RemoveItemEffect_Implementation(const FBaseItemInfo& ItemInfo)
+{
+	UProjektZAbilitySystemLibrary::ApplyEffectFromEquippedItem(ItemInfo, AbilitySystemComponent, true);
+}
+
+void APlayerCharacter::EquipItem(const FBaseItemInfo ItemInfo)
+{
+	if (!IsItemEquipped[ItemInfo.ItemTypePlacement])
+	{
+		IsItemEquipped[ItemInfo.ItemTypePlacement] = true;
+		ItemInfos[ItemInfo.ItemTypePlacement] = ItemInfo;
+		ApplyItemEffect(ItemInfo);
+	}
+	else
+	{
+
+	}
+}
+
+void APlayerCharacter::DeequipItem(const FBaseItemInfo& ItemInfo)
+{
+	if (ItemInfo.ItemTypePlacement == EItemPlacement::Noone) return;
+
+	for (FEffectAttributeModifierParams& Effect : ItemInfos[ItemInfo.ItemTypePlacement].Modifiers.Modifiers)
+	{
+		Effect.EffectMagnitude = -Effect.EffectMagnitude;
+	}
+
+	ItemInfos[ItemInfo.ItemTypePlacement] = FBaseItemInfo();
+	IsItemEquipped[ItemInfo.ItemTypePlacement] = false;
+
+	RemoveItemEffect(ItemInfo);
 }
 
 void APlayerCharacter::InitAbilityActorInfo()

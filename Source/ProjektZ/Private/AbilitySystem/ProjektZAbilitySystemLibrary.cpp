@@ -51,24 +51,24 @@ UAttributeMenuWidgetController* UProjektZAbilitySystemLibrary::GetAttributeMenuW
 	return nullptr;
 }
 
-//USpellMenuWidgetController* UProjektZAbilitySystemLibrary::GetSpellMenuWidgetController(const UObject* WorldContextObject)
-//{
-//	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
-//	{
-//		if (AProjektZHUD* ProjektZHUD = Cast<AProjektZHUD>(PC->GetHUD()))
-//		{
-//			AProjektZPlayerState* PS = PC->GetPlayerState<AProjektZPlayerState>();
-//			UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent();
-//			UAttributeSet* AS = PS->GetAttributeSet();
-//
-//			const FWidgetControllerParams WidgetControllerParams(PC, PS, ASC, AS);
-//
-//			return ProjektZHUD->GetSpellMenuWidgetController(WidgetControllerParams);
-//		}
-//	}
-//
-//	return nullptr;
-//}
+USpellMenuWidgetController* UProjektZAbilitySystemLibrary::GetSpellMenuWidgetController(const UObject* WorldContextObject)
+{
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
+	{
+		if (AProjektZHUD* ProjektZHUD = Cast<AProjektZHUD>(PC->GetHUD()))
+		{
+			AProjektZPlayerState* PS = PC->GetPlayerState<AProjektZPlayerState>();
+			UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent();
+			UAttributeSet* AS = PS->GetAttributeSet();
+
+			const FWidgetControllerParams WidgetControllerParams(PC, PS, ASC, AS);
+
+			return ProjektZHUD->GetSpellMenuWidgetController(WidgetControllerParams);
+		}
+	}
+
+	return nullptr;
+}
 
 void UProjektZAbilitySystemLibrary::InitializeDefaultAbilities(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
@@ -192,7 +192,7 @@ void UProjektZAbilitySystemLibrary::SetIsCriticalHit(UPARAM(ref)FGameplayEffectC
 	}
 }
 
-FActiveGameplayEffectHandle UProjektZAbilitySystemLibrary::ApplyEffect(const FEffectParams& EffectParams, UAbilitySystemComponent* TargetASC, AActor* Instigator, bool bIsInfinite)
+FActiveGameplayEffectHandle UProjektZAbilitySystemLibrary::ApplyEffect(const FEffectParams& EffectParams, UAbilitySystemComponent* TargetASC, AActor* Instigator, bool bIsInfinite, bool IsSubtraction)
 {
 	FGameplayTag BaseTag = EffectParams.EffectType;
 
@@ -205,7 +205,7 @@ FActiveGameplayEffectHandle UProjektZAbilitySystemLibrary::ApplyEffect(const FEf
 
 	if (bIsInfinite) 
 	{
-		Effect->DurationPolicy = EGameplayEffectDurationType::Infinite;
+		Effect->DurationPolicy = EGameplayEffectDurationType::Instant;
 		Effect->DurationMagnitude = FScalableFloat(0.f);
 	}
 	else
@@ -232,7 +232,15 @@ FActiveGameplayEffectHandle UProjektZAbilitySystemLibrary::ApplyEffect(const FEf
 		Effect->Modifiers.Add(FGameplayModifierInfo());
 		FGameplayModifierInfo& ModifierInfo = Effect->Modifiers[Index];
 
-		ModifierInfo.ModifierMagnitude = FScalableFloat(Modifier.EffectMagnitude);
+		if(IsSubtraction)
+		{
+			ModifierInfo.ModifierMagnitude = FScalableFloat(-(Modifier.EffectMagnitude));
+		}
+		else
+		{
+			ModifierInfo.ModifierMagnitude = FScalableFloat(Modifier.EffectMagnitude);
+		}
+		
 		ModifierInfo.ModifierOp = EGameplayModOp::Additive;
 		ModifierInfo.Attribute = Modifier.EffectModifiedAttribute;
 	}
@@ -277,7 +285,11 @@ void UProjektZAbilitySystemLibrary::GetLivePlayerWithinRadius(const UObject* Wor
 			}
 		}
 	}
+}
 
+FActiveGameplayEffectHandle UProjektZAbilitySystemLibrary::ApplyEffectFromEquippedItem(const FBaseItemInfo& ItemInfo, UAbilitySystemComponent* TargetASC, bool IsSubtraction)
+{
+	return ApplyEffect(ItemInfo.Modifiers, TargetASC, TargetASC->GetOwner(), true, IsSubtraction);
 }
 
 

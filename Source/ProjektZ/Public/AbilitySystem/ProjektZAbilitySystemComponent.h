@@ -6,7 +6,6 @@
 #include "AbilitySystemComponent.h"
 #include "ProjektZAbilitySystemComponent.generated.h"
 
-
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /* AssetTags */);
 DECLARE_MULTICAST_DELEGATE_OneParam(FAbilitiesGiven, UProjektZAbilitySystemComponent*);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
@@ -44,7 +43,7 @@ public:
 	FGameplayAbilitySpec* GetAbilitySpecByInputTag(const FGameplayTag& InputTag);
 
 	UFUNCTION(BlueprintCallable)
-	bool ChangeAbilitySpecInputTag(const FGameplayTag& CurrentInputTag, const FGameplayTag& NewInputTag);
+	bool ChangeAbilitySpecInputTag(const FGameplayTag& AbilityInputTag, const FGameplayTag& NewInputTag);
 
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);
 

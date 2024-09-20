@@ -81,6 +81,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
+	TObjectPtr<USkeletalMeshComponent> SubItem;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName SubItemTipSocketName;
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 

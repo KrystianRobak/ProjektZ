@@ -78,6 +78,20 @@ public:
 	FGameplayTag Condition_Rooted;
 
 	//=================================
+	//     INVENTORY SLOTS
+	//=================================
+
+	FGameplayTag Inventory_Head;
+	FGameplayTag Inventory_Armor;
+	FGameplayTag Inventory_FirstHand;
+	FGameplayTag Inventory_SecondHand;
+	FGameplayTag Inventory_LeftRing;
+	FGameplayTag Inventory_RightRing;
+	FGameplayTag Inventory_Necless;
+
+	FGameplayTag Inventory_Empty;
+
+	//=================================
 	//     DEBUFFS
 	//=================================
 

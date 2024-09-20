@@ -21,6 +21,9 @@ ACharacterBase::ACharacterBase()
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	SubItem = CreateDefaultSubobject<USkeletalMeshComponent>("SubItem");
+	SubItem->SetupAttachment(GetMesh(), FName("SubItemHandSocket"));
+	SubItem->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 }
 

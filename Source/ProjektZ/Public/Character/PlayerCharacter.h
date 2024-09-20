@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Character/CharacterBase.h"
+#include "Inventory/DA_BaseItem.h"
 #include "PlayerCharacter.generated.h"
+
 
 /**
  * 
@@ -47,7 +49,28 @@ public:
 
 	void virtual BeginPlay() override;
 
+
+	UFUNCTION(Server, Reliable)
+	void ApplyItemEffect(const FBaseItemInfo& ItemInfo);
+
+	UFUNCTION(Server, Reliable)
+	void RemoveItemEffect(const FBaseItemInfo& ItemInfo);
+
+	UFUNCTION(BlueprintCallable)
+	void EquipItem(const FBaseItemInfo ItemInfo);
+
+	UFUNCTION(BlueprintCallable)
+	void DeequipItem(const FBaseItemInfo& ItemInfo);
+
+
+
 protected:
+
+	UPROPERTY(BlueprintReadOnly, Category = "InventorySystem")
+	TArray<bool> IsItemEquipped;
+
+	UPROPERTY(BlueprintReadOnly, Category = "InventorySystem")
+	TArray<FBaseItemInfo> ItemInfos;
 
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	float MaxAbilities;

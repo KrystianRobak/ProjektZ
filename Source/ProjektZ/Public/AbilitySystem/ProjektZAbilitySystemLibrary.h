@@ -12,7 +12,7 @@
 
 class UAttributeMenuWidgetController;
 class UOverlayWidgetController;
-//class USpellMenuWidgetController;
+class USpellMenuWidgetController;
 /**
  * 
  */
@@ -28,8 +28,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ProjektZAbilitySystemLibrary|WidgetController")
 	static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
 
-	//UFUNCTION(BlueprintPure, Category = "ProjektZAbilitySystemLibrary|WidgetController")
-	//static USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
+	UFUNCTION(BlueprintPure, Category = "ProjektZAbilitySystemLibrary|WidgetController")
+	static USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintCallable, Category = "ProjektZAbilitySystemLibrary|CharacterClassDefaults")
 	static void InitializeDefaultAbilities(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
@@ -64,7 +64,7 @@ public:
 	static void SetIsCriticalHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsCriticalHit);
 
 	UFUNCTION(BlueprintCallable, Category = "ProjektZAbilitySystemLibrary|GameplayEffects")
-	static FActiveGameplayEffectHandle ApplyEffect(const FEffectParams& EffectParams, UAbilitySystemComponent* TargetASC, AActor* Instigator, bool bIsInfinite = false);
+	static FActiveGameplayEffectHandle ApplyEffect(const FEffectParams& EffectParams, UAbilitySystemComponent* TargetASC, AActor* Instigator, bool bIsInfinite = false, bool IsSubtraction = false);
 
 	UFUNCTION(BlueprintCallable, Category = "ProjektZAbilitySystemLibrary|GameplayEffects")
 	static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams);
@@ -72,4 +72,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ProjektZAbilitySystemLibrary|GameplayMechanics")
 	static void GetLivePlayerWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverLappingActors, const TArray<AActor*>& ActorsToIgnore, float Radius, const FVector& SphereOrigin);
 
+	UFUNCTION(BlueprintPure, Category = "ProjektZAbilitySystemLibrary|ItemMechanics")
+	static FActiveGameplayEffectHandle ApplyEffectFromEquippedItem(const FBaseItemInfo& ItemInfo, UAbilitySystemComponent* TargetASC, bool IsSubtraction);
 };

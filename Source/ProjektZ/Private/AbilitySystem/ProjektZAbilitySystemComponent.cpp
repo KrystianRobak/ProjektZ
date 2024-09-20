@@ -70,15 +70,15 @@ FGameplayAbilitySpec* UProjektZAbilitySystemComponent::GetAbilitySpecByInputTag(
 	return nullptr;
 }
 
-bool UProjektZAbilitySystemComponent::ChangeAbilitySpecInputTag(const FGameplayTag& CurrentInputTag, const FGameplayTag& NewInputTag)
+bool UProjektZAbilitySystemComponent::ChangeAbilitySpecInputTag(const FGameplayTag& AbilityInputTag, const FGameplayTag& NewInputTag)
 {
-	if (!CurrentInputTag.IsValid()) return false;
+	if (!AbilityInputTag.IsValid()) return false;
 
 	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
-		if (AbilitySpec.DynamicAbilityTags.HasTagExact(CurrentInputTag))
+		if (AbilitySpec.Ability.Get()->AbilityTags.First() == AbilityInputTag)
 		{
-			AbilitySpec.DynamicAbilityTags.RemoveTag(CurrentInputTag);
+			AbilitySpec.DynamicAbilityTags.RemoveTag(AbilitySpec.DynamicAbilityTags.First());
 			AbilitySpec.DynamicAbilityTags.AddTag(NewInputTag);
 			return true;
 		}

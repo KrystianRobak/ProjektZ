@@ -6,7 +6,7 @@
 #include "UI/Widget/ProjektZUserWidget.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "UI/WidgetController/AttributeMenuWidgetController.h"
-//#include "UI/WidgetController/SpellMenuWidgetController.h"
+#include "UI/WidgetController/USpellMenuWidgetController.h"
 
 UOverlayWidgetController* AProjektZHUD::GetOverlayWidgetController(const FWidgetControllerParams& WcParams)
 {
@@ -30,16 +30,16 @@ UAttributeMenuWidgetController* AProjektZHUD::GetAttributeMenuWidgetController(c
 	return AttributeMenuWidgetController;
 }
 
-//USpellMenuWidgetController* AProjektZHUD::GetSpellMenuWidgetController(const FWidgetControllerParams& WcParams)
-//{
-//	if (SpellMenuWidgetController == nullptr)
-//	{
-//		SpellMenuWidgetController = NewObject<USpellMenuWidgetController>(this, SpellMenuWidgetControllerClass);
-//		SpellMenuWidgetController->SetWidgetControllerParams(WcParams);
-//		SpellMenuWidgetController->BindCallbackToDependencies();
-//	}
-//	return SpellMenuWidgetController;
-//}
+USpellMenuWidgetController* AProjektZHUD::GetSpellMenuWidgetController(const FWidgetControllerParams& WcParams)
+{
+	if (SpellMenuWidgetController == nullptr)
+	{
+		SpellMenuWidgetController = NewObject<USpellMenuWidgetController>(this, SpellMenuWidgetControllerClass);
+		SpellMenuWidgetController->SetWidgetControllerParams(WcParams);
+		SpellMenuWidgetController->BindCallbackToDependencies();
+	}
+	return SpellMenuWidgetController;
+}
 
 void AProjektZHUD::InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet)
 {
