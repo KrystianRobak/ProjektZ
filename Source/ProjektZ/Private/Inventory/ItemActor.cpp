@@ -6,9 +6,11 @@
 // Sets default values
 AItemActor::AItemActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	bReplicates = true;
 
+	ItemMesh = CreateDefaultSubobject<USkeletalMeshComponent>("ItemMesh");
+	ItemMesh->SetupAttachment(RootComponent);
+	ItemMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 // Called when the game starts or when spawned

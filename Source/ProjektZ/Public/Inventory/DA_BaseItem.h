@@ -24,12 +24,15 @@ UENUM(BlueprintType)
 enum EItemPlacement
 {
 	Head,
-	Armor,
-	FirstHand,
-	SecondHand,
-	LeftRing,
-	RightRing,
 	Necless,
+	Armor,
+	Bracelet,
+	FirstHand_Weapon,
+	SecondHand_Weapon,
+	LeftRing,
+	Boots,
+	RightRing,
+	
 	Noone
 };
 
@@ -43,6 +46,9 @@ struct FBaseItemInfo
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TEnumAsByte<EItemPlacement> ItemTypePlacement = EItemPlacement::Noone;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FVector2D Dimensions;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UTexture2D> Icon = nullptr;

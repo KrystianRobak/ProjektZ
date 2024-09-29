@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "DA_BaseItem.h"
+#include "Components/SphereComponent.h"
 #include "ItemActor.generated.h"
 
 UCLASS()
@@ -25,4 +26,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FBaseItemInfo ItemInfo;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TObjectPtr<USkeletalMeshComponent> ItemMesh;
 };

@@ -33,7 +33,7 @@ class UProjektZAbilityInfo;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilitiesSwapedDelegate, const FGameplayTag&, SourceTag, bool, IsEquipped);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilitiesSwapedDelegate, const FGameplayTag&, AbilityTag);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FProjektZAbilityInfo&, Info);
 /**
  * 

@@ -10,6 +10,7 @@
 #include <AbilitySystem/Abilities/ProjektZGameplayAbility.h>
 
 
+
 APlayerCharacter::APlayerCharacter()
 {
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
@@ -115,6 +116,17 @@ void APlayerCharacter::RemoveItemEffect_Implementation(const FBaseItemInfo& Item
 	UProjektZAbilitySystemLibrary::ApplyEffectFromEquippedItem(ItemInfo, AbilitySystemComponent, true);
 }
 
+void APlayerCharacter::SpawnItemActor_Implementation(const FBaseItemInfo& NewItemInfo)
+{
+	FTransform SpawnTransform;
+	SpawnTransform.SetLocation(GetActorLocation());
+	AItemActor* Item = GetWorld()->SpawnActorDeferred<AItemActor>(ItemActorClass, SpawnTransform, nullptr, this, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+
+	Item->ItemInfo = NewItemInfo;
+
+	Item->FinishSpawning(SpawnTransform);
+}
+
 void APlayerCharacter::EquipItem(const FBaseItemInfo ItemInfo)
 {
 	if (!IsItemEquipped[ItemInfo.ItemTypePlacement])
@@ -125,21 +137,26 @@ void APlayerCharacter::EquipItem(const FBaseItemInfo ItemInfo)
 	}
 	else
 	{
+		SpawnItemActor(ItemInfos[ItemInfo.ItemTypePlacement]);
 
+		DeequipItem(ItemInfos[ItemInfo.ItemTypePlacement]);
+
+		IsItemEquipped[ItemInfo.ItemTypePlacement] = true;
+		ItemInfos[ItemInfo.ItemTypePlacement] = ItemInfo;
+		ApplyItemEffect(ItemInfo);
 	}
+
+	ChangeItemMesh(ItemInfo.WeaponMesh, ItemInfo.ItemTypePlacement);
 }
 
 void APlayerCharacter::DeequipItem(const FBaseItemInfo& ItemInfo)
 {
 	if (ItemInfo.ItemTypePlacement == EItemPlacement::Noone) return;
 
-	for (FEffectAttributeModifierParams& Effect : ItemInfos[ItemInfo.ItemTypePlacement].Modifiers.Modifiers)
-	{
-		Effect.EffectMagnitude = -Effect.EffectMagnitude;
-	}
+	ChangeItemMesh(nullptr, ItemInfo.ItemTypePlacement);
 
-	ItemInfos[ItemInfo.ItemTypePlacement] = FBaseItemInfo();
 	IsItemEquipped[ItemInfo.ItemTypePlacement] = false;
+	ItemInfos[ItemInfo.ItemTypePlacement] = FBaseItemInfo();
 
 	RemoveItemEffect(ItemInfo);
 }

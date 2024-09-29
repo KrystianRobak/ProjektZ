@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Character/CharacterBase.h"
 #include "Inventory/DA_BaseItem.h"
+#include <Inventory/ItemActor.h>
 #include "PlayerCharacter.generated.h"
 
 
@@ -56,11 +57,17 @@ public:
 	UFUNCTION(Server, Reliable)
 	void RemoveItemEffect(const FBaseItemInfo& ItemInfo);
 
+	UFUNCTION(BlueprintCallable, Server, Reliable)
+	void SpawnItemActor(const FBaseItemInfo& NewItemInfo);
+
 	UFUNCTION(BlueprintCallable)
 	void EquipItem(const FBaseItemInfo ItemInfo);
 
 	UFUNCTION(BlueprintCallable)
 	void DeequipItem(const FBaseItemInfo& ItemInfo);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ChangeItemMesh(const USkeletalMesh* ItemMesh, EItemPlacement ItemPlacement);
 
 
 
@@ -89,6 +96,9 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, Category = "AbilityInputQueue", meta = (AllowPrivateAccess = "true"))
 	bool bInputBlocked = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<AItemActor> ItemActorClass;
 
 private:
 	virtual void InitAbilityActorInfo() override;
