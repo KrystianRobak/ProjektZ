@@ -20,7 +20,7 @@ void UProjectZProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLo
 
 	
 
-		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocetLocation(GetAvatarActorFromActorInfo());
+		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocetLocation(GetAvatarActorFromActorInfo(), FProjektZGameplayTags::Get().Montage_Attack_Weapon);
 		const FRotator SocketRotation = (ProjectileTargetLocation - SocketLocation).Rotation();
 		const FVector ForwardVector = SocketRotation.Vector();  // Get forward vector from rotation
 

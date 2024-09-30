@@ -56,6 +56,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
 	TObjectPtr<AActor> CombatTarget;
+	
+	UPROPERTY()
+	TObjectPtr<AMyAIController> MyAIController;
 
 protected:
 	virtual void BeginPlay() override;
@@ -80,7 +83,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "AI")
 	TObjectPtr<UBehaviorTree> BehaviorTree;
 
-	UPROPERTY()
-	TObjectPtr<AMyAIController> MyAIController;
+
 
 };
