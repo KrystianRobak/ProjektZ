@@ -99,6 +99,10 @@ public:
 	  *	Secondary Attributes
 	  */
 
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_WeaponDamage, Category = "Secondary Attributes")
+	FGameplayAttributeData WeaponDamage;
+	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, WeaponDamage)
+
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Secondary Attributes")
 	FGameplayAttributeData Armor;
 	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, Armor)
@@ -192,6 +196,9 @@ public:
 
 	UFUNCTION()
 	void OnRep_Vigor(const FGameplayAttributeData& OldVigor) const;
+
+	UFUNCTION()
+	void OnRep_WeaponDamage(const FGameplayAttributeData& OldWeaponDamage) const;
 
 	UFUNCTION()
 	void OnRep_Armor(const FGameplayAttributeData& OldArmor) const;

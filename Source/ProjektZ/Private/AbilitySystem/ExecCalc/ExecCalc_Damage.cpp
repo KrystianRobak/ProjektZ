@@ -25,6 +25,7 @@ struct ProjektZDamageStatics
 	DECLARE_ATTRIBUTE_CAPTUREDEF(LightningResistance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(PhysicalResistance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(PoisonResistance);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(WeaponDamage);
 
 	TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition> TagsToCaptureDef;
 
@@ -42,6 +43,7 @@ struct ProjektZDamageStatics
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, ArmorPenetration, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, CriticalHitChance, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, CriticalHitDamage, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, WeaponDamage, Source, false);
 
 		const FProjektZGameplayTags& Tags = FProjektZGameplayTags::Get();
 
@@ -54,6 +56,7 @@ struct ProjektZDamageStatics
 		TagsToCaptureDef.Add(Tags.Attributes_Resistance_Physical, PhysicalResistanceDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Resistance_Poison, PoisonResistanceDef);
 
+		TagsToCaptureDef.Add(Tags.Attributes_Secondary_WeaponDamage, WeaponDamageDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Secondary_ArmorPenetration, ArmorPenetrationDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Secondary_CriticalHitChance, CriticalHitChanceDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Secondary_CriticalHitDamage, CriticalHitDamageDef);
@@ -75,6 +78,7 @@ UExecCalc_Damage::UExecCalc_Damage()
 	RelevantAttributesToCapture.Add(DamageStatics().ArmorDef);
 	RelevantAttributesToCapture.Add(DamageStatics().ArmorPenetrationDef);
 	RelevantAttributesToCapture.Add(DamageStatics().CriticalHitResistanceDef);
+	RelevantAttributesToCapture.Add(DamageStatics().WeaponDamageDef);
 
 	RelevantAttributesToCapture.Add(DamageStatics().FireResistanceDef);
 	RelevantAttributesToCapture.Add(DamageStatics().FrostResistanceDef);
@@ -122,6 +126,11 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	int Chance = FMath::RandRange(0, 100);
 
 	// Additional damage dealt with crit
+	float WeaponDamage = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().WeaponDamageDef, EvaulationParameters, WeaponDamage);
+	WeaponDamage = FMath::Max<float>(0.f, WeaponDamage);
+
+	// Additional damage dealt with crit
 	float CriticalHitDamage = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CriticalHitDamageDef, EvaulationParameters, CriticalHitDamage);
 	CriticalHitDamage = FMath::Max<float>(0.f, CriticalHitDamage);
@@ -165,6 +174,11 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	
 	// Get Damage Set By Caller Magnitude
 	float Damage = 0.f;
+	FString TheFloatStr = FString::SanitizeFloat(Damage);
+	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, *TheFloatStr);
+	Damage += WeaponDamage;
+	TheFloatStr = FString::SanitizeFloat(Damage);
+	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, *TheFloatStr);
 	for (const TTuple<FGameplayTag, FGameplayTag>& Pair : FProjektZGameplayTags::Get().DamageTypesToResistances)
 	{
 		FGameplayTag DamageTypeTag = Pair.Key;

@@ -11,6 +11,7 @@
 #include "ProjektZGameplayTags.h"
 #include <AbilitySystemBlueprintLibrary.h>
 #include <GameplayEffectComponents/TargetTagsGameplayEffectComponent.h>
+#include <Interaction/CombatInterface.h>
 
 UOverlayWidgetController* UProjektZAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -50,11 +51,38 @@ UAttributeMenuWidgetController* UProjektZAbilitySystemLibrary::GetAttributeMenuW
 	return nullptr;
 }
 
+USpellMenuWidgetController* UProjektZAbilitySystemLibrary::GetSpellMenuWidgetController(const UObject* WorldContextObject)
+{
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
+	{
+		if (AProjektZHUD* ProjektZHUD = Cast<AProjektZHUD>(PC->GetHUD()))
+		{
+			AProjektZPlayerState* PS = PC->GetPlayerState<AProjektZPlayerState>();
+			UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent();
+			UAttributeSet* AS = PS->GetAttributeSet();
+
+			const FWidgetControllerParams WidgetControllerParams(PC, PS, ASC, AS);
+
+			return ProjektZHUD->GetSpellMenuWidgetController(WidgetControllerParams);
+		}
+	}
+
+	return nullptr;
+}
+
 void UProjektZAbilitySystemLibrary::InitializeDefaultAbilities(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
 	FCharacterClassDefaultInfo ClassDefaultInfo = GetCharacterClassInfo(WorldContextObject)->GetClassDefaultInfo(CharacterClass);
 
+	ClassDefaultInfo.StartupAbilities;
+	for (TSubclassOf<UGameplayAbility> Ability : ClassDefaultInfo.StartupAbilities)
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability, 1);
+		ASC->GiveAbility(AbilitySpec);
+	}
+
 }
+
 
 void UProjektZAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
@@ -164,20 +192,28 @@ void UProjektZAbilitySystemLibrary::SetIsCriticalHit(UPARAM(ref)FGameplayEffectC
 	}
 }
 
-void UProjektZAbilitySystemLibrary::ApplyEffect(const FEffectParams& EffectParams, UAbilitySystemComponent* TargetASC, AActor* Instigator)
+FActiveGameplayEffectHandle UProjektZAbilitySystemLibrary::ApplyEffect(const FEffectParams& EffectParams, UAbilitySystemComponent* TargetASC, AActor* Instigator, bool bIsInfinite, bool IsSubtraction)
 {
 	FGameplayTag BaseTag = EffectParams.EffectType;
 
-	FGameplayTag MagnitudeTag = FGameplayTag::RequestGameplayTag(FName(BaseTag.ToString() + ".Magnitude"));
+	//FGameplayTag MagnitudeTag = FGameplayTag::RequestGameplayTag(FName(BaseTag.ToString() + ".Magnitude"));
 
 	FGameplayEffectContextHandle EffectContext = TargetASC->MakeEffectContext();
 	EffectContext.AddInstigator(Instigator, Instigator);
 
 	UGameplayEffect* Effect = NewObject<UGameplayEffect>(GetTransientPackage(), FName(BaseTag.ToString()));
 
-	Effect->DurationPolicy = EGameplayEffectDurationType::HasDuration;
-	Effect->DurationMagnitude = FScalableFloat(EffectParams.EffectDuration);
-	Effect->Period = EffectParams.EffectFrequency;
+	if (bIsInfinite) 
+	{
+		Effect->DurationPolicy = EGameplayEffectDurationType::Instant;
+		Effect->DurationMagnitude = FScalableFloat(0.f);
+	}
+	else
+	{
+		Effect->DurationPolicy = EGameplayEffectDurationType::HasDuration;
+		Effect->DurationMagnitude = FScalableFloat(EffectParams.EffectDuration);
+		Effect->Period = EffectParams.EffectFrequency;
+	}
 
 	Effect->InheritableOwnedTagsContainer.AddTag(EffectParams.EffectType);
 
@@ -196,16 +232,22 @@ void UProjektZAbilitySystemLibrary::ApplyEffect(const FEffectParams& EffectParam
 		Effect->Modifiers.Add(FGameplayModifierInfo());
 		FGameplayModifierInfo& ModifierInfo = Effect->Modifiers[Index];
 
-		ModifierInfo.ModifierMagnitude = FScalableFloat(Modifier.EffectMagnitude);
+		if(IsSubtraction)
+		{
+			ModifierInfo.ModifierMagnitude = FScalableFloat(-(Modifier.EffectMagnitude));
+		}
+		else
+		{
+			ModifierInfo.ModifierMagnitude = FScalableFloat(Modifier.EffectMagnitude);
+		}
+		
 		ModifierInfo.ModifierOp = EGameplayModOp::Additive;
 		ModifierInfo.Attribute = Modifier.EffectModifiedAttribute;
 	}
+	
+	FGameplayEffectSpec MutableSpec = FGameplayEffectSpec(Effect, EffectContext, 1.f);
 
-	FGameplayEffectSpec* MutableSpec = new FGameplayEffectSpec(Effect, EffectContext, 1.f);
-	if (MutableSpec)
-	{
-		TargetASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
-	}
+	return TargetASC->ApplyGameplayEffectSpecToSelf(MutableSpec);
 }
 
 
@@ -225,6 +267,32 @@ FGameplayEffectContextHandle UProjektZAbilitySystemLibrary::ApplyDamageEffect(co
 
 	return EffectContextHandle;
 }
+
+void UProjektZAbilitySystemLibrary::GetLivePlayerWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverLappingActors, const TArray<AActor*>& ActorsToIgnore, float Radius, const FVector& SphereOrigin)
+{
+	FCollisionQueryParams SphereParams;
+	SphereParams.AddIgnoredActors(ActorsToIgnore);
+
+	if (const UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+	{
+		TArray<FOverlapResult> Overlaps;
+		World->OverlapMultiByObjectType(Overlaps, SphereOrigin, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects), FCollisionShape::MakeSphere(Radius), SphereParams);
+		for (FOverlapResult& Overlap : Overlaps)
+		{
+			if (Overlap.GetActor()->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsDead(Overlap.GetActor()))
+			{
+				OutOverLappingActors.AddUnique(ICombatInterface::Execute_GetAvatar(Overlap.GetActor()));
+			}
+		}
+	}
+}
+
+FActiveGameplayEffectHandle UProjektZAbilitySystemLibrary::ApplyEffectFromEquippedItem(const FBaseItemInfo& ItemInfo, UAbilitySystemComponent* TargetASC, bool IsSubtraction)
+{
+	return ApplyEffect(ItemInfo.Modifiers, TargetASC, TargetASC->GetOwner(), true, IsSubtraction);
+}
+
+
 
 
 

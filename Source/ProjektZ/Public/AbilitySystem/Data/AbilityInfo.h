@@ -8,6 +8,9 @@
 
 #include "AbilityInfo.generated.h"
 
+
+class UGameplayAbility;
+
 USTRUCT(BlueprintType)
 struct FProjektZAbilityInfo
 {
@@ -16,19 +19,20 @@ struct FProjektZAbilityInfo
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FGameplayTag AbilityTag = FGameplayTag();
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UGameplayAbility> Ability;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FGameplayTag InputTag = FGameplayTag();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FGameplayTag CooldownTag = FGameplayTag();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<const UTexture2D> Icon = nullptr;
+	TObjectPtr<UTexture2D> Icon = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<const UMaterialInterface> BackgroundMaterial = nullptr;
-
-
+	TObjectPtr<UMaterialInterface> BackgroundMaterial = nullptr;
 };
 
 

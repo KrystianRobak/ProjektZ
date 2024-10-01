@@ -6,7 +6,6 @@
 #include "AbilitySystemComponent.h"
 #include "ProjektZAbilitySystemComponent.generated.h"
 
-
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /* AssetTags */);
 DECLARE_MULTICAST_DELEGATE_OneParam(FAbilitiesGiven, UProjektZAbilitySystemComponent*);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
@@ -35,13 +34,16 @@ public:
 	FEffectAssetTags EffectAssetTags;
 	FAbilitiesGiven AbilitiesGivenDelegate;
 
-	bool bStarupAbilitiesGiven = false;
-
 	void AddAbility(const TSubclassOf<UGameplayAbility>& Ability, float Level, FAbilityData& Data);
 
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 
 	FGameplayTag GetAbilityTagByInputTag(const FGameplayTag& InputTag);
+
+	FGameplayAbilitySpec* GetAbilitySpecByInputTag(const FGameplayTag& InputTag);
+
+	UFUNCTION(BlueprintCallable)
+	bool ChangeAbilitySpecInputTag(const FGameplayTag& AbilityInputTag, const FGameplayTag& NewInputTag);
 
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);
 
@@ -52,6 +54,9 @@ public:
 
 protected:
 
+	virtual void OnRep_ActivateAbilities();
+	
+	UFUNCTION(Client, Reliable)
 	void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
 	
 };

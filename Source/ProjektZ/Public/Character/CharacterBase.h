@@ -7,7 +7,9 @@
 #include "Interaction/CombatInterface.h"
 #include "AbilitySystemInterface.h"
 #include <AbilitySystem/ProjektZAbilitySystemComponent.h>
+#include <Interaction/CombatInterface.h>
 #include "CharacterBase.generated.h"
+
 
 
 
@@ -40,6 +42,16 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
 
+	virtual FVector GetCombatSocetLocation_Implementation() override;
+
+	virtual bool IsDead_Implementation() const override;
+
+	virtual AActor* GetAvatar_Implementation() override;
+
+	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TArray<FTaggedMontage> AttackMontages;
+
 protected:
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
 
@@ -47,9 +59,11 @@ protected:
 
 	virtual void InitAbilityActorInfo();
 
-	virtual FVector GetCombatSocetLocation() override;
+
 
 	virtual void BeginPlay() override;
+
+	bool bDead = false;
 
 	void Dissolve();
 
@@ -61,11 +75,17 @@ protected:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = "Combat")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
+	TObjectPtr<USkeletalMeshComponent> SubItem;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName SubItemTipSocketName;
 
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -90,6 +110,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+
 
 public:
 

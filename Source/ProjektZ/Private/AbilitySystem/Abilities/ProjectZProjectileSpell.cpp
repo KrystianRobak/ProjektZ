@@ -18,10 +18,9 @@ void UProjectZProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLo
 	// Check if the function is running on the server
 	if (!GetAvatarActorFromActorInfo()->HasAuthority()) return;
 
-	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
-	if (CombatInterface)
-	{
-		const FVector SocketLocation = CombatInterface->GetCombatSocetLocation();
+	
+
+		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocetLocation(GetAvatarActorFromActorInfo());
 		const FRotator SocketRotation = (ProjectileTargetLocation - SocketLocation).Rotation();
 		const FVector ForwardVector = SocketRotation.Vector();  // Get forward vector from rotation
 
@@ -49,5 +48,5 @@ void UProjectZProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLo
 		CurrProjectile->EffectParams = EffectParams;
 
 		CurrProjectile->FinishSpawning(SpawnTransform);
-	}
+	
 }

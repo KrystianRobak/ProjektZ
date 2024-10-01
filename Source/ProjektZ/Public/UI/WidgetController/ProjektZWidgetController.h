@@ -43,6 +43,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValues();
 
+	UFUNCTION(BlueprintCallable)
+	UAbilitySystemComponent* GetASC() { return AbilitySystemComponent; };
 
 	virtual void BindCallbackToDependencies();
 protected:

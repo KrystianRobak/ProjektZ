@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "NiagaraFunctionLibrary.h"
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "ProjektZGameModeBase.generated.h"

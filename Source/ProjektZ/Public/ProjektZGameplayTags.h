@@ -31,6 +31,7 @@ public:
 	FGameplayTag Attributes_Secondary_MaxHealth;
 	FGameplayTag Attributes_Secondary_MaxMana;
 
+	FGameplayTag Attributes_Secondary_WeaponDamage;
 	FGameplayTag Attributes_Secondary_Armor;
 	FGameplayTag Attributes_Secondary_ArmorPenetration;
 	FGameplayTag Attributes_Secondary_BlockChance;
@@ -77,6 +78,20 @@ public:
 	FGameplayTag Condition_Rooted;
 
 	//=================================
+	//     INVENTORY SLOTS
+	//=================================
+
+	FGameplayTag Inventory_Head;
+	FGameplayTag Inventory_Armor;
+	FGameplayTag Inventory_FirstHand;
+	FGameplayTag Inventory_SecondHand;
+	FGameplayTag Inventory_LeftRing;
+	FGameplayTag Inventory_RightRing;
+	FGameplayTag Inventory_Necless;
+
+	FGameplayTag Inventory_Empty;
+
+	//=================================
 	//     DEBUFFS
 	//=================================
 
@@ -114,6 +129,12 @@ public:
 	//=================================
 	//     ABILITIES
 	//=================================
+
+	FGameplayTag Abilities_Attack;
+
+	FGameplayTag Montage_Attack_Weapon;
+	FGameplayTag Montage_Attack_RightHand;
+	FGameplayTag Montage_Attack_LeftHand;
 
 	FGameplayTag Abilities_Fire_FireBolt;
 	FGameplayTag Abilities_Frost_FrostBolt;
