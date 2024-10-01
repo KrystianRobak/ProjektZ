@@ -292,6 +292,19 @@ FActiveGameplayEffectHandle UProjektZAbilitySystemLibrary::ApplyEffectFromEquipp
 	return ApplyEffect(ItemInfo.Modifiers, TargetASC, TargetASC->GetOwner(), true, IsSubtraction);
 }
 
+bool UProjektZAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondActor)
+{
+	const bool FirstIsPLayer = FirstActor->ActorHasTag(FName("Player"));
+	const bool SecondIsPLayer = SecondActor->ActorHasTag(FName("Player"));
+	const bool FirstIsEnemy = FirstActor->ActorHasTag(FName("Enemy"));
+	const bool SecondIsEnemy = SecondActor->ActorHasTag(FName("Enemy"));
+
+	const bool BothArePlayers = FirstIsPLayer && SecondIsPLayer;
+	const bool BothAreEnemies = FirstIsEnemy && SecondIsEnemy;
+	const bool Friends = BothArePlayers || BothAreEnemies;
+	return !Friends;
+}
+
 
 
 

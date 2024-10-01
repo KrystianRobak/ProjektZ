@@ -63,6 +63,11 @@ void AProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 {
 	if (!DamageEffectParams.SourceAbilitySystemComponent) return;
 
+	if (!UProjektZAbilitySystemLibrary::IsNotFriend(DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor(), OtherActor))
+	{
+		return;
+	}
+
 	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
 
 	if (SourceAvatarActor == OtherActor) return;

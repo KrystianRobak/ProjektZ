@@ -167,6 +167,11 @@ void UProjektZAttributeSet::ShowFloatingText(const FEffectProperties& Props, flo
 		if (APC_PlayerController* PC = Cast<APC_PlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
 		{
 			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
+			return;
+		}
+		if (APC_PlayerController* PC = Cast<APC_PlayerController>(UGameplayStatics::GetPlayerController(Props.TargetCharacter, 0)))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
 		}
 	}
 }

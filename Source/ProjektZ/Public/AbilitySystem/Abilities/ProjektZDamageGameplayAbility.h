@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystem/Abilities/ProjektZGameplayAbility.h"
 #include <ProjektZAbilityTypes.h>
+#include "Interaction/CombatInterface.h"
 #include "ProjektZDamageGameplayAbility.generated.h"
 
 
@@ -35,4 +36,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	TArray<FEffectParams> EffectParams;
+
+	UFUNCTION(BlueprintPure)
+	FTaggedMontage GetRandomTaggedMontageFromArray(const TArray<FTaggedMontage>& TaggedMontages) const;
 };

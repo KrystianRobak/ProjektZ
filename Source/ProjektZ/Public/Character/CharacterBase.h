@@ -8,12 +8,13 @@
 #include "AbilitySystemInterface.h"
 #include <AbilitySystem/ProjektZAbilitySystemComponent.h>
 #include <Interaction/CombatInterface.h>
+#include <NiagaraSystem.h>
 #include "CharacterBase.generated.h"
 
 
 
 
-
+class UNiagaraSystem;
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayEffect;
@@ -42,13 +43,16 @@ public:
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
 
-	virtual FVector GetCombatSocetLocation_Implementation() override;
+	virtual FVector GetCombatSocetLocation_Implementation(const FGameplayTag& MontageTag) override;
 
 	virtual bool IsDead_Implementation() const override;
 
 	virtual AActor* GetAvatar_Implementation() override;
 
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
+
+	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
+
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
 
@@ -87,6 +91,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName SubItemTipSocketName;
 
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName LeftHandSocketName;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName RightHandSocketName;
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
@@ -110,6 +120,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance> WeaponDissolveMaterialInstance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	UNiagaraSystem* BloodEffect;
 
 
 public:

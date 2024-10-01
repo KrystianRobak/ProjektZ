@@ -9,6 +9,7 @@
 #include <AbilitySystem/Data/CharacterClassInfo.h>
 #include <Interaction/CombatInterface.h>
 
+
 ACharacterBase::ACharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -69,10 +70,23 @@ void ACharacterBase::Dissolve()
 }
 
 
-FVector ACharacterBase::GetCombatSocetLocation_Implementation()
+FVector ACharacterBase::GetCombatSocetLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	check(Weapon);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+
+	const FProjektZGameplayTags& GameplayTags = FProjektZGameplayTags::Get();
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon) && IsValid(Weapon))
+	{
+		return Weapon->GetSocketLocation(WeaponTipSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand))
+	{
+		return GetMesh()->GetSocketLocation(LeftHandSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_RightHand))
+	{
+		return GetMesh()->GetSocketLocation(RightHandSocketName);
+	}
+	return FVector();
 }
 
 bool ACharacterBase::IsDead_Implementation() const
@@ -88,6 +102,11 @@ AActor* ACharacterBase::GetAvatar_Implementation()
 TArray<FTaggedMontage> ACharacterBase::GetAttackMontages_Implementation()
 {
 	return AttackMontages;
+}
+
+UNiagaraSystem* ACharacterBase::GetBloodEffect_Implementation()
+{
+	return BloodEffect;
 }
 
 void ACharacterBase::InitAbilityActorInfo()
