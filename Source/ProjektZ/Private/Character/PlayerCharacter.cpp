@@ -6,8 +6,10 @@
 #include "Player/PC_PlayerController.h"
 #include <UI/HUD/ProjektZHUD.h>
 #include <AbilitySystem/ProjektZAbilitySystemComponent.h>
+#include "AbilitySystem/ProjektZAttributeSet.h"
 #include "AbilitySystem/ProjektZAbilitySystemLibrary.h"
 #include <AbilitySystem/Abilities/ProjektZGameplayAbility.h>
+#include <Blueprint/WidgetLayoutLibrary.h>
 
 
 
@@ -23,6 +25,7 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
+	//UWidgetLayoutLibrary::RemoveAllWidgets(GetWorld());
 	// Init ability actor info for the Server
 	InitAbilityActorInfo();
 }
@@ -30,6 +33,8 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 void APlayerCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
+
+	//UWidgetLayoutLibrary::RemoveAllWidgets(GetWorld());
 	// Init ability actor info for the Client
 	InitAbilityActorInfo();
 }
@@ -161,6 +166,24 @@ void APlayerCharacter::DeequipItem(const FBaseItemInfo& ItemInfo)
 	RemoveItemEffect(ItemInfo);
 }
 
+void APlayerCharacter::InitOverlayWidgets()
+{
+	AProjektZPlayerState* ProjektZPlayerState = GetPlayerState<AProjektZPlayerState>();
+
+	if (APC_PlayerController* ProjektZPlayerController = Cast<APC_PlayerController>(GetController()))
+	{
+		if (AProjektZHUD* ProjektZHUD = Cast<AProjektZHUD>(ProjektZPlayerController->GetHUD()))
+		{
+			ProjektZHUD->InitOverlay(ProjektZPlayerController, ProjektZPlayerState, AbilitySystemComponent, AttributeSet);
+		}
+	}
+}
+
+void APlayerCharacter::SlowDownPlayer()
+{
+	GetCharacterMovement()->BrakingDecelerationWalking = 50;
+}
+
 void APlayerCharacter::InitAbilityActorInfo()
 {
 	AProjektZPlayerState* ProjektZPlayerState = GetPlayerState<AProjektZPlayerState>();
@@ -173,14 +196,22 @@ void APlayerCharacter::InitAbilityActorInfo()
 	AbilitySystemComponent = ProjektZPlayerState->GetAbilitySystemComponent();
 	AttributeSet = ProjektZPlayerState->GetAttributeSet();
 
-	if (APC_PlayerController* ProjektZPlayerController = Cast<APC_PlayerController>(GetController())) 
-	{
-		if (AProjektZHUD* ProjektZHUD = Cast<AProjektZHUD>(ProjektZPlayerController->GetHUD()))
-		{
-			ProjektZHUD->InitOverlay(ProjektZPlayerController, ProjektZPlayerState, AbilitySystemComponent, AttributeSet);
-		}
-	}
+	BindDelegatesToAttributes();
+
 	InitializeDefaultAttributes();
+}
+
+
+void APlayerCharacter::BindDelegatesToAttributes()
+{
+	UProjektZAttributeSet* PlayerAttributesSet = Cast<UProjektZAttributeSet>(AttributeSet);
+
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(PlayerAttributesSet->GetMovementSpeedAttribute()).AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			GetCharacterMovement()->MaxWalkSpeed = Data.NewValue;
+		}
+	);
 }
 
 

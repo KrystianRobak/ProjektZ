@@ -46,6 +46,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UAbilitySystemComponent* GetASC() { return AbilitySystemComponent; };
 
+	UFUNCTION(BlueprintCallable)
 	virtual void BindCallbackToDependencies();
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")

@@ -127,7 +127,7 @@ protected:
 
 public:
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Combat")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
 	float BaseWalkSpeed = 250.f;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Combat")

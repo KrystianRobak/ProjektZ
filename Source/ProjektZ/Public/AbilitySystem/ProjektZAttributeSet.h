@@ -143,6 +143,10 @@ public:
 	FGameplayAttributeData MaxMana;
 	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, MaxMana)
 
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MovementSpeed, Category = "Secondary Attributes")
+	FGameplayAttributeData MovementSpeed;
+	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, MovementSpeed)
+
 	 /*
 	 *  Secondary Attributes
 	 */
@@ -226,6 +230,9 @@ public:
 
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+
+	UFUNCTION()
+	void OnRep_MovementSpeed(const FGameplayAttributeData& OldMovementSpeed) const;
 
 	UFUNCTION()
 	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxMana) const;

@@ -7,6 +7,7 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "UI/WidgetController/USpellMenuWidgetController.h"
+#include "UI/WidgetController/PartyStatsWidgetController.h"
 
 UOverlayWidgetController* AProjektZHUD::GetOverlayWidgetController(const FWidgetControllerParams& WcParams)
 {
@@ -41,7 +42,18 @@ USpellMenuWidgetController* AProjektZHUD::GetSpellMenuWidgetController(const FWi
 	return SpellMenuWidgetController;
 }
 
-void AProjektZHUD::InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet)
+UPartyStatsWidgetController* AProjektZHUD::GetPartyMembersWidgetController(const FWidgetControllerParams& WcParams)
+{
+	if (PartyMembersWidgetController == nullptr)
+	{
+		PartyMembersWidgetController = NewObject<UPartyStatsWidgetController>(this, PartyMembersWidgetControllerClass);
+		PartyMembersWidgetController->SetWidgetControllerParams(WcParams);
+		//PartyMembersWidgetController->BindCallbackToDependencies();
+	}
+	return PartyMembersWidgetController;
+}
+
+UOverlayWidgetController* AProjektZHUD::InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet)
 {
 	checkf(OverlayWidgetClass, TEXT("Overlay Widget CLass uninitialized, please fill out BP_ProjektZHUD"));
 	checkf(OverlayWidgetControllerClass, TEXT("Overlay Widget Controller CLass uninitialized, please fill out BP_ProjektZHUD"));
@@ -54,8 +66,18 @@ void AProjektZHUD::InitOverlay(APlayerController* _PlayerController, APlayerStat
 
 	OverlayWidget->SetWidgetController(WidgetController);
 
+	UUserWidget* PartyWidget = CreateWidget<UUserWidget>(GetWorld(), PartyMembersWidgetClass);
+	PartyMembersWidget = Cast<UProjektZUserWidget>(PartyWidget);
+
+	UPartyStatsWidgetController* PartyWidgetController = GetPartyMembersWidgetController(WidgetControllerParams);
+
+	PartyMembersWidget->SetWidgetController(PartyWidgetController);
+
 	WidgetController->BroadcastInitialValues();
 
 	Widget->AddToViewport();
+	PartyWidget->AddToViewport();
+
+	return WidgetController;
 }
 

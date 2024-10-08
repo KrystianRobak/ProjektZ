@@ -8,7 +8,8 @@
 #include <Input/ProjektZInputComponent.h>
 #include "GameFramework/Character.h"
 #include "UI/Widget/DamageTextComponent.h"
-
+#include "TimerManager.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 APC_PlayerController::APC_PlayerController()
 {
@@ -59,6 +60,7 @@ void APC_PlayerController::SetupInputComponent()
 	UProjektZInputComponent* ProjektZInputComponent = CastChecked<UProjektZInputComponent>(InputComponent);
 
 	ProjektZInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APC_PlayerController::Move);
+	ProjektZInputComponent->BindAction(MoveAction, ETriggerEvent::Completed, this, &APC_PlayerController::OnEndMove);
 	ProjektZInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APC_PlayerController::Look);
 
 
@@ -77,9 +79,29 @@ void APC_PlayerController::Move(const FInputActionValue& InputActionValue)
 	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
+	CurrentVelocity = (ForwardDirection * MoveVectorValue.Y + RightDirection * MoveVectorValue.X) * PlayerCharacter->GetCharacterMovement()->MaxWalkSpeed;
+
 	ControlledPawn->AddMovementInput(ForwardDirection, MoveVectorValue.Y);
 	ControlledPawn->AddMovementInput(RightDirection, MoveVectorValue.X);
 
+}
+
+void APC_PlayerController::OnEndMove()
+{
+	GetWorldTimerManager().SetTimer(TimeHandle, this, &APC_PlayerController::SlowDownPlayer, GetWorld()->GetDeltaSeconds(), true);
+}
+
+void APC_PlayerController::SlowDownPlayer()
+{
+	if (CurrentVelocity.IsNearlyZero(1.f))
+	{
+		GetWorldTimerManager().ClearTimer(TimeHandle);
+		return;
+	}
+
+	CurrentVelocity = FMath::VInterpTo(CurrentVelocity, FVector::ZeroVector, GetWorld()->GetDeltaSeconds(), DecelerationRate);
+
+	PlayerCharacter->AddMovementInput(CurrentVelocity.GetSafeNormal(), CurrentVelocity.Size() / PlayerCharacter->GetCharacterMovement()->MaxWalkSpeed);
 }
 
 void APC_PlayerController::Look(const FInputActionValue& Value)
@@ -192,3 +214,14 @@ void APC_PlayerController::BP_GetOwnedGameplayTags(FGameplayTagContainer& TagCon
 }
 
 
+//FTimerDelegate Delegate;
+//Delegate.BindUFunction(this,"SlowDownPlayer", NewMovementSpeedValue)
+
+
+//GetWorld()->GetTimerManager().SetTimer(
+//	TimeHandle,
+//	this,
+//	&APC_PlayerController::SlowDownPlayer,
+
+//);
+//PlayerCharacter->SlowDownPlayer();

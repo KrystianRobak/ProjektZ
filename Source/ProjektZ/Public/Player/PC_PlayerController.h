@@ -35,6 +35,9 @@ protected:
 
 private:
 	void Move(const FInputActionValue& InputActionValue);
+	void OnEndMove();
+	void SlowDownPlayer();
+
 	void Look(const FInputActionValue& InputActionValue);
 
 	void CursorTrace();
@@ -54,6 +57,9 @@ private:
 	void BP_GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const;
 
 private:
+
+	FVector CurrentVelocity;
+	float DecelerationRate = 200.f;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputMappingContext> PlayerContext;
@@ -87,4 +93,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	bool IsInAbilityInputQueueWindow = false;
+
+	FTimerHandle TimeHandle;
 }; 

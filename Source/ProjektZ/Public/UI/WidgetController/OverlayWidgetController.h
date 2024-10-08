@@ -35,9 +35,11 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float,
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilitiesSwapedDelegate, const FGameplayTag&, AbilityTag);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FProjektZAbilityInfo&, Info);
+
 /**
  * 
  */
+
 UCLASS(BlueprintType, Blueprintable)
 class PROJEKTZ_API UOverlayWidgetController : public UProjektZWidgetController
 {

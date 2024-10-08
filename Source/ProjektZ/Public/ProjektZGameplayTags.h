@@ -40,6 +40,7 @@ public:
 	FGameplayTag Attributes_Secondary_CriticalHitDamage;
 	FGameplayTag Attributes_Secondary_HealthRegeneration;
 	FGameplayTag Attributes_Secondary_ManaRegeneration;
+	FGameplayTag Attributes_Secondary_MovementSpeed;
 
 
 	//=================================
@@ -160,7 +161,7 @@ public:
 	FGameplayTag InputTag_R;
 	FGameplayTag InputTag_Q;
 	FGameplayTag InputTag_E;
-
+	FGameplayTag InputTag_SPACE;
 
 private:
 	static FProjektZGameplayTags GameplayTags;

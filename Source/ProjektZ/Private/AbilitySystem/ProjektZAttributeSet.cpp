@@ -41,6 +41,7 @@ void UProjektZAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, ManaRegeneration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MovementSpeed, COND_None, REPNOTIFY_Always);
 
 	//Resistance Attributes
 
@@ -286,6 +287,11 @@ void UProjektZAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMa
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, MaxMana, OldMaxMana);
 }
 
+void UProjektZAttributeSet::OnRep_MovementSpeed(const FGameplayAttributeData& OldMovementSpeed) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, MovementSpeed, OldMovementSpeed);
+}
+
 void UProjektZAttributeSet::PopulateTagsToAttributesMap()
 {
 	FProjektZGameplayTags GameplayTags = FProjektZGameplayTags::Get();
@@ -306,6 +312,7 @@ void UProjektZAttributeSet::PopulateTagsToAttributesMap()
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_ManaRegeneration, GetManaRegenerationAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_MaxHealth, GetMaxHealthAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_MaxMana, GetMaxManaAttribute());
+	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_MovementSpeed, GetMovementSpeedAttribute());
 
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Fire, GetFireResistanceAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Frost, GetFrostResistanceAttribute());

@@ -12,6 +12,9 @@
 /**
  * 
  */
+
+class UOverlayWidgetController;
+
 UCLASS()
 class PROJEKTZ_API APlayerCharacter : public ACharacterBase
 {
@@ -20,6 +23,7 @@ public:
 	APlayerCharacter();
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
+
 
 	UFUNCTION(BlueprintCallable)
 	float GetFirstFreeSlot();
@@ -66,9 +70,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DeequipItem(const FBaseItemInfo& ItemInfo);
 
+	UFUNCTION(BlueprintCallable)
+	void InitOverlayWidgets();
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void ChangeItemMesh(const USkeletalMesh* ItemMesh, EItemPlacement ItemPlacement);
 
+	void SlowDownPlayer();
 
 
 protected:
@@ -102,5 +110,7 @@ protected:
 
 private:
 	virtual void InitAbilityActorInfo() override;
+
+	void BindDelegatesToAttributes();
 	
 };

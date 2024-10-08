@@ -9,6 +9,7 @@
 class UAttributeMenuWidgetController;
 class UOverlayWidgetController;
 class USpellMenuWidgetController;
+class UPartyStatsWidgetController;
 class UProjektZUserWidget;
 class UAbilitySystemComponent;
 class UAttributeSet;
@@ -28,7 +29,9 @@ public:
 
 	USpellMenuWidgetController* GetSpellMenuWidgetController(const FWidgetControllerParams& WcParams);
 
-	void InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet);
+	UPartyStatsWidgetController* GetPartyMembersWidgetController(const FWidgetControllerParams& WcParams);
+
+	UOverlayWidgetController* InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet);
 
 private:
 
@@ -55,4 +58,16 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<USpellMenuWidgetController> SpellMenuWidgetControllerClass;
+
+	UPROPERTY()
+	TObjectPtr<UProjektZUserWidget> PartyMembersWidget;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UProjektZUserWidget> PartyMembersWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<UPartyStatsWidgetController> PartyMembersWidgetController;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UPartyStatsWidgetController> PartyMembersWidgetControllerClass;
 };
