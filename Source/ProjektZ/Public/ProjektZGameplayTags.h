@@ -148,6 +148,19 @@ public:
 	FGameplayTag Effects_HitReact;
 
 	//=================================
+	//     STATS TRACK
+	//=================================
+
+	FGameplayTag STATSTRACK_DamageDealt;
+	FGameplayTag STATSTRACK_FireDamageDealt;
+	FGameplayTag STATSTRACK_FrostDamageDealt;
+	FGameplayTag STATSTRACK_LightningDamageDealt;
+	FGameplayTag STATSTRACK_PhysicalDamageDealt;
+	FGameplayTag STATSTRACK_PoisonDamageDealt;
+	FGameplayTag STATSTRACK_DamageTanked;
+	FGameplayTag STATSTRACK_HealthRecovered;
+
+	//=================================
 	//     INPUT
 	//=================================
 

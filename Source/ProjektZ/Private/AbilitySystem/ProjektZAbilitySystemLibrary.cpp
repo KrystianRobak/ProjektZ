@@ -110,7 +110,6 @@ void UProjektZAbilitySystemLibrary::GiveCommonAbilitites(const UObject* WorldCon
 
 void UProjektZAbilitySystemLibrary::ApplyEffectToASC(UAbilitySystemComponent* ASC, const TSubclassOf<UGameplayEffect>& GameplayEffectClass, const float Level)
 {
-	
 	check(IsValid(ASC));
 	check(GameplayEffectClass);
 

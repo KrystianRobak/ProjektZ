@@ -13,12 +13,16 @@
 
 struct ProjektZDamageStatics
 {
+	// TARGET
+
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(ArmorPenetration);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(BlockChance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CriticalHitChance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CriticalHitDamage);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CriticalHitResistance);
+	
+	// SOURCE
 
 	DECLARE_ATTRIBUTE_CAPTUREDEF(FireResistance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(FrostResistance);
@@ -27,10 +31,25 @@ struct ProjektZDamageStatics
 	DECLARE_ATTRIBUTE_CAPTUREDEF(PoisonResistance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(WeaponDamage);
 
+	// TARGET STAT TRACK
+
+	DECLARE_ATTRIBUTE_CAPTUREDEF(DamageTanked);
+
+	// SOURCE STAT TRACK
+
+	DECLARE_ATTRIBUTE_CAPTUREDEF(DamageDealt);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(FireDamageDealt);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(FrostDamageDealt);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(LightningDamageDealt);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(PhysicalDamageDealt);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(PoisonDamageDealt);
+
 	TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition> TagsToCaptureDef;
 
 	ProjektZDamageStatics()
 	{
+		// TARGET
+
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, Armor, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, BlockChance, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, CriticalHitResistance, Target, false);
@@ -40,12 +59,29 @@ struct ProjektZDamageStatics
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, PhysicalResistance, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, PoisonResistance, Target, false);
 
+		// SOURCE
+
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, ArmorPenetration, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, CriticalHitChance, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, CriticalHitDamage, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, WeaponDamage, Source, false);
 
+		// TARGET STAT TRACK
+
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, DamageTanked, Target, false);
+
+		// SOURCE STAT TRACK
+
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, DamageDealt, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, FireDamageDealt, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, FrostDamageDealt, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, LightningDamageDealt, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, PhysicalDamageDealt, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, PoisonDamageDealt, Source, false);
+
 		const FProjektZGameplayTags& Tags = FProjektZGameplayTags::Get();
+
+		// TARGET
 
 		TagsToCaptureDef.Add(Tags.Attributes_Secondary_Armor, ArmorDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Secondary_BlockChance, BlockChanceDef);
@@ -56,10 +92,25 @@ struct ProjektZDamageStatics
 		TagsToCaptureDef.Add(Tags.Attributes_Resistance_Physical, PhysicalResistanceDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Resistance_Poison, PoisonResistanceDef);
 
+		// SOURCE
+
 		TagsToCaptureDef.Add(Tags.Attributes_Secondary_WeaponDamage, WeaponDamageDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Secondary_ArmorPenetration, ArmorPenetrationDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Secondary_CriticalHitChance, CriticalHitChanceDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Secondary_CriticalHitDamage, CriticalHitDamageDef);
+
+		// TARGET STAT TRACK
+
+		TagsToCaptureDef.Add(Tags.STATSTRACK_DamageTanked, DamageTankedDef);
+
+		// SOURCE STAT TRACK
+
+		TagsToCaptureDef.Add(Tags.STATSTRACK_DamageDealt, DamageDealtDef);
+		TagsToCaptureDef.Add(Tags.STATSTRACK_FireDamageDealt, FireDamageDealtDef);
+		TagsToCaptureDef.Add(Tags.STATSTRACK_FrostDamageDealt, FrostDamageDealtDef);
+		TagsToCaptureDef.Add(Tags.STATSTRACK_LightningDamageDealt, LightningDamageDealtDef);
+		TagsToCaptureDef.Add(Tags.STATSTRACK_PhysicalDamageDealt, PhysicalDamageDealtDef);
+		TagsToCaptureDef.Add(Tags.STATSTRACK_PoisonDamageDealt, PoisonDamageDealtDef);
 	}
 
 
@@ -78,7 +129,6 @@ UExecCalc_Damage::UExecCalc_Damage()
 	RelevantAttributesToCapture.Add(DamageStatics().ArmorDef);
 	RelevantAttributesToCapture.Add(DamageStatics().ArmorPenetrationDef);
 	RelevantAttributesToCapture.Add(DamageStatics().CriticalHitResistanceDef);
-	RelevantAttributesToCapture.Add(DamageStatics().WeaponDamageDef);
 
 	RelevantAttributesToCapture.Add(DamageStatics().FireResistanceDef);
 	RelevantAttributesToCapture.Add(DamageStatics().FrostResistanceDef);
@@ -88,14 +138,29 @@ UExecCalc_Damage::UExecCalc_Damage()
 
 	// Source
 
+	RelevantAttributesToCapture.Add(DamageStatics().WeaponDamageDef);
 	RelevantAttributesToCapture.Add(DamageStatics().BlockChanceDef);
 	RelevantAttributesToCapture.Add(DamageStatics().CriticalHitChanceDef);
 	RelevantAttributesToCapture.Add(DamageStatics().CriticalHitDamageDef);
+
+
+	// SOURCE STAT TRACK
+
+	RelevantAttributesToCapture.Add(DamageStatics().DamageTankedDef);
+
+	// TARGET STAT TRACK
+
+	RelevantAttributesToCapture.Add(DamageStatics().DamageDealtDef);
+	RelevantAttributesToCapture.Add(DamageStatics().FireDamageDealtDef);
+	RelevantAttributesToCapture.Add(DamageStatics().FrostDamageDealtDef);
+	RelevantAttributesToCapture.Add(DamageStatics().LightningDamageDealtDef);
+	RelevantAttributesToCapture.Add(DamageStatics().PhysicalDamageDealtDef);
+	RelevantAttributesToCapture.Add(DamageStatics().PoisonDamageDealtDef);
 }
 
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 {
-	const UAbilitySystemComponent* SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();
+	UAbilitySystemComponent* SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();
 	const UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
 
 	AActor* SourceActor = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
@@ -232,6 +297,26 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	//Calculate final damage
 	Damage *= (100 - EffectiveArmor * EffectiveArmorCoefficient) / 100;
 
+
+
 	const FGameplayModifierEvaluatedData EvaulatedData(UProjektZAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaulatedData);
+
+	// Target stat tracking
+
+	const FGameplayModifierEvaluatedData DamageTakenEvaulatedData(UProjektZAttributeSet::GetDamageTankedAttribute(), EGameplayModOp::Additive, Damage);
+	OutExecutionOutput.AddOutputModifier(DamageTakenEvaulatedData);
+
+	// Source stat tracking
+
+	UGameplayEffect* GELifesteal = NewObject<UGameplayEffect>(GetTransientPackage(), FName(TEXT("DamageDealt")));
+	GELifesteal->DurationPolicy = EGameplayEffectDurationType::Instant;
+
+	int32 Idx = GELifesteal->Modifiers.Num();
+	GELifesteal->Modifiers.SetNum(Idx + 1);
+	FGameplayModifierInfo& Info = GELifesteal->Modifiers[Idx];
+	Info.ModifierMagnitude = FScalableFloat(Damage);
+	Info.ModifierOp = EGameplayModOp::Additive;
+	Info.Attribute = UProjektZAttributeSet::GetDamageDealtAttribute();
+	SourceASC->ApplyGameplayEffectToSelf(GELifesteal, 1.0f, SourceASC->MakeEffectContext());
 }

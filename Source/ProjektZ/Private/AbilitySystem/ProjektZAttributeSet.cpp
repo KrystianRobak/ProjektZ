@@ -56,7 +56,16 @@ void UProjektZAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, Mana, COND_None, REPNOTIFY_Always);
 	
+	//Stat Tracking
 
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, DamageDealt, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, FireDamageDealt, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, FrostDamageDealt, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, LightningDamageDealt, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, PhysicalDamageDealt, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, PoisonDamageDealt, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, DamageTanked, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, HealthRecovered, COND_None, REPNOTIFY_Always);
 	
 }
 
@@ -292,6 +301,54 @@ void UProjektZAttributeSet::OnRep_MovementSpeed(const FGameplayAttributeData& Ol
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, MovementSpeed, OldMovementSpeed);
 }
 
+void UProjektZAttributeSet::OnRep_DamageDealt(const
+	FGameplayAttributeData& OldDamageDealt) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, DamageDealt, OldDamageDealt);
+}
+
+
+void UProjektZAttributeSet::OnRep_FireDamageDealt(const FGameplayAttributeData& OldFireDamageDealt) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, FireDamageDealt, OldFireDamageDealt);
+}
+
+
+void UProjektZAttributeSet::OnRep_FrostDamageDealt(const FGameplayAttributeData& OldFrostDamageDealt) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, FrostDamageDealt, OldFrostDamageDealt);
+}
+
+
+void UProjektZAttributeSet::OnRep_LightningDamageDealt(const FGameplayAttributeData& OldLightningDamageDealt) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, LightningDamageDealt, OldLightningDamageDealt);
+}
+
+
+void UProjektZAttributeSet::OnRep_PhysicalDamageDealt(const FGameplayAttributeData& OldPhysicalDamageDealt) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, PhysicalDamageDealt, OldPhysicalDamageDealt);
+}
+
+
+void UProjektZAttributeSet::OnRep_PoisonDamageDealt(const FGameplayAttributeData& OldPoisonDamageDealt) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, PoisonDamageDealt, OldPoisonDamageDealt);
+}
+
+
+void UProjektZAttributeSet::OnRep_DamageTanked(const FGameplayAttributeData& OldDamageTanked) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, DamageTanked, OldDamageTanked);
+}
+
+
+void UProjektZAttributeSet::OnRep_HealthRecovered(const FGameplayAttributeData& OldHealthRecovered) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, HealthRecovered, OldHealthRecovered);
+}
+
 void UProjektZAttributeSet::PopulateTagsToAttributesMap()
 {
 	FProjektZGameplayTags GameplayTags = FProjektZGameplayTags::Get();
@@ -319,4 +376,13 @@ void UProjektZAttributeSet::PopulateTagsToAttributesMap()
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Lightning, GetLightningResistanceAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Physical, GetPhysicalResistanceAttribute());
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Poison, GetPoisonResistanceAttribute());
+
+	TagsToAttributes.Add(GameplayTags.STATSTRACK_DamageDealt, GetDamageDealtAttribute());
+	TagsToAttributes.Add(GameplayTags.STATSTRACK_FireDamageDealt, GetFireDamageDealtAttribute());
+	TagsToAttributes.Add(GameplayTags.STATSTRACK_FrostDamageDealt, GetFrostDamageDealtAttribute());
+	TagsToAttributes.Add(GameplayTags.STATSTRACK_LightningDamageDealt, GetLightningDamageDealtAttribute());
+	TagsToAttributes.Add(GameplayTags.STATSTRACK_PhysicalDamageDealt, GetPhysicalDamageDealtAttribute());
+	TagsToAttributes.Add(GameplayTags.STATSTRACK_PoisonDamageDealt, GetPoisonDamageDealtAttribute());
+	TagsToAttributes.Add(GameplayTags.STATSTRACK_DamageTanked, GetDamageTankedAttribute());
+	TagsToAttributes.Add(GameplayTags.STATSTRACK_HealthRecovered, GetHealthRecoveredAttribute());
 }

@@ -212,16 +212,3 @@ void APC_PlayerController::BP_GetOwnedGameplayTags(FGameplayTagContainer& TagCon
 	TagContainer.Reset();
 	TagContainer = ProjektZAbilitySystemComponent->GetOwnedGameplayTags();
 }
-
-
-//FTimerDelegate Delegate;
-//Delegate.BindUFunction(this,"SlowDownPlayer", NewMovementSpeedValue)
-
-
-//GetWorld()->GetTimerManager().SetTimer(
-//	TimeHandle,
-//	this,
-//	&APC_PlayerController::SlowDownPlayer,
-
-//);
-//PlayerCharacter->SlowDownPlayer();

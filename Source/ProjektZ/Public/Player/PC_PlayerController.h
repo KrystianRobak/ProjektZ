@@ -59,7 +59,7 @@ private:
 private:
 
 	FVector CurrentVelocity;
-	float DecelerationRate = 200.f;
+	float DecelerationRate = 100.f;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputMappingContext> PlayerContext;

@@ -142,4 +142,17 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Montage_Attack_Weapon = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.Weapon"), FString("Weapon"));
 	GameplayTags.Montage_Attack_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.RightHand"), FString("Right Hand"));
 	GameplayTags.Montage_Attack_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack.LeftHand"), FString("Left Hand"));
+
+	/*
+	* Stat Track
+	*/
+
+	GameplayTags.STATSTRACK_DamageDealt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("STATSTRACK.DamageDealt"), FString("Stat tracking DamageDealt"));
+	GameplayTags.STATSTRACK_FireDamageDealt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("STATSTRACK.FireDamageDealt"), FString("Stat tracking FireDamageDealt"));
+	GameplayTags.STATSTRACK_FrostDamageDealt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("STATSTRACK.FrostDamageDealt"), FString("Stat tracking FrostDamageDealt"));
+	GameplayTags.STATSTRACK_LightningDamageDealt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("STATSTRACK.LightningDamageDealt"), FString("Stat tracking LightningDamageDealt"));
+	GameplayTags.STATSTRACK_PhysicalDamageDealt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("STATSTRACK.PhysicalDamageDealt"), FString("Stat tracking PhysicalDamageDealt"));
+	GameplayTags.STATSTRACK_PoisonDamageDealt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("STATSTRACK.PoisonDamageDealt"), FString("Stat tracking PoisonDamageDealt"));
+	GameplayTags.STATSTRACK_DamageTanked = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("STATSTRACK.DamageTanked"), FString("Stat tracking DamageTanked"));
+	GameplayTags.STATSTRACK_HealthRecovered = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("STATSTRACK.HealthRecovered"), FString("Stat tracking HealthRecovered"));
 }

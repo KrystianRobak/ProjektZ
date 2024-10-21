@@ -183,6 +183,50 @@ public:
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, Mana)
 
+	 /*
+	  *	Stat Tracking
+	  */
+
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_DamageDealt, Category = "Stats Tracker")
+	FGameplayAttributeData DamageDealt;
+	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, DamageDealt)
+
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireDamageDealt, Category = "Stats Tracker")
+	FGameplayAttributeData FireDamageDealt;
+	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, FireDamageDealt)
+
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FrostDamageDealt, Category = "Stats Tracker")
+	FGameplayAttributeData FrostDamageDealt;
+	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, FrostDamageDealt)
+
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LightningDamageDealt, Category = "Stats Tracker")
+	FGameplayAttributeData LightningDamageDealt;
+	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, LightningDamageDealt)
+
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalDamageDealt, Category = "Stats Tracker")
+	FGameplayAttributeData PhysicalDamageDealt;
+	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, PhysicalDamageDealt)
+
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PoisonDamageDealt, Category = "Stats Tracker")
+	FGameplayAttributeData PoisonDamageDealt;
+	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, PoisonDamageDealt)
+
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_DamageTanked, Category = "Stats Tracker")
+	FGameplayAttributeData DamageTanked;
+	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, DamageTanked)
+
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_HealthRecovered, Category = "Stats Tracker")
+	FGameplayAttributeData HealthRecovered;
+	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, HealthRecovered)
+
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldMana) const;
 
@@ -252,6 +296,29 @@ public:
 	UFUNCTION()
 	void OnRep_PoisonResistance(const FGameplayAttributeData& OldPoisonResistance) const;
 	
+	UFUNCTION()
+	void OnRep_DamageDealt(const FGameplayAttributeData& OldDamageDealt) const;
+
+	UFUNCTION()
+	void OnRep_FireDamageDealt(const FGameplayAttributeData& OldFireDamageDealt) const;
+
+	UFUNCTION()
+	void OnRep_FrostDamageDealt(const FGameplayAttributeData& OldFrostDamageDealt) const;
+
+	UFUNCTION()
+	void OnRep_LightningDamageDealt(const FGameplayAttributeData& OldLightningDamageDealt) const;
+
+	UFUNCTION()
+	void OnRep_PhysicalDamageDealt(const FGameplayAttributeData& OldPhysicalDamageDealt) const;
+
+	UFUNCTION()
+	void OnRep_PoisonDamageDealt(const FGameplayAttributeData& OldPoisonDamageDealt) const;
+
+	UFUNCTION()
+	void OnRep_DamageTanked(const FGameplayAttributeData& OldDamageTanked) const;
+
+	UFUNCTION()
+	void OnRep_HealthRecovered(const FGameplayAttributeData& OldHealthRecovered) const;
 private:
 
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
