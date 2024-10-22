@@ -24,7 +24,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetInputTag(FGameplayTag InTag);
 
-	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
 	FGameplayTag DamageType;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Cooldown")
