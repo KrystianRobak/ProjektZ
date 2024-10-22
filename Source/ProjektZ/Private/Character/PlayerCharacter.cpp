@@ -113,11 +113,15 @@ void APlayerCharacter::BeginPlay()
 
 void APlayerCharacter::ApplyItemEffect_Implementation(const FBaseItemInfo& ItemInfo)
 {
+	IsItemEquipped[ItemInfo.ItemTypePlacement] = true;
+	ItemInfos[ItemInfo.ItemTypePlacement] = ItemInfo;
 	UProjektZAbilitySystemLibrary::ApplyEffectFromEquippedItem(ItemInfo, AbilitySystemComponent, false);
 }
 
 void APlayerCharacter::RemoveItemEffect_Implementation(const FBaseItemInfo& ItemInfo)
 {
+	IsItemEquipped[ItemInfo.ItemTypePlacement] = true;
+	ItemInfos[ItemInfo.ItemTypePlacement] = ItemInfo;
 	UProjektZAbilitySystemLibrary::ApplyEffectFromEquippedItem(ItemInfo, AbilitySystemComponent, true);
 }
 

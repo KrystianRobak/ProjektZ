@@ -4,6 +4,7 @@
 #include "AbilitySystem/Abilities/ProjektZDamageGameplayAbility.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include <AbilitySystem/ProjektZAbilitySystemLibrary.h>
 
 void UProjektZDamageGameplayAbility::CauseDamage(AActor* TargetActor)
 {
@@ -11,6 +12,26 @@ void UProjektZDamageGameplayAbility::CauseDamage(AActor* TargetActor)
     const float ScaledDamage = Damage.GetValueAtLevel(GetAbilityLevel());
     UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(DamageSpecHandle, DamageType, ScaledDamage);
     GetAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectSpecToTarget(*DamageSpecHandle.Data.Get(), UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor));
+}
+
+void UProjektZDamageGameplayAbility::PlayerDealDamage(AActor* TargetActor)
+{
+    if(HasAuthority(&CurrentActivationInfo))
+    {
+        if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
+        {
+            FDamageEffectParams DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+            DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
+            UProjektZAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
+             if (EffectParams.Num() > 0)
+            {
+                for (FEffectParams& Param : EffectParams)
+                {
+                    UProjektZAbilitySystemLibrary::ApplyEffect(Param, TargetASC, GetAvatarActorFromActorInfo());
+                }
+            }
+        }
+    }
 }
 
 FTaggedMontage UProjektZDamageGameplayAbility::GetRandomTaggedMontageFromArray(const TArray<FTaggedMontage>& TaggedMontages) const
