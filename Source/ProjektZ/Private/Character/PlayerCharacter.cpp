@@ -28,6 +28,12 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 	//UWidgetLayoutLibrary::RemoveAllWidgets(GetWorld());
 	// Init ability actor info for the Server
 	InitAbilityActorInfo();
+
+	APC_PlayerController* PC = Cast<APC_PlayerController>(NewController);
+
+	UAbilitySystemComponent* ASC = PC->GetASC();
+
+	PC->SetUpASCDependentInput();
 }
 
 void APlayerCharacter::OnRep_PlayerState()
@@ -37,6 +43,12 @@ void APlayerCharacter::OnRep_PlayerState()
 	//UWidgetLayoutLibrary::RemoveAllWidgets(GetWorld());
 	// Init ability actor info for the Client
 	InitAbilityActorInfo();
+
+	APC_PlayerController* PC = Cast<APC_PlayerController>(GetController());
+
+	UAbilitySystemComponent* ASC = PC->GetASC();
+
+	PC->SetUpASCDependentInput();
 }
 
 float APlayerCharacter::GetFirstFreeSlot()

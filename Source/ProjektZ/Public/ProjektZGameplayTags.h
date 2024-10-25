@@ -163,6 +163,12 @@ public:
 	//=================================
 	//     INPUT
 	//=================================
+	
+	FGameplayTag InputTag_Confirm;
+	FGameplayTag InputTag_Cancel;
+
+	FGameplayTag InputTag_Move;
+	FGameplayTag InputTag_Look;
 
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;

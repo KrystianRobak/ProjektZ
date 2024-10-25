@@ -66,6 +66,11 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	* Input Tags
 	*/
 
+	GameplayTags.InputTag_Confirm = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Confirm"), FString("Input Tag for confirming abilities"));
+	GameplayTags.InputTag_Cancel = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Cancel"), FString("Input Tag for cancleing abilities"));
+	GameplayTags.InputTag_Move = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Move"), FString("Input Tag for moving"));
+	GameplayTags.InputTag_Look = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Look"), FString("Input Tag for looking"));
+
 	GameplayTags.InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.LMB"), FString("Input Tag for Left Mouse Button"));
 	GameplayTags.InputTag_RMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.RMB"), FString("Input Tag for Right Mouse Button"));
 	GameplayTags.InputTag_W = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.W"), FString("Input Tag for W key"));

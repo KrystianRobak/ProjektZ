@@ -19,7 +19,10 @@ public:
 
 	template<class UserClass, typename PressedFuncType, typename ReleasedFuncType, typename HeldFuncType>
 	void BindAbilityActions(const UProjektZInputConfig* InputConfig, UserClass* Object, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc, HeldFuncType HledFunc);
+
 };
+
+
 
 template<class UserClass, typename PressedFuncType, typename ReleasedFuncType, typename HeldFuncType>
 inline void UProjektZInputComponent::BindAbilityActions(const UProjektZInputConfig* InputConfig, UserClass* Object, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc, HeldFuncType HeldFunc)

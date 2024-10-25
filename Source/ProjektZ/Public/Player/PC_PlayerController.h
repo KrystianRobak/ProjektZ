@@ -29,14 +29,17 @@ public:
 
 	UFUNCTION(Client, Reliable)
 	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
+
+	void SetUpASCDependentInput();
+
+	UProjektZAbilitySystemComponent* GetASC();
 protected:
+
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 
 private:
 	void Move(const FInputActionValue& InputActionValue);
-	void OnEndMove();
-	void SlowDownPlayer();
 
 	void Look(const FInputActionValue& InputActionValue);
 
@@ -51,15 +54,10 @@ private:
 	UFUNCTION(BlueprintCallable)
 	void AbilityInputTagHeld(FGameplayTag InputTag);
 
-	UProjektZAbilitySystemComponent* GetASC();
-
 	UFUNCTION(BlueprintCallable, Category = "Tags")
 	void BP_GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const;
 
 private:
-
-	FVector CurrentVelocity;
-	float DecelerationRate = 100.f;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputMappingContext> PlayerContext;
@@ -70,6 +68,12 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> LookAction;
 
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction> CancelTargeting;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction> ConfirmTargeting;
+
 	UPROPERTY(EditAnywhere, Category = "Controller")
 	float SensitivityScale = 1;
 
@@ -78,6 +82,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UProjektZInputConfig> InputConfig;
+
+	//UPROPERTY(EditDefaultsOnly, Category = "BasicInput")
+	//TObjectPtr<UProjektZInputConfig> BasicInputConfig;
 
 	UPROPERTY()
 	TObjectPtr<UProjektZAbilitySystemComponent> ProjektZAbilitySystemComponent;

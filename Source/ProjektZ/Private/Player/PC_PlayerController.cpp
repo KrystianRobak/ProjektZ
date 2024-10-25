@@ -36,6 +36,16 @@ void APC_PlayerController::ShowDamageNumber_Implementation(float DamageAmount, A
 	}
 }
 
+void APC_PlayerController::SetUpASCDependentInput()
+{
+	UProjektZInputComponent* ProjektZInputComponent = Cast<UProjektZInputComponent>(InputComponent);
+
+	UAbilitySystemComponent* ASC = GetASC();
+
+	ProjektZInputComponent->BindAction(ConfirmTargeting, ETriggerEvent::Triggered, ASC, &UAbilitySystemComponent::LocalInputConfirm);
+	ProjektZInputComponent->BindAction(CancelTargeting, ETriggerEvent::Triggered, ASC, &UAbilitySystemComponent::LocalInputCancel);
+}
+
 void APC_PlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -60,10 +70,8 @@ void APC_PlayerController::SetupInputComponent()
 	UProjektZInputComponent* ProjektZInputComponent = CastChecked<UProjektZInputComponent>(InputComponent);
 
 	ProjektZInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APC_PlayerController::Move);
-	ProjektZInputComponent->BindAction(MoveAction, ETriggerEvent::Completed, this, &APC_PlayerController::OnEndMove);
 	ProjektZInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APC_PlayerController::Look);
-
-
+	
 	ProjektZInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
@@ -79,29 +87,9 @@ void APC_PlayerController::Move(const FInputActionValue& InputActionValue)
 	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
-	CurrentVelocity = (ForwardDirection * MoveVectorValue.Y + RightDirection * MoveVectorValue.X) * PlayerCharacter->GetCharacterMovement()->MaxWalkSpeed;
-
 	ControlledPawn->AddMovementInput(ForwardDirection, MoveVectorValue.Y);
 	ControlledPawn->AddMovementInput(RightDirection, MoveVectorValue.X);
 
-}
-
-void APC_PlayerController::OnEndMove()
-{
-	GetWorldTimerManager().SetTimer(TimeHandle, this, &APC_PlayerController::SlowDownPlayer, GetWorld()->GetDeltaSeconds(), true);
-}
-
-void APC_PlayerController::SlowDownPlayer()
-{
-	if (CurrentVelocity.IsNearlyZero(1.f))
-	{
-		GetWorldTimerManager().ClearTimer(TimeHandle);
-		return;
-	}
-
-	CurrentVelocity = FMath::VInterpTo(CurrentVelocity, FVector::ZeroVector, GetWorld()->GetDeltaSeconds(), DecelerationRate);
-
-	PlayerCharacter->AddMovementInput(CurrentVelocity.GetSafeNormal(), CurrentVelocity.Size() / PlayerCharacter->GetCharacterMovement()->MaxWalkSpeed);
 }
 
 void APC_PlayerController::Look(const FInputActionValue& Value)
