@@ -21,6 +21,7 @@ public:
 	virtual void BroadcastInitialValues() override;
 	virtual void BindCallbackToDependencies() override;
 
+	UFUNCTION(BlueprintCallable)
 	void OnAbilityChanged(UProjektZAbilitySystemComponent* ASC);
 
 public:
