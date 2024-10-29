@@ -108,6 +108,8 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	/*
 	* Abilities Tags
 	*/
+
+	GameplayTags.Ability_ConfirmState = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.ConfirmState"), FString("Run when ability starts so no other ability is beeing cast"));
 	
 	//Fire
 	
@@ -135,6 +137,8 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	* Abilities 
 	*/
 
+	GameplayTags.Abilities_AOE_TEST = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.AOE.Test"), FString("Attack Ability Tag"));
+	GameplayTags.Abilities_HEAL_TEST = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Heal.Test"), FString("Attack Ability Tag"));;
 	//Frost
 
 	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Attack"), FString("Attack Ability Tag"));

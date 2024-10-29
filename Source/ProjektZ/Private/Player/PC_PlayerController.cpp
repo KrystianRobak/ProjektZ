@@ -32,18 +32,14 @@ void APC_PlayerController::ShowDamageNumber_Implementation(float DamageAmount, A
 		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 		DamageText->SetDamageText(DamageAmount);
-
 	}
 }
 
-void APC_PlayerController::SetUpASCDependentInput()
+
+
+void APC_PlayerController::SetUpASCDependentInput(UAbilitySystemComponent* ASC)
 {
-	UProjektZInputComponent* ProjektZInputComponent = Cast<UProjektZInputComponent>(InputComponent);
-
-	UAbilitySystemComponent* ASC = GetASC();
-
-	ProjektZInputComponent->BindAction(ConfirmTargeting, ETriggerEvent::Triggered, ASC, &UAbilitySystemComponent::LocalInputConfirm);
-	ProjektZInputComponent->BindAction(CancelTargeting, ETriggerEvent::Triggered, ASC, &UAbilitySystemComponent::LocalInputCancel);
+	
 }
 
 void APC_PlayerController::BeginPlay()
@@ -62,6 +58,13 @@ void APC_PlayerController::BeginPlay()
 	}
 	
 	bShowMouseCursor = false;
+
+	UProjektZInputComponent* ProjektZInputComponent = Cast<UProjektZInputComponent>(InputComponent);
+	if (UAbilitySystemComponent* Asc = GetASC())
+	{
+		ProjektZInputComponent->BindAction(ConfirmTargeting, ETriggerEvent::Triggered, Asc, &UAbilitySystemComponent::LocalInputConfirm);
+		ProjektZInputComponent->BindAction(CancelTargeting, ETriggerEvent::Triggered, Asc, &UAbilitySystemComponent::LocalInputCancel);
+	}
 }
 
 void APC_PlayerController::SetupInputComponent()
@@ -69,10 +72,16 @@ void APC_PlayerController::SetupInputComponent()
 	Super::SetupInputComponent();
 	UProjektZInputComponent* ProjektZInputComponent = CastChecked<UProjektZInputComponent>(InputComponent);
 
+
 	ProjektZInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APC_PlayerController::Move);
 	ProjektZInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APC_PlayerController::Look);
 	
 	ProjektZInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
+}
+
+void APC_PlayerController::OnPossess(APawn* aPawn)
+{
+	Super::OnPossess(aPawn);
 }
 
 void APC_PlayerController::Move(const FInputActionValue& InputActionValue)

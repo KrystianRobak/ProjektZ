@@ -70,6 +70,25 @@ USpellMenuWidgetController* UProjektZAbilitySystemLibrary::GetSpellMenuWidgetCon
 	return nullptr;
 }
 
+UPartyStatsWidgetController* UProjektZAbilitySystemLibrary::GetPartyStatsMenuWidgetController(const UObject* WorldContextObject)
+{
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
+	{
+		if (AProjektZHUD* ProjektZHUD = Cast<AProjektZHUD>(PC->GetHUD()))
+		{
+			AProjektZPlayerState* PS = PC->GetPlayerState<AProjektZPlayerState>();
+			UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent();
+			UAttributeSet* AS = PS->GetAttributeSet();
+
+			const FWidgetControllerParams WidgetControllerParams(PC, PS, ASC, AS);
+
+			return ProjektZHUD->GetPartyMembersWidgetController(WidgetControllerParams);
+		}
+	}
+
+	return nullptr;
+}
+
 void UProjektZAbilitySystemLibrary::InitializeDefaultAbilities(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
 	FCharacterClassDefaultInfo ClassDefaultInfo = GetCharacterClassInfo(WorldContextObject)->GetClassDefaultInfo(CharacterClass);

@@ -13,6 +13,7 @@
 class UAttributeMenuWidgetController;
 class UOverlayWidgetController;
 class USpellMenuWidgetController;
+class UPartyStatsWidgetController;
 /**
  * 
  */
@@ -30,6 +31,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "ProjektZAbilitySystemLibrary|WidgetController")
 	static USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintPure, Category = "ProjektZAbilitySystemLibrary|WidgetController")
+	static UPartyStatsWidgetController* GetPartyStatsMenuWidgetController(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintCallable, Category = "ProjektZAbilitySystemLibrary|CharacterClassDefaults")
 	static void InitializeDefaultAbilities(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);

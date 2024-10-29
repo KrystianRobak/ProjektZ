@@ -53,7 +53,7 @@ UPartyStatsWidgetController* AProjektZHUD::GetPartyMembersWidgetController(const
 	return PartyMembersWidgetController;
 }
 
-UOverlayWidgetController* AProjektZHUD::InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet)
+UUserWidget* AProjektZHUD::InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet)
 {
 	checkf(OverlayWidgetClass, TEXT("Overlay Widget CLass uninitialized, please fill out BP_ProjektZHUD"));
 	checkf(OverlayWidgetControllerClass, TEXT("Overlay Widget Controller CLass uninitialized, please fill out BP_ProjektZHUD"));
@@ -78,6 +78,6 @@ UOverlayWidgetController* AProjektZHUD::InitOverlay(APlayerController* _PlayerCo
 	Widget->AddToViewport();
 	PartyWidget->AddToViewport();
 
-	return WidgetController;
+	return PartyWidget;
 }
 

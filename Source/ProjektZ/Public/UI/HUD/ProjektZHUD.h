@@ -31,7 +31,7 @@ public:
 
 	UPartyStatsWidgetController* GetPartyMembersWidgetController(const FWidgetControllerParams& WcParams);
 
-	UOverlayWidgetController* InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet);
+	UUserWidget* InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet);
 
 private:
 
