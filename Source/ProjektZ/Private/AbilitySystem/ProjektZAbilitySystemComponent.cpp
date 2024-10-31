@@ -25,23 +25,6 @@ void UProjektZAbilitySystemComponent::AddAbility(const TSubclassOf<UGameplayAbil
 	AbilitiesGivenDelegate.Broadcast(this);
 }
 
-void UProjektZAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)
-{
-	if (!InputTag.IsValid()) return;
-
-	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
-	{
-		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
-		{
-			AbilitySpecInputPressed(AbilitySpec);
-			if (!AbilitySpec.IsActive())
-			{
-				TryActivateAbility(AbilitySpec.Handle);
-			}
-		}
-	}
-}
-
 FGameplayTag UProjektZAbilitySystemComponent::GetAbilityTagByInputTag(const FGameplayTag& InputTag)
 {
 	if (!InputTag.IsValid()) return FGameplayTag();
@@ -86,7 +69,8 @@ bool UProjektZAbilitySystemComponent::ChangeAbilitySpecInputTag(const FGameplayT
 	return false;
 }
 
-void UProjektZAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& InputTag)
+
+void UProjektZAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& InputTag)
 {
 	if (!InputTag.IsValid()) return;
 
@@ -94,11 +78,42 @@ void UProjektZAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag
 	{
 		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
 		{
-			AbilitySpecInputReleased(AbilitySpec);
+			AbilitySpecInputPressed(AbilitySpec);
+			if (AbilitySpec.IsActive())
+			{
+				InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputReleased, AbilitySpec.Handle, AbilitySpec.ActivationInfo.GetActivationPredictionKey());
+			}
+		}
+	}
+}
+
+void UProjektZAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)
+{
+	if (!InputTag.IsValid()) return;
+
+	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
+		{
+			AbilitySpecInputPressed(AbilitySpec);
 			if (!AbilitySpec.IsActive())
 			{
 				TryActivateAbility(AbilitySpec.Handle);
 			}
+		}
+	}
+}
+
+void UProjektZAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& InputTag)
+{
+	if (!InputTag.IsValid()) return;
+
+	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag) && AbilitySpec.IsActive())
+		{
+			AbilitySpecInputReleased(AbilitySpec);
+			InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputReleased, AbilitySpec.Handle, AbilitySpec.ActivationInfo.GetActivationPredictionKey());
 		}
 	}
 }

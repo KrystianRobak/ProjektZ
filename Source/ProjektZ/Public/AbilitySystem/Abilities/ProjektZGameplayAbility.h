@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "../Data/ElementsReactionMap.h"
 #include "ProjektZGameplayAbility.generated.h"
 
 /**
@@ -16,6 +17,9 @@ class PROJEKTZ_API UProjektZGameplayAbility : public UGameplayAbility
 public:
 
 	virtual void ApplyCooldown(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) const;
+
+	UFUNCTION(BlueprintCallable)
+	void CheckReactivness(FGameplayTag TagToCheck);
 
 public:
 	UPROPERTY(EditDefaultsOnly, Category="Input")

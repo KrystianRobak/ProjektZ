@@ -36,7 +36,7 @@ public:
 
 	void AddAbility(const TSubclassOf<UGameplayAbility>& Ability, float Level, FAbilityData& Data);
 
-	void AbilityInputTagHeld(const FGameplayTag& InputTag);
+	
 
 	FGameplayTag GetAbilityTagByInputTag(const FGameplayTag& InputTag);
 
@@ -44,6 +44,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool ChangeAbilitySpecInputTag(const FGameplayTag& AbilityInputTag, const FGameplayTag& NewInputTag);
+
+	void AbilityInputTagPressed(const FGameplayTag& InputTag);
+
+	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);
 

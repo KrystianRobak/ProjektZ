@@ -85,6 +85,16 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.InputTag_SPACE = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.SPACE"), FString("Input Tag for SPACE key"));
 
 	/*
+	* Condition Tags
+	*/
+
+	GameplayTags.Condition_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Fire"), FString("Condition"));
+	GameplayTags.Condition_Frost = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Frost"), FString("Condition"));
+	GameplayTags.Condition_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Poison"), FString("Condition"));
+	GameplayTags.Condition_Electro = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Electro"), FString("Condition"));
+	GameplayTags.Condition_Light = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Light"), FString("Condition"));
+
+	/*
 	* Damage Types Tags
 	*/
 
@@ -94,6 +104,7 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Damage_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Lightning"), FString("Lightning Damage Type"));
 	GameplayTags.Damage_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Physical"), FString("Physical Damage Type"));
 	GameplayTags.Damage_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Poison"), FString("Poison Damage Type"));
+	GameplayTags.Damage_Light = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Light"), FString("Light Damage Type"));
 
 	/*
 	* Map of Damage to Resistance Tags
@@ -113,15 +124,26 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	
 	//Fire
 	
-	GameplayTags.Abilities_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Fire.FireBolt"), FString("FireBolt Ability"));
-	
-	//Frost
-	
-	GameplayTags.Abilities_Frost_FrostBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Frost.FrostBolt"), FString("FrostBolt Ability"));
+
 
 	/*
 	* Abilities Cooldowns Tags
 	*/
+
+	GameplayTags.Abilities_Basic_Attack_1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Basic.Attack_1"), FString("FireBolt Ability"));
+	GameplayTags.Abilities_Basic_Attack_2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Basic.Attack_2"), FString("FireBolt Ability"));
+
+	GameplayTags.Abilities_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Fire.FireBolt"), FString("FireBolt Ability"));
+	GameplayTags.Abilities_Frost_FrostBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Frost.FrostBolt"), FString("FrostBolt Ability"));
+	GameplayTags.Abilities_Poison_PoisonBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Poison.PoisonBolt"), FString("FrostBolt Ability"));
+	GameplayTags.Abilities_Light_LightBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Light.LightBolt"), FString("FrostBolt Ability"));
+	GameplayTags.Abilities_Electro_ElctroBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Electro.ElctroBolt"), FString("FrostBolt Ability"));;
+
+	GameplayTags.Cooldown_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Fire.FireBolt"), FString("FireBolt Ability Cooldown"));
+	GameplayTags.Cooldown_Frost_FrostBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Frost.FrostBolt"), FString("FireBolt Ability Cooldown"));
+	GameplayTags.Cooldown_Poison_PoisonBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Poison.PoisonBolt"), FString("FireBolt Ability Cooldown"));
+	GameplayTags.Cooldown_Light_LightBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Light.LightBolt"), FString("FireBolt Ability Cooldown"));
+	GameplayTags.Cooldown_Electro_ElctroBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Electro.ElctroBolt"), FString("FireBolt Ability Cooldown"));
 
 	//Fire
 

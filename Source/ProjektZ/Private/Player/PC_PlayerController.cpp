@@ -162,7 +162,17 @@ void APC_PlayerController::CursorTrace()
 
 void APC_PlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
-	//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
+	if (GetASC() == nullptr) return;
+
+	if (PlayerCharacter->GetAbilityQueueWindowStatus())
+	{
+		PlayerCharacter->CheckAndUpdateAbilityQueue(GetASC()->GetAbilityTagByInputTag(InputTag));
+	}
+	else
+	{
+		if (PlayerCharacter->IsInputBlocked()) return;
+		GetASC()->AbilityInputTagPressed(InputTag);
+	}
 }
 
 void APC_PlayerController::AbilityInputTagReleased(FGameplayTag InputTag)

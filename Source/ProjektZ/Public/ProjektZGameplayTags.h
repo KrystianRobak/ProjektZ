@@ -52,6 +52,7 @@ public:
 	FGameplayTag Attributes_Resistance_Lightning;
 	FGameplayTag Attributes_Resistance_Physical;
 	FGameplayTag Attributes_Resistance_Poison;
+	FGameplayTag Attributes_Resistance_Light;
 
 	//=================================
 	//     DAMAGE TYPES
@@ -61,6 +62,7 @@ public:
 	FGameplayTag Damage_Fire;
 	FGameplayTag Damage_Frost;
 	FGameplayTag Damage_Lightning;
+	FGameplayTag Damage_Light;
 	FGameplayTag Damage_Physical;
 	FGameplayTag Damage_Poison;
 
@@ -68,11 +70,11 @@ public:
 	//     CONDITIONS
 	//=================================
 
-	FGameplayTag Condition_Frozen;
-	FGameplayTag Condition_OnFire;
-	FGameplayTag Condition_Electrified;
-	FGameplayTag Condition_Burning;
-	FGameplayTag Condition_Shocked;
+	FGameplayTag Condition_Fire;
+	FGameplayTag Condition_Frost;
+	FGameplayTag Condition_Poison;
+	FGameplayTag Condition_Electro;
+	FGameplayTag Condition_Light;
 	FGameplayTag Condition_Wet;
 	FGameplayTag Condition_Corroded;
 	FGameplayTag Condition_Petrified;
@@ -142,11 +144,20 @@ public:
 	FGameplayTag Abilities_AOE_TEST;
 	FGameplayTag Abilities_HEAL_TEST;
 
+	FGameplayTag Abilities_Basic_Attack_1;
+	FGameplayTag Abilities_Basic_Attack_2;
+
 	FGameplayTag Abilities_Fire_FireBolt;
 	FGameplayTag Abilities_Frost_FrostBolt;
+	FGameplayTag Abilities_Poison_PoisonBolt;
+	FGameplayTag Abilities_Light_LightBolt;
+	FGameplayTag Abilities_Electro_ElctroBolt;
 
 	FGameplayTag Cooldown_Fire_FireBolt;
 	FGameplayTag Cooldown_Frost_FrostBolt;
+	FGameplayTag Cooldown_Poison_PoisonBolt;
+	FGameplayTag Cooldown_Light_LightBolt;
+	FGameplayTag Cooldown_Electro_ElctroBolt;
 
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 
@@ -162,6 +173,7 @@ public:
 	FGameplayTag STATSTRACK_LightningDamageDealt;
 	FGameplayTag STATSTRACK_PhysicalDamageDealt;
 	FGameplayTag STATSTRACK_PoisonDamageDealt;
+	FGameplayTag STATSTRACK_LightDamageDealt;
 	FGameplayTag STATSTRACK_DamageTanked;
 	FGameplayTag STATSTRACK_HealthRecovered;
 
