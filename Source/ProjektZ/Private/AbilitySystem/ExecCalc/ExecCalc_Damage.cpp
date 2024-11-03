@@ -10,6 +10,24 @@
 #include <AbilitySystem/ProjektZAbilitySystemLibrary.h>
 #include <Interaction/CombatInterface.h>
 #include "ProjektZAbilityTypes.h"
+#include <ProjektZGameInstance.h>
+
+
+bool CheckReactivness(AActor* Target, const UAbilitySystemComponent* TargetASC, FGameplayTag TagToCheck, const FGameplayTagContainer* TargetTags)
+{
+	FGameplayTagContainer Tags = TargetASC->GetOwnedGameplayTags();
+
+	UProjektZGameInstance* GameInstance = Cast<UProjektZGameInstance>(Target->GetWorld()->GetGameInstance());
+
+	if (GameInstance->GetElementsReaction()->IsTagReactive(TagToCheck, *TargetTags))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 
 struct ProjektZDamageStatics
 {
@@ -161,7 +179,7 @@ UExecCalc_Damage::UExecCalc_Damage()
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 {
 	UAbilitySystemComponent* SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();
-	const UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
+	UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
 
 	AActor* SourceActor = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
 	AActor* TargetActor = SourceASC ? TargetASC->GetAvatarActor() : nullptr;
@@ -259,6 +277,14 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(CaptureDef, EvaulationParameters, Resistance);
 		Resistance = FMath::Clamp(Resistance, 0.f, 100.f);
 
+		if (CheckReactivness(TargetActor, TargetASC, DamageTypeTag, TargetTags))
+		{
+			DamageTypeValue *= 0.3;
+		}
+		else
+		{
+		}
+
 		DamageTypeValue *= (100.f - Resistance) / 100.f;
 		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::Printf(TEXT("Damage is: %f | Type of damage is %s"), DamageTypeValue, *DamageTypeTag.ToString()));
 		Damage += DamageTypeValue;
@@ -320,3 +346,4 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	Info.Attribute = UProjektZAttributeSet::GetDamageDealtAttribute();
 	SourceASC->ApplyGameplayEffectToSelf(GELifesteal, 1.0f, SourceASC->MakeEffectContext());
 }
+

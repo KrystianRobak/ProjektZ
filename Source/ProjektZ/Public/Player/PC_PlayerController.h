@@ -33,11 +33,15 @@ public:
 	void SetUpASCDependentInput(UAbilitySystemComponent* ASC);
 
 	UProjektZAbilitySystemComponent* GetASC();
+
+
 protected:
 
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 	virtual void OnPossess(APawn* aPawn) override;
+
+
 private:
 	void Move(const FInputActionValue& InputActionValue);
 

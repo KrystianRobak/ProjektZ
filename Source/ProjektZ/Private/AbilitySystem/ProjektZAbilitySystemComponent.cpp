@@ -81,7 +81,7 @@ void UProjektZAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag&
 			AbilitySpecInputPressed(AbilitySpec);
 			if (AbilitySpec.IsActive())
 			{
-				InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputReleased, AbilitySpec.Handle, AbilitySpec.ActivationInfo.GetActivationPredictionKey());
+				InvokeReplicatedEvent(EAbilityGenericReplicatedEvent::InputPressed, AbilitySpec.Handle, AbilitySpec.ActivationInfo.GetActivationPredictionKey());
 			}
 		}
 	}

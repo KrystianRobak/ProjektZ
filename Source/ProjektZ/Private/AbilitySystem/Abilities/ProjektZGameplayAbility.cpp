@@ -28,17 +28,6 @@ void UProjektZGameplayAbility::CheckReactivness(FGameplayTag TagToCheck)
 	FGameplayTagContainer Tags = ASC->GetOwnedGameplayTags();
 
 	UProjektZGameInstance* GameInstance = Cast<UProjektZGameInstance>(this->GetWorld()->GetGameInstance());
-
-	this->damage
-
-	if (Tags.HasTagExact(TagToCheck))
-	{
-
-	}
-	else
-	{
-
-	}
 }
 
 void UProjektZGameplayAbility::SetInputTag(FGameplayTag InTag)

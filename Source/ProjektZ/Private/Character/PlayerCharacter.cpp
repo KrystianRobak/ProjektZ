@@ -104,7 +104,7 @@ void APlayerCharacter::BeginPlay()
 		Abilities.Add(FAbilityData());
 	}
 
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 9; i++)
 	{
 		IsItemEquipped.Add(false);
 		ItemInfos.Add(FBaseItemInfo());
@@ -170,7 +170,7 @@ void APlayerCharacter::DeequipItem(const FBaseItemInfo& ItemInfo)
 	RemoveItemEffect(ItemInfo);
 }
 
-UUserWidget* APlayerCharacter::InitOverlayWidgets()
+void APlayerCharacter::InitOverlayWidgets()
 {
 	AProjektZPlayerState* ProjektZPlayerState = GetPlayerState<AProjektZPlayerState>();
 
@@ -178,10 +178,9 @@ UUserWidget* APlayerCharacter::InitOverlayWidgets()
 	{
 		if (AProjektZHUD* ProjektZHUD = Cast<AProjektZHUD>(ProjektZPlayerController->GetHUD()))
 		{
-			return ProjektZHUD->InitOverlay(ProjektZPlayerController, ProjektZPlayerState, AbilitySystemComponent, AttributeSet);
+			ProjektZHUD->InitOverlay(ProjektZPlayerController, ProjektZPlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
-	return nullptr;
 }
 
 void APlayerCharacter::SlowDownPlayer()

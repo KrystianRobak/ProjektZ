@@ -16,10 +16,23 @@ class PROJEKTZ_API UProjektZGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 
+public:
+	UElementsReactionMap* GetElementsReaction()
+	{
+		return this->ElementsReaction;
+	}
+
+	TSubclassOf<UGameplayEffect> GetGameplayElementsTagApplier()
+	{
+		return this->ElementsTagApplier;
+	}
 protected:
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UElementsReactionMap* ElementsReaction;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TSubclassOf<UGameplayEffect> ElementsTagApplier;
 
 	//UPROPERTY(BlueprintReadOnly)
 	//AItemGenerator ItemGenerator;

@@ -71,7 +71,7 @@ public:
 	void DeequipItem(const FBaseItemInfo& ItemInfo);
 
 	UFUNCTION(BlueprintCallable)
-	UUserWidget* InitOverlayWidgets();
+	void InitOverlayWidgets();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void ChangeItemMesh(const USkeletalMesh* ItemMesh, EItemPlacement ItemPlacement);

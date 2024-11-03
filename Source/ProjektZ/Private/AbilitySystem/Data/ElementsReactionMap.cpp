@@ -3,13 +3,13 @@
 
 #include "AbilitySystem/Data/ElementsReactionMap.h"
 
-bool UElementsReactionMap::IsTagReactive(FGameplayTag MainTag, FGameplayTag TagToCheck)
+bool UElementsReactionMap::IsTagReactive(FGameplayTag MainTag, FGameplayTagContainer TagsToCheck)
 {
 	for (auto elem : ElementsInformation)
 	{
 		if (elem.ElementTag == MainTag)
 		{
-			return elem.ReactionElementTags.Contains(TagToCheck);
+			return elem.ReactionElementTags.HasAnyExact(TagsToCheck);
 		}
 	}
 	return false;

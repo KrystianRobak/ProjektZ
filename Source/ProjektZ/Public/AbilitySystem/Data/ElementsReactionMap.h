@@ -17,7 +17,7 @@ struct FElementInfo
 	FGameplayTag ElementTag = FGameplayTag();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TArray<FGameplayTag> ReactionElementTags;
+	FGameplayTagContainer ReactionElementTags;
 
 };
 
@@ -31,6 +31,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityInformation")
 	TArray<FElementInfo> ElementsInformation;
 
-	bool IsTagReactive(FGameplayTag MainTag, FGameplayTag TagToCheck);
+	bool IsTagReactive(FGameplayTag MainTag, FGameplayTagContainer TagsToCheck);
 
 };

@@ -53,7 +53,7 @@ UPartyStatsWidgetController* AProjektZHUD::GetPartyMembersWidgetController(const
 	return PartyMembersWidgetController;
 }
 
-UUserWidget* AProjektZHUD::InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet)
+void AProjektZHUD::InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet)
 {
 	checkf(OverlayWidgetClass, TEXT("Overlay Widget CLass uninitialized, please fill out BP_ProjektZHUD"));
 	checkf(OverlayWidgetControllerClass, TEXT("Overlay Widget Controller CLass uninitialized, please fill out BP_ProjektZHUD"));
@@ -66,18 +66,17 @@ UUserWidget* AProjektZHUD::InitOverlay(APlayerController* _PlayerController, APl
 
 	OverlayWidget->SetWidgetController(WidgetController);
 
-	UUserWidget* PartyWidget = CreateWidget<UUserWidget>(GetWorld(), PartyMembersWidgetClass);
-	PartyMembersWidget = Cast<UProjektZUserWidget>(PartyWidget);
+	//UUserWidget* PartyWidget = CreateWidget<UUserWidget>(GetWorld(), PartyMembersWidgetClass);
+	//PartyMembersWidget = Cast<UProjektZUserWidget>(PartyWidget);
 
-	UPartyStatsWidgetController* PartyWidgetController = GetPartyMembersWidgetController(WidgetControllerParams);
+	//UPartyStatsWidgetController* PartyWidgetController = GetPartyMembersWidgetController(WidgetControllerParams);
 
-	PartyMembersWidget->SetWidgetController(PartyWidgetController);
+	//PartyMembersWidget->SetWidgetController(PartyWidgetController);
 
 	WidgetController->BroadcastInitialValues();
 
 	Widget->AddToViewport();
-	PartyWidget->AddToViewport();
+	//PartyMembersWidget->AddToViewport();
 
-	return PartyWidget;
 }
 
