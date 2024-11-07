@@ -59,4 +59,10 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> LoopingSoundComponent;
+
+	UPROPERTY(EditAnywhere)
+	bool bSpawnsActors = false;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> ActorToSpawn;
 };

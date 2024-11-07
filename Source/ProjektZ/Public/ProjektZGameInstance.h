@@ -17,6 +17,7 @@ class PROJEKTZ_API UProjektZGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable)
 	UElementsReactionMap* GetElementsReaction()
 	{
 		return this->ElementsReaction;

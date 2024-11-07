@@ -12,7 +12,7 @@ FDebuffEffectParams UProjektZDmgDebufGameplayAbility::MakeEffectParamsFromClassD
     Params.SourceAbilitySystemComponent = GetAbilitySystemComponentFromActorInfo();
     Params.TargetAbilitySystemComponent = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 
-    Params.DamageType = DamageType;
+    Params.DamageType = ElementType;
     
     return Params;
 }

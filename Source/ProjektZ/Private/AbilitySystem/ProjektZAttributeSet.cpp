@@ -48,6 +48,7 @@ void UProjektZAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, FireResistance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, FrostResistance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, LightningResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, LightResistance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, PhysicalResistance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, PoisonResistance, COND_None, REPNOTIFY_Always);
 
@@ -274,6 +275,11 @@ void UProjektZAttributeSet::OnRep_FireResistance(const FGameplayAttributeData& O
 void UProjektZAttributeSet::OnRep_LightningResistance(const FGameplayAttributeData& OldLightningResistance) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, LightningResistance, OldLightningResistance);
+}
+
+void UProjektZAttributeSet::OnRep_LightResistance(const FGameplayAttributeData& OldLightResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, LightResistance, OldLightResistance);
 }
 
 void UProjektZAttributeSet::OnRep_FrostResistance(const FGameplayAttributeData& OldFrostResistance) const

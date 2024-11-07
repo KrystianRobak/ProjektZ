@@ -171,6 +171,11 @@ public:
 	FGameplayAttributeData PoisonResistance;
 	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, PoisonResistance)
 
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LightResistance, Category = "Secondary Attributes")
+	FGameplayAttributeData LightResistance;
+	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, LightResistance)
+		
+
 	 /*
 	  *	Vital Attributes
 	  */
@@ -286,6 +291,9 @@ public:
 
 	UFUNCTION()
 	void OnRep_LightningResistance(const FGameplayAttributeData& OldLightningResistance) const;
+
+	UFUNCTION()
+	void OnRep_LightResistance(const FGameplayAttributeData& OldLightResistance) const;
 
 	UFUNCTION()
 	void OnRep_FrostResistance(const FGameplayAttributeData& OldFrostResistance) const;

@@ -17,8 +17,9 @@ class PROJEKTZ_API UProjektZDamageGameplayAbility : public UProjektZGameplayAbil
 {
 	GENERATED_BODY()
 public:
-
+	UFUNCTION(BlueprintCallable)
 	FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor = nullptr) const;
+
 	virtual void ApplyCooldown(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) const;
 
 	UFUNCTION(BlueprintCallable)

@@ -30,7 +30,11 @@ class PROJEKTZ_API UElementsReactionMap : public UDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityInformation")
 	TArray<FElementInfo> ElementsInformation;
-
+	
+	UFUNCTION(BlueprintCallable)
 	bool IsTagReactive(FGameplayTag MainTag, FGameplayTagContainer TagsToCheck);
+
+	UFUNCTION(BlueprintCallable)
+	FGameplayTag GetReactiveTag(FGameplayTag MainTag, FGameplayTag TagToCheck);
 
 };

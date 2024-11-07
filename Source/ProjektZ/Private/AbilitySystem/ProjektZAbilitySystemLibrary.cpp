@@ -274,7 +274,22 @@ FGameplayEffectContextHandle UProjektZAbilitySystemLibrary::ApplyDamageEffect(co
 	const FProjektZGameplayTags& GameplayTags = FProjektZGameplayTags::Get();
 	const AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
 
+	/* EFFECT TAG APPLYING */
+
 	FGameplayEffectContextHandle EffectContextHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeEffectContext();
+	EffectContextHandle.AddSourceObject(SourceAvatarActor);
+
+	FGameplayEffectSpecHandle TempTagSpecHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectParams.ElementApplierEffectClass, DamageEffectParams.AbilityLevel, EffectContextHandle);
+
+	if (TempTagSpecHandle.Data.IsValid())
+	{
+		TempTagSpecHandle.Data->DynamicGrantedTags.AddTag(DamageEffectParams.ConditionType);
+		DamageEffectParams.TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*TempTagSpecHandle.Data);
+	}
+
+	/* DAMAGE APPLYING */
+
+	EffectContextHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(SourceAvatarActor);
 
 	FGameplayEffectSpecHandle SpecHandle = DamageEffectParams.SourceAbilitySystemComponent->MakeOutgoingSpec(DamageEffectParams.DamageGameplayEffectClass, DamageEffectParams.AbilityLevel, EffectContextHandle);

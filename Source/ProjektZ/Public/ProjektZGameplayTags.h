@@ -55,6 +55,20 @@ public:
 	FGameplayTag Attributes_Resistance_Light;
 
 	//=================================
+	//     RESISTANCES
+	//=================================
+
+	FGameplayTag Element_Fire;
+	FGameplayTag Element_Frost;
+	FGameplayTag Element_Lightning;
+	FGameplayTag Element_Light;
+	FGameplayTag Element_Poison;
+
+	TMap<FGameplayTag, FGameplayTag> ElementTypesToDamageTypes;
+	TMap<FGameplayTag, FGameplayTag> ElementTypesToConditionType;
+	TMap<FGameplayTag, FGameplayTag> ElementTypesToResistances;
+
+	//=================================
 	//     DAMAGE TYPES
 	//=================================
 
@@ -73,7 +87,7 @@ public:
 	FGameplayTag Condition_Fire;
 	FGameplayTag Condition_Frost;
 	FGameplayTag Condition_Poison;
-	FGameplayTag Condition_Electro;
+	FGameplayTag Condition_Lightning;
 	FGameplayTag Condition_Light;
 	FGameplayTag Condition_Wet;
 	FGameplayTag Condition_Corroded;
@@ -159,7 +173,7 @@ public:
 	FGameplayTag Cooldown_Light_LightBolt;
 	FGameplayTag Cooldown_Electro_ElctroBolt;
 
-	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
+
 
 	FGameplayTag Effects_HitReact;
 

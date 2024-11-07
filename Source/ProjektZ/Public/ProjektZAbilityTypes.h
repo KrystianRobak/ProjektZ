@@ -96,6 +96,9 @@ struct FDamageEffectParams
 	TSubclassOf<UGameplayEffect> DamageGameplayEffectClass = nullptr;
 
 	UPROPERTY()
+	TSubclassOf<UGameplayEffect> ElementApplierEffectClass = nullptr;
+
+	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> SourceAbilitySystemComponent;
 
 	UPROPERTY()
@@ -109,6 +112,9 @@ struct FDamageEffectParams
 
 	UPROPERTY()
 	FGameplayTag DamageType = FGameplayTag();
+
+	UPROPERTY()
+	FGameplayTag ConditionType = FGameplayTag();
 };
 
 

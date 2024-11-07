@@ -43,7 +43,7 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_Resistance_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Lightning"), FString("Resistance to lighting"));
 	GameplayTags.Attributes_Resistance_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Physical"), FString("Resistance to physical"));
 	GameplayTags.Attributes_Resistance_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Poison"), FString("Resistance to poison"));
-
+	GameplayTags.Attributes_Resistance_Light = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Light"), FString("Resistance to light"));
 	/*
 	* Debuffs Tags
 	*/
@@ -85,13 +85,23 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.InputTag_SPACE = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.SPACE"), FString("Input Tag for SPACE key"));
 
 	/*
+	* Elements Tags
+	*/
+
+	GameplayTags.Element_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Element.Fire"), FString("Element Fire"));
+	GameplayTags.Element_Frost = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Element.Frost"), FString("Element Frost"));
+	GameplayTags.Element_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Element.Poison"), FString("Element Poison"));
+	GameplayTags.Element_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Element.Electro"), FString("Element Electro"));
+	GameplayTags.Element_Light = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Element.Light"), FString("Element Light"));
+
+	/*
 	* Condition Tags
 	*/
 
 	GameplayTags.Condition_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Fire"), FString("Condition"));
 	GameplayTags.Condition_Frost = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Frost"), FString("Condition"));
 	GameplayTags.Condition_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Poison"), FString("Condition"));
-	GameplayTags.Condition_Electro = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Electro"), FString("Condition"));
+	GameplayTags.Condition_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Electro"), FString("Condition"));
 	GameplayTags.Condition_Light = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Light"), FString("Condition"));
 
 	/*
@@ -110,11 +120,27 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	* Map of Damage to Resistance Tags
 	*/
 
-	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
-	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Frost, GameplayTags.Attributes_Resistance_Frost);
-	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Lightning, GameplayTags.Attributes_Resistance_Lightning);
-	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical , GameplayTags.Attributes_Resistance_Physical);
-	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Poison, GameplayTags.Attributes_Resistance_Poison);
+	GameplayTags.ElementTypesToResistances.Add(GameplayTags.Element_Fire, GameplayTags.Attributes_Resistance_Fire);
+	GameplayTags.ElementTypesToResistances.Add(GameplayTags.Element_Frost, GameplayTags.Attributes_Resistance_Frost);
+	GameplayTags.ElementTypesToResistances.Add(GameplayTags.Element_Light, GameplayTags.Attributes_Resistance_Light);
+	GameplayTags.ElementTypesToResistances.Add(GameplayTags.Element_Lightning, GameplayTags.Attributes_Resistance_Lightning);
+	GameplayTags.ElementTypesToResistances.Add(GameplayTags.Element_Poison, GameplayTags.Attributes_Resistance_Poison);
+
+	/*
+	* Map of Damage to Resistance Tags
+	*/
+
+	GameplayTags.ElementTypesToDamageTypes.Add(GameplayTags.Element_Fire, GameplayTags.Damage_Fire);
+	GameplayTags.ElementTypesToDamageTypes.Add(GameplayTags.Element_Frost, GameplayTags.Damage_Frost);
+	GameplayTags.ElementTypesToDamageTypes.Add(GameplayTags.Element_Light, GameplayTags.Damage_Light);
+	GameplayTags.ElementTypesToDamageTypes.Add(GameplayTags.Element_Lightning, GameplayTags.Damage_Lightning);
+	GameplayTags.ElementTypesToDamageTypes.Add(GameplayTags.Element_Poison, GameplayTags.Damage_Poison);
+
+	GameplayTags.ElementTypesToConditionType.Add(GameplayTags.Element_Fire, GameplayTags.Condition_Fire);
+	GameplayTags.ElementTypesToConditionType.Add(GameplayTags.Element_Frost, GameplayTags.Condition_Frost);
+	GameplayTags.ElementTypesToConditionType.Add(GameplayTags.Element_Light, GameplayTags.Condition_Light);
+	GameplayTags.ElementTypesToConditionType.Add(GameplayTags.Element_Lightning, GameplayTags.Condition_Lightning);
+	GameplayTags.ElementTypesToConditionType.Add(GameplayTags.Element_Poison, GameplayTags.Condition_Poison);
 
 	/*
 	* Abilities Tags

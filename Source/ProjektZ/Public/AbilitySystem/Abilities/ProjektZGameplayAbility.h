@@ -29,11 +29,14 @@ public:
 	void SetInputTag(FGameplayTag InTag);
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
-	FGameplayTag DamageType;
+	FGameplayTag ElementType;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Cooldown")
 	float CooldownDuration;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Cooldown")
 	FGameplayTagContainer CooldownTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UGameplayEffect> ElementApplier;
 };

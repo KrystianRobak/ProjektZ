@@ -25,7 +25,7 @@ void UProjectZProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLo
 		const FVector ForwardVector = SocketRotation.Vector();  // Get forward vector from rotation
 
 		// Adjust the spawn location to be a little in front of the socket
-		const float DistanceInFrontOfSocket = 100.0f;  // Distance to move forward from the socket location
+		const float DistanceInFrontOfSocket = 10.0f;  // Distance to move forward from the socket location
 		const FVector AdjustedLocation = SocketLocation + (ForwardVector * DistanceInFrontOfSocket);
 
 		FRotator Rotation = (ProjectileTargetLocation - AdjustedLocation).Rotation();

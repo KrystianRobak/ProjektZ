@@ -19,14 +19,7 @@ bool CheckReactivness(AActor* Target, const UAbilitySystemComponent* TargetASC, 
 
 	UProjektZGameInstance* GameInstance = Cast<UProjektZGameInstance>(Target->GetWorld()->GetGameInstance());
 
-	if (GameInstance->GetElementsReaction()->IsTagReactive(TagToCheck, *TargetTags))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return GameInstance->GetElementsReaction()->IsTagReactive(TagToCheck, *TargetTags);
 }
 
 struct ProjektZDamageStatics
@@ -45,6 +38,7 @@ struct ProjektZDamageStatics
 	DECLARE_ATTRIBUTE_CAPTUREDEF(FireResistance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(FrostResistance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(LightningResistance);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(LightResistance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(PhysicalResistance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(PoisonResistance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(WeaponDamage);
@@ -74,6 +68,7 @@ struct ProjektZDamageStatics
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, FireResistance, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, FrostResistance, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, LightningResistance, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, LightResistance, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, PhysicalResistance, Target, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UProjektZAttributeSet, PoisonResistance, Target, false);
 
@@ -107,6 +102,7 @@ struct ProjektZDamageStatics
 		TagsToCaptureDef.Add(Tags.Attributes_Resistance_Fire, FireResistanceDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Resistance_Frost, FrostResistanceDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Resistance_Lightning, LightningResistanceDef);
+		TagsToCaptureDef.Add(Tags.Attributes_Resistance_Light, LightResistanceDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Resistance_Physical, PhysicalResistanceDef);
 		TagsToCaptureDef.Add(Tags.Attributes_Resistance_Poison, PoisonResistanceDef);
 
@@ -262,27 +258,29 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	Damage += WeaponDamage;
 	TheFloatStr = FString::SanitizeFloat(Damage);
 	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, *TheFloatStr);
-	for (const TTuple<FGameplayTag, FGameplayTag>& Pair : FProjektZGameplayTags::Get().DamageTypesToResistances)
+	for (const TTuple<FGameplayTag, FGameplayTag>& Pair : FProjektZGameplayTags::Get().ElementTypesToResistances)
 	{
-		FGameplayTag DamageTypeTag = Pair.Key;
+		FGameplayTag DamageTypeTag = *FProjektZGameplayTags::Get().ElementTypesToDamageTypes.Find(Pair.Key);
+		FGameplayTag ConditionTypeTag = *FProjektZGameplayTags::Get().ElementTypesToConditionType.Find(Pair.Key);
 		FGameplayTag ResistanceTag = Pair.Value;
 
 		checkf(ProjektZDamageStatics().TagsToCaptureDef.Contains(ResistanceTag), TEXT("TagsToCaptureDef doesn't contain Tag: [%s] in ExecCalc_Damage"), *ResistanceTag.ToString());
 
 		FGameplayEffectAttributeCaptureDefinition CaptureDef = ProjektZDamageStatics().TagsToCaptureDef[ResistanceTag];
 
-		float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key, 0.f);
+		float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTypeTag, 0.f);
 
 		float Resistance = 0.f;
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(CaptureDef, EvaulationParameters, Resistance);
 		Resistance = FMath::Clamp(Resistance, 0.f, 100.f);
 
-		if (CheckReactivness(TargetActor, TargetASC, DamageTypeTag, TargetTags))
+		if (DamageTypeValue != 0)
 		{
-			DamageTypeValue *= 0.3;
-		}
-		else
-		{
+			if (CheckReactivness(TargetActor, TargetASC, Pair.Key, TargetTags))
+			{
+				DamageTypeValue *= 1.3;
+				GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::Printf(TEXT("Reaction damage modifier applied")));
+			}
 		}
 
 		DamageTypeValue *= (100.f - Resistance) / 100.f;

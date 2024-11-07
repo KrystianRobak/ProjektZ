@@ -9,8 +9,30 @@ bool UElementsReactionMap::IsTagReactive(FGameplayTag MainTag, FGameplayTagConta
 	{
 		if (elem.ElementTag == MainTag)
 		{
-			return elem.ReactionElementTags.HasAnyExact(TagsToCheck);
+			if (TagsToCheck.HasAnyExact(elem.ReactionElementTags))
+			{
+				return true;
+			}
 		}
 	}
+
 	return false;
+}
+
+FGameplayTag UElementsReactionMap::GetReactiveTag(FGameplayTag MainTag, FGameplayTag TagToCheck)
+{
+	for (auto elem : ElementsInformation)
+	{
+		if (elem.ElementTag == MainTag)
+		{
+			for (FGameplayTag tag : elem.ReactionElementTags)
+			{
+				if (tag.MatchesTagExact(TagToCheck))
+				{
+					return tag;
+				}
+			}
+		}
+	}
+	return FGameplayTag();
 }
