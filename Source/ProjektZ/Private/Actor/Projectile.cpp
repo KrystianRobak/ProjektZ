@@ -51,6 +51,21 @@ void AProjectile::Destroyed()
 	Super::Destroyed();
 }
 
+FGameplayTag AProjectile::GetElementTag_Implementation()
+{
+	return DamageEffectParams.ElementTag;
+}
+
+void AProjectile::SetReacted_Implementation(bool value)
+{
+	bHasReacted = value;
+}
+
+bool AProjectile::HasReacted_Implementation()
+{
+	return bHasReacted;
+}
+
 void AProjectile::OnHit()
 {
 	UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
@@ -61,6 +76,8 @@ void AProjectile::OnHit()
 
 void AProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (bHasReacted) return;
+
 	if (!DamageEffectParams.SourceAbilitySystemComponent) return;
 
 	if (!UProjektZAbilitySystemLibrary::IsNotFriend(DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor(), OtherActor))
@@ -88,6 +105,8 @@ void AProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 				}
 			}
 		}
+
+		SetReacted_Implementation(true);
 
 		if (bSpawnsActors)
 		{

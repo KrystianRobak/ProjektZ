@@ -89,31 +89,34 @@ struct FDamageEffectParams
 
 	FDamageEffectParams() {}
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UObject> WorldContextObject = nullptr;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> DamageGameplayEffectClass = nullptr;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> ElementApplierEffectClass = nullptr;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UAbilitySystemComponent> SourceAbilitySystemComponent;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<UAbilitySystemComponent> TargetAbilitySystemComponent;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	float BaseDamage = 0.f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	float AbilityLevel = 1.f;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
+	FGameplayTag ElementTag = FGameplayTag();
+
+	UPROPERTY(BlueprintReadOnly)
 	FGameplayTag DamageType = FGameplayTag();
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	FGameplayTag ConditionType = FGameplayTag();
 };
 

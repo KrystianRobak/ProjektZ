@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "ProjektZAbilityTypes.h"
-
+#include "ReactiveActor.h"
 #include "Projectile.generated.h"
 
 
@@ -13,7 +13,7 @@ class UNiagaraSystem;
 class USphereComponent;
 class UProjectileMovementComponent;
 UCLASS()
-class PROJEKTZ_API AProjectile : public AActor
+class PROJEKTZ_API AProjectile : public AActor, public IReactiveInterface
 {
 	GENERATED_BODY()
 	
@@ -28,6 +28,15 @@ public:
 	FDamageEffectParams DamageEffectParams;
 
 	TArray<FEffectParams> EffectParams;
+
+	UPROPERTY(EditAnywhere, Category = "Element")
+	bool bHasReacted;
+
+	FGameplayTag GetElementTag_Implementation();
+
+	void SetReacted_Implementation(bool value);
+
+	bool HasReacted_Implementation();
 
 protected:
 	// Called when the game starts or when spawned
@@ -64,5 +73,5 @@ private:
 	bool bSpawnsActors = false;
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> ActorToSpawn;
+	TSubclassOf<AReactiveActor> ActorToSpawn;
 };

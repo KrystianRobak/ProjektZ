@@ -58,8 +58,9 @@ FDamageEffectParams UProjektZDamageGameplayAbility::MakeDamageEffectParamsFromCl
     Params.BaseDamage = Damage.GetValueAtLevel(GetAbilityLevel());
     Params.AbilityLevel = GetAbilityLevel(); 
     Params.DamageType = *FProjektZGameplayTags::Get().ElementTypesToDamageTypes.Find(ElementType);
-    Params.ConditionType = ElementType;
-    
+    Params.ConditionType = *FProjektZGameplayTags::Get().ElementTypesToConditionType.Find(ElementType);
+    Params.ElementTag = ElementType;
+
     return Params;
 }
 
