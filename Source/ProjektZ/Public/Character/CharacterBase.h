@@ -53,6 +53,12 @@ public:
 
 	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
 
+	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
+
+	virtual int32 GetMinionCount_Implementation() override;
+
+	virtual void IncrementMinionCount_Implementation(int32 Amount) override;
+
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
 
@@ -96,6 +102,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName RightHandSocketName;
+	
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName TailSocketName;
 
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -124,6 +133,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	UNiagaraSystem* BloodEffect;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	USoundBase* DeathSound;
+
+
+	int32 MinionCount = 0;
 
 public:
 
