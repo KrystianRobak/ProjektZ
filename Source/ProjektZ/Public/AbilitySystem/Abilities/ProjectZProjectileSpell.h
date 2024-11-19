@@ -8,6 +8,7 @@
 
 
 class AProjectile;
+struct FGameplayTag;
 /**
  * 
  */
@@ -19,7 +20,7 @@ protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData);
 
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
-	virtual void SpawnProjectile(const FVector& ProjectileTargetLocation);
+	virtual void SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag);
 
 protected:
 
