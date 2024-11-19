@@ -13,14 +13,14 @@ void UProjectZProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle 
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
-void UProjectZProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation)
+void UProjectZProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag)
 {
 	// Check if the function is running on the server
 	if (!GetAvatarActorFromActorInfo()->HasAuthority()) return;
 
 	
 
-		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocetLocation(GetAvatarActorFromActorInfo(), FProjektZGameplayTags::Get().Montage_Attack_Weapon);
+		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocetLocation(GetAvatarActorFromActorInfo(),SocketTag);
 		const FRotator SocketRotation = (ProjectileTargetLocation - SocketLocation).Rotation();
 		const FVector ForwardVector = SocketRotation.Vector();  // Get forward vector from rotation
 
