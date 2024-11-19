@@ -254,10 +254,10 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	// Get Damage Set By Caller Magnitude
 	float Damage = 0.f;
 	FString TheFloatStr = FString::SanitizeFloat(Damage);
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, *TheFloatStr);
+
 	Damage += WeaponDamage;
 	TheFloatStr = FString::SanitizeFloat(Damage);
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, *TheFloatStr);
+
 	for (const TTuple<FGameplayTag, FGameplayTag>& Pair : FProjektZGameplayTags::Get().ElementTypesToResistances)
 	{
 		FGameplayTag DamageTypeTag = *FProjektZGameplayTags::Get().ElementTypesToDamageTypes.Find(Pair.Key);
@@ -284,7 +284,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		}
 
 		DamageTypeValue *= (100.f - Resistance) / 100.f;
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::Printf(TEXT("Damage is: %f | Type of damage is %s"), DamageTypeValue, *DamageTypeTag.ToString()));
+		//GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, FString::Printf(TEXT("Damage is: %f | Type of damage is %s"), DamageTypeValue, *DamageTypeTag.ToString()));
 		Damage += DamageTypeValue;
 	}
 

@@ -10,7 +10,7 @@
 #include "AbilitySystem/ProjektZAbilitySystemLibrary.h"
 #include <AbilitySystem/Abilities/ProjektZGameplayAbility.h>
 #include <Blueprint/WidgetLayoutLibrary.h>
-
+#include "Components/CapsuleComponent.h"
 
 
 APlayerCharacter::APlayerCharacter()
@@ -37,6 +37,35 @@ void APlayerCharacter::OnRep_PlayerState()
 	//UWidgetLayoutLibrary::RemoveAllWidgets(GetWorld());
 	// Init ability actor info for the Client
 	InitAbilityActorInfo();
+}
+
+void APlayerCharacter::Die()
+{
+	MulticastHandleDeath();
+}
+
+void APlayerCharacter::MulticastHandleDeath_Implementation()
+{
+	// Disable collision
+	if (UCapsuleComponent* Capsule = GetCapsuleComponent())
+	{
+		Capsule->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
+
+	// Set death status
+	bDead = true;
+
+	// Update tags
+	Tags.Remove("Player");
+	Tags.Add("Dead");
+
+	// Disable input on controller
+	if (AController* PlayerController = GetController())
+	{
+		PlayerController->SetIgnoreMoveInput(true);
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("Player character has died. Changes applied on server and all clients."));
 }
 
 float APlayerCharacter::GetFirstFreeSlot()
