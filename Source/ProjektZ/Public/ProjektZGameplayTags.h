@@ -162,6 +162,10 @@ public:
 	FGameplayTag Montage_Attack_3;
 	FGameplayTag Montage_Attack_4;
 
+	FGameplayTag Montage_Attack_Weapon;
+	FGameplayTag Montage_Attack_RightHand;
+	FGameplayTag Montage_Attack_LeftHand;
+
 	FGameplayTag Abilities_AOE_TEST;
 	FGameplayTag Abilities_HEAL_TEST;
 
