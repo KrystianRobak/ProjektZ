@@ -223,6 +223,7 @@ public:
 	FGameplayTag InputTag_Q;
 	FGameplayTag InputTag_E;
 	FGameplayTag InputTag_SPACE;
+	FGameplayTag InputTag_SHIFT;
 
 private:
 	static FProjektZGameplayTags GameplayTags;

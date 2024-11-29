@@ -4,44 +4,48 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include <GameplayTagContainer.h>
-#include "ProjektZAbilityTypes.h"
-#include "DA_PrimaryItemInfo.h"
-#include "DA_BaseItem.generated.h"
+#include "DA_PrimaryItemInfo.generated.h"
+
+class UGameplayAbility;
 
 UENUM(BlueprintType)
-enum EItemGrad
+enum EItemType
 {
-	Common,
-	Uncommon,
-	Rare,
-	Unique,
-	Legendary,
-	Mythic,
-	Divine
+	Sword,
+	Axe,
+	Hammer,
+	Mace,
+	ShortSword,
+	Shield,
+	MagicBook,
+	Wand
+};
+
+UENUM(BlueprintType)
+enum EItemPlacement
+{
+	Head,
+	Necless,
+	Armor,
+	Bracelet,
+	FirstHand,
+	SecondHand,
+	LeftRing,
+	Boots,
+	RightRing,
+	Noone
 };
 
 USTRUCT(BlueprintType)
-struct FBaseItemInfo
+struct FPrimaryItemInfo
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TEnumAsByte<EItemGrad> ItemGrade = EItemGrad::Common;
+	TEnumAsByte<EItemPlacement> ItemTypePlacement = EItemPlacement::Noone;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TEnumAsByte<EItemType> ItemType = EItemType::Sword;
-
-	FPrimaryItemInfo* ItemInfo = nullptr;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FEffectParams Modifiers;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FName ItemName;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TEnumAsByte<EItemPlacement> ItemTypePlacement = EItemPlacement::Noone;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UTexture2D> Icon = nullptr;
@@ -61,20 +65,18 @@ struct FBaseItemInfo
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FVector2D Dimensions;
 };
+
 /**
  * 
  */
 UCLASS()
-class PROJEKTZ_API UDA_BaseItem : public UDataAsset
+class PROJEKTZ_API UDA_PrimaryItemInfo : public UDataAsset
 {
 	GENERATED_BODY()
 public:
-	//FBaseItemInfo GetItemInfo(FName ItemName);
+	FPrimaryItemInfo GetInfoByType(EItemType ItemType);
 
-public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ItemInformation")
-	TObjectPtr<UDA_PrimaryItemInfo> Data;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ItemInformation")
-	TArray<FBaseItemInfo> ItemInformation;
+	TArray<FPrimaryItemInfo> ItemInformation;
 };

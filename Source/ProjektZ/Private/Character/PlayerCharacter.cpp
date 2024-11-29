@@ -130,8 +130,11 @@ void APlayerCharacter::BeginPlay()
 	for (int i = 0; i < MaxAbilities; i++)
 	{
 		SlotsOccupancy.Add(false);
-		Abilities.Add(FAbilityData());
+		Abilities.Add(FAbilityData());	
 	}
+
+	InventoryAbilities.Add(FAbilityData());
+	InventoryAbilities.Add(FAbilityData());
 
 	for (int i = 0; i < 9; i++)
 	{
@@ -142,15 +145,36 @@ void APlayerCharacter::BeginPlay()
 
 void APlayerCharacter::ApplyItemEffect_Implementation(const FBaseItemInfo& ItemInfo)
 {
+	if (ItemInfo.ItemTypePlacement == EItemPlacement::Noone) return;
+
 	IsItemEquipped[ItemInfo.ItemTypePlacement] = true;
 	ItemInfos[ItemInfo.ItemTypePlacement] = ItemInfo;
+
+	UProjektZAbilitySystemComponent* ASC = CastChecked<UProjektZAbilitySystemComponent>(AbilitySystemComponent);
+
+	FAbilityData& Data = InventoryAbilities[0];
+	ASC->AddAbility(ItemInfo.LMBAbility, 1, Data);
+
+	FAbilityData& Data2 = InventoryAbilities[1];
+	ASC->AddAbility(ItemInfo.RMBAbility, 1, Data2);
+
 	UProjektZAbilitySystemLibrary::ApplyEffectFromEquippedItem(ItemInfo, AbilitySystemComponent, false);
 }
 
 void APlayerCharacter::RemoveItemEffect_Implementation(const FBaseItemInfo& ItemInfo)
 {
-	IsItemEquipped[ItemInfo.ItemTypePlacement] = true;
+	if (ItemInfo.ItemTypePlacement == EItemPlacement::Noone) return;
+
+	IsItemEquipped[ItemInfo.ItemTypePlacement] = false;
 	ItemInfos[ItemInfo.ItemTypePlacement] = ItemInfo;
+
+	UProjektZAbilitySystemComponent* ASC = CastChecked<UProjektZAbilitySystemComponent>(AbilitySystemComponent);
+
+	ASC->ClearAbility(InventoryAbilities[0].AbilitySpecHandle);
+	ASC->ClearAbility(InventoryAbilities[1].AbilitySpecHandle);
+
+	InventoryAbilities[1] = FAbilityData();
+	InventoryAbilities[0] = FAbilityData();
 	UProjektZAbilitySystemLibrary::ApplyEffectFromEquippedItem(ItemInfo, AbilitySystemComponent, true);
 }
 
@@ -230,7 +254,10 @@ void APlayerCharacter::InitAbilityActorInfo()
 	AttributeSet = ProjektZPlayerState->GetAttributeSet();
 
 	BindDelegatesToAttributes();
-
+	if (HasAuthority())
+	{
+		UProjektZAbilitySystemLibrary::GiveCommonAbilitites(this, AbilitySystemComponent);
+	}
 	InitializeDefaultAttributes();
 }
 

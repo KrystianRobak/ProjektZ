@@ -129,6 +129,7 @@ void AEnemyCharacter::InitAbilityActorInfo()
 
 	if (HasAuthority())
 	{
+		UProjektZAbilitySystemLibrary::GiveCommonAbilitites(this, AbilitySystemComponent);
 		UProjektZAbilitySystemLibrary::InitializeDefaultAbilities(this, CharacterClass, Level, AbilitySystemComponent);
 		InitializeDefaultAttributes();
 

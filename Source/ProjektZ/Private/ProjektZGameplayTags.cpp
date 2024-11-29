@@ -83,6 +83,7 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.InputTag_Q = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.Q"), FString("Input Tag for Q key"));
 	GameplayTags.InputTag_E = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.E"), FString("Input Tag for E key"));
 	GameplayTags.InputTag_SPACE = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.SPACE"), FString("Input Tag for SPACE key"));
+	GameplayTags.InputTag_SHIFT = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.SHIFT"), FString("Input Tag for SHIFT key"));
 
 	/*
 	* Elements Tags

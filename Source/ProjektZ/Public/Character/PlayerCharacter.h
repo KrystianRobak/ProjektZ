@@ -99,6 +99,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<FAbilityData> Abilities;
 
+	UPROPERTY(EditAnywhere, Category = "Abilities")
+	TArray<FAbilityData> InventoryAbilities;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
 	TArray<bool> SlotsOccupancy;
 

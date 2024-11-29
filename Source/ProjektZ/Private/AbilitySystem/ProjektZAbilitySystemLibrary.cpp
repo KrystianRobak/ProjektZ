@@ -12,6 +12,7 @@
 #include <AbilitySystemBlueprintLibrary.h>
 #include <GameplayEffectComponents/TargetTagsGameplayEffectComponent.h>
 #include <Interaction/CombatInterface.h>
+#include <AbilitySystem/ProjektZAbilitySystemComponent.h>
 
 UOverlayWidgetController* UProjektZAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -115,13 +116,13 @@ void UProjektZAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* W
 
 void UProjektZAbilitySystemLibrary::GiveCommonAbilitites(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
 {
-	if (ASC)
+	if (UProjektZAbilitySystemComponent* ProjektZASC = Cast<UProjektZAbilitySystemComponent>(ASC))
 	{
 		UCharacterClassInfo* ClassDefaultInfo = GetCharacterClassInfo(WorldContextObject);
 		for (TSubclassOf<UGameplayAbility> AbilityClass : ClassDefaultInfo->CommonAbilities)
 		{
-			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
-			ASC->GiveAbility(AbilitySpec);
+			FAbilityData Data;
+			ProjektZASC->AddAbility(AbilityClass, 1, Data);
 		}
 	}
 }
