@@ -26,19 +26,21 @@ struct FBaseItemInfo
 {
 	GENERATED_BODY()
 
+	// Custom for every item
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TEnumAsByte<EItemGrad> ItemGrade = EItemGrad::Common;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TEnumAsByte<EItemType> ItemType = EItemType::Sword;
-
-	FPrimaryItemInfo* ItemInfo = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FEffectParams Modifiers;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FName ItemName;
+	FString ItemName;
+
+	// Passed from PRIMARY ITEM DATABASE
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TEnumAsByte<EItemType> ItemType = EItemType::Sword;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TEnumAsByte<EItemPlacement> ItemTypePlacement = EItemPlacement::Noone;
@@ -60,6 +62,21 @@ struct FBaseItemInfo
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FVector2D Dimensions;
+
+
+	FBaseItemInfo operator =(FPrimaryItemInfo newItemInfo)
+	{
+		this->BackgroundMaterial = newItemInfo.BackgroundMaterial;
+		this->Dimensions = newItemInfo.Dimensions;
+		this->Icon = newItemInfo.Icon;
+		this->LMBAbility = newItemInfo.LMBAbility;
+		this->RMBAbility = newItemInfo.RMBAbility;
+		this->WeaponMesh = newItemInfo.WeaponMesh;
+		this->ItemTypePlacement = newItemInfo.ItemTypePlacement;
+		this->ItemType = newItemInfo.ItemType;
+
+		return *this;
+	}
 };
 /**
  * 
