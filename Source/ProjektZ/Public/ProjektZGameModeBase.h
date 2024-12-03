@@ -20,6 +20,7 @@ class PROJEKTZ_API AProjektZGameModeBase : public AGameModeBase
 
 	AActor GenerateRandomLoot();
 
+	UFUNCTION(BlueprintCallable)
 	TArray<FBaseItemInfo> GenerateItemsToDrop(int amount);
 
 public:

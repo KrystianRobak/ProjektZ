@@ -33,5 +33,5 @@ public:
 	TArray<FItemDescriptorPS> PrefixInfo;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ItemInformation")
-	TArray<FItemDescriptorPS> SufixInfo;
+	TArray<FItemDescriptorPS> SuffixInfo;
 };

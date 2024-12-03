@@ -15,6 +15,18 @@ float GetPrefixChance(EItemGrad Quality)
     }
 }
 
+int GetAmountOfModifiers(EItemGrad Quality)
+{
+    switch (Quality)
+    {
+    case EItemGrad::Common: return 2;  // 10%
+    case EItemGrad::Rare: return 3;    // 25%
+    case EItemGrad::Legendary: return 4; // 50%
+    case EItemGrad::Mythic: return 5;
+    default: return 0;
+    }
+}
+
 int GetBaseValueForQuality(EItemGrad Quality)
 {
     switch (Quality)
@@ -37,11 +49,11 @@ EItemGrad DetermineItemQuality()
     else return EItemGrad::Mythic;                 // 5% szans
 }
 
-//template<typename T>
-//T GetRandomElementFromTArray(TArray<T> ArrayToCheck)
-//{
-//    return ArrayToCheck.begin();
-//}
+template<typename T>
+T GetRandomElementFromTArray(TArray<T> ArrayToCheck)
+{
+    return ArrayToCheck[FMath::RandRange(0, ArrayToCheck.Num()-1)];
+}
 
 TArray<FBaseItemInfo> AProjektZGameModeBase::GenerateItemsToDrop(int amount)
 {
@@ -67,24 +79,47 @@ TArray<FBaseItemInfo> AProjektZGameModeBase::GenerateItemsToDrop(int amount)
         float PrefixChance = GetPrefixChance(Quality); // Funkcja pomocnicza
         float SuffixChance = GetPrefixChance(Quality); // Funkcja pomocnicza
 
-        // Losuj prefix (jeœli wypadnie)
-        //if (FMath::FRand() < PrefixChance)
-        //{
-        //    FItemDescriptorPS Prefix = GetRandomElementFromTArray<FItemDescriptorPS>(ItemDescriptorInfo->PrefixInfo);
-        //    info.ItemName = Prefix.DescriptorName + " " + info.ItemName;
+        int AttributePoints = GetAmountOfModifiers(Quality);
 
+        int PrefixPoints = AttributePoints / 2;
+        int SuffixPoints = AttributePoints - PrefixPoints;
 
-        //   // info.Attributes.Append(Prefix.Attributes); // Dodaj atrybuty z prefixu
-        //    
-        //}
+        //Losuj prefix (jeœli wypadnie)
+        if (FMath::FRand() < PrefixChance)
+        {
+            FItemDescriptorPS Prefix = GetRandomElementFromTArray<FItemDescriptorPS>(ItemDescriptorInfo->PrefixInfo);
+            info.ItemName = Prefix.DescriptorName + " " + info.ItemName;
 
-        //// Losuj sufix (jeœli wypadnie)
-        //if (FMath::FRand() < SuffixChance)
-        //{
-        //    FItemDescriptorPS Sufix = GetRandomElementFromTArray<FItemDescriptorPS>(ItemDescriptorInfo->SufixInfo);
-        //    //info.Attributes.Append(Sufix.Attributes); // Dodaj atrybuty z sufixu
-        //    //info.Suffix = Sufix;
-        //}
+            for (int j = 0; j < PrefixPoints; j++)
+            {
+                FEffectAttributeModifierParams NewAttributeModifier;
+
+                NewAttributeModifier.EffectModifiedAttribute = GetRandomElementFromTArray(Prefix.EffectModifiers);
+
+                NewAttributeModifier.EffectMagnitude = 15;
+
+                info.Modifiers.Modifiers.Add(NewAttributeModifier);
+            }
+            
+        }
+
+        // Losuj sufix (jeœli wypadnie)
+        if (FMath::FRand() < SuffixChance)
+        {
+            FItemDescriptorPS Suffix = GetRandomElementFromTArray<FItemDescriptorPS>(ItemDescriptorInfo->SuffixInfo);
+            info.ItemName =   info.ItemName + " " + Suffix.DescriptorName;
+
+            for (int j = 0; j < PrefixPoints; j++)
+            {
+                FEffectAttributeModifierParams NewAttributeModifier;
+
+                NewAttributeModifier.EffectModifiedAttribute = GetRandomElementFromTArray(Suffix.EffectModifiers);
+
+                NewAttributeModifier.EffectMagnitude = 15;
+
+                info.Modifiers.Modifiers.Add(NewAttributeModifier);
+            }
+        }
 
         // Dodaj wygenerowany przedmiot do listy
         DroppedItems.Add(info);
