@@ -11,6 +11,8 @@
 #include <AbilitySystem/Abilities/ProjektZGameplayAbility.h>
 #include <Blueprint/WidgetLayoutLibrary.h>
 #include "Components/CapsuleComponent.h"
+#include <GameFramework/SpringArmComponent.h>
+
 
 
 APlayerCharacter::APlayerCharacter()
@@ -18,6 +20,13 @@ APlayerCharacter::APlayerCharacter()
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 400.f, 0.f);
 
+	armComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraSpringArm"));
+	armComponent->SetupAttachment(GetCapsuleComponent());
+	armComponent->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, 200.0f), FRotator(0.0f, 0.0f, 0.0f));
+	armComponent->TargetArmLength = 600.0f;
+
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraMain"));
+	Camera->SetupAttachment(armComponent, USpringArmComponent::SocketName);
 
 }
 
@@ -66,6 +75,16 @@ void APlayerCharacter::MulticastHandleDeath_Implementation()
 	}
 
 	UE_LOG(LogTemp, Log, TEXT("Player character has died. Changes applied on server and all clients."));
+}
+
+UCameraComponent* APlayerCharacter::GetCamera_Implementation()
+{
+	return Camera;
+}
+
+USpringArmComponent* APlayerCharacter::GetBoom_Implementation()
+{
+	return armComponent;
 }
 
 float APlayerCharacter::GetFirstFreeSlot()

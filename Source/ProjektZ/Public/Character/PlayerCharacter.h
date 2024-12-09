@@ -6,6 +6,8 @@
 #include "Character/CharacterBase.h"
 #include "Inventory/DA_BaseItem.h"
 #include <Inventory/ItemActor.h>
+#include "Interaction/PlayerInterface.h"
+#include <Camera/CameraComponent.h>
 #include "PlayerCharacter.generated.h"
 
 
@@ -16,7 +18,7 @@
 class UOverlayWidgetController;
 
 UCLASS()
-class PROJEKTZ_API APlayerCharacter : public ACharacterBase
+class PROJEKTZ_API APlayerCharacter : public ACharacterBase, public IPlayerInterface
 {
 	GENERATED_BODY()
 public:
@@ -27,6 +29,10 @@ public:
 	virtual void Die() override;
 
 	virtual void MulticastHandleDeath_Implementation() override;
+
+	virtual UCameraComponent* GetCamera_Implementation() override;
+
+	virtual USpringArmComponent* GetBoom_Implementation() override;
 
 	UFUNCTION(BlueprintCallable)
 	float GetFirstFreeSlot();
@@ -83,6 +89,12 @@ public:
 
 
 protected:
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
+	TObjectPtr<UCameraComponent> Camera;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
+	TObjectPtr<USpringArmComponent> armComponent;
 
 	UPROPERTY(BlueprintReadOnly, Category = "InventorySystem")
 	TArray<bool> IsItemEquipped;

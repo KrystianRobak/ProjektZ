@@ -45,6 +45,37 @@ void UProjectZProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLo
 		CurrProjectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
 		CurrProjectile->EffectParams = EffectParams;
 
+		CurrProjectile->IsPiercing = IsPiercing;
+		CurrProjectile->PiercingAmount = PiercingAmount;
+
 		CurrProjectile->FinishSpawning(SpawnTransform);
 	
+}
+
+void UProjectZProjectileSpell::SpawnProjectileWithGivenLocation(const FVector& ProjectileTargetLocation, const FVector& ProjectileSpawnLocation, const FRotator& ProfectileSpawnRotation)
+{
+	// Check if the function is running on the server
+	if (!GetAvatarActorFromActorInfo()->HasAuthority()) return;
+
+	// Create a transform for the spawn location and rotation
+	FTransform SpawnTransform;
+	SpawnTransform.SetLocation(ProjectileSpawnLocation);
+	SpawnTransform.SetRotation(ProfectileSpawnRotation.Quaternion());
+
+	// Spawn the projectile using deferred spawning method
+	AProjectile* CurrProjectile = GetWorld()->SpawnActorDeferred<AProjectile>(
+		ProjectileClass,
+		SpawnTransform,
+		GetOwningActorFromActorInfo(),
+		Cast<APawn>(GetOwningActorFromActorInfo()),
+		ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+
+	CurrProjectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+	CurrProjectile->EffectParams = EffectParams;
+
+	CurrProjectile->IsPiercing = IsPiercing;
+	CurrProjectile->PiercingAmount = PiercingAmount;
+
+	CurrProjectile->FinishSpawning(SpawnTransform);
+
 }

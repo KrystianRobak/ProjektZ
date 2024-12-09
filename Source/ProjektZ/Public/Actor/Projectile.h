@@ -21,6 +21,12 @@ public:
 	// Sets default values for this actor's properties
 	AProjectile();
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool IsPiercing;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int PiercingAmount;
+
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovement;
 
@@ -30,7 +36,7 @@ public:
 	TArray<FEffectParams> EffectParams;
 
 	UPROPERTY(EditAnywhere, Category = "Element")
-	bool bHasReacted;
+	bool bHasReacted = false;
 
 	FGameplayTag GetElementTag_Implementation();
 
@@ -47,6 +53,7 @@ protected:
 
 	UFUNCTION()
 	void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyindex, bool bFromSweep, const FHitResult& SweepResult);
+
 private:
 
 	UPROPERTY(EditDefaultsOnly)
@@ -74,4 +81,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AReactiveActor> ActorToSpawn;
+
+	TArray<TObjectPtr<AActor>> ActorsHit;
 };

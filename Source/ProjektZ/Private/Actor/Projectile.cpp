@@ -93,34 +93,50 @@ void AProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 
 	if (HasAuthority())
 	{
-		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
+		if (!ActorsHit.Contains(OtherActor))
 		{
-			DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
-			UProjektZAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
-			if (EffectParams.Num() > 0)
+			if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 			{
-				for (FEffectParams& Param : EffectParams)
+				DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
+				UProjektZAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
+				if (EffectParams.Num() > 0)
 				{
-					UProjektZAbilitySystemLibrary::ApplyEffect(Param, TargetASC, SourceAvatarActor);
+					for (FEffectParams& Param : EffectParams)
+					{
+						UProjektZAbilitySystemLibrary::ApplyEffect(Param, TargetASC, SourceAvatarActor);
+					}
 				}
 			}
+
+
+			if (OtherActor->Implements<UReactiveInterface>())
+			{
+				SetReacted_Implementation(true);
+			}
+
+
+			if (bSpawnsActors)
+			{
+				FActorSpawnParameters SpawnParams;
+				SpawnParams.Owner = this;
+				SpawnParams.Instigator = GetInstigator();
+
+				// Assuming you want to spawn at the projectile's location and rotation
+				FVector SpawnLocation = GetActorLocation();
+				FRotator SpawnRotation = GetActorRotation();
+				GetWorld()->SpawnActor<AActor>(ActorToSpawn, SpawnLocation, SpawnRotation, SpawnParams);
+			}
+			if (IsPiercing == false || PiercingAmount == 0)
+			{
+				Destroy();
+			}
+			else if (PiercingAmount != -1)
+			{
+				PiercingAmount--;
+			}
+			ActorsHit.Add(OtherActor);
 		}
-
-		SetReacted_Implementation(true);
-
-		if (bSpawnsActors)
-		{
-			FActorSpawnParameters SpawnParams;
-			SpawnParams.Owner = this;
-			SpawnParams.Instigator = GetInstigator();
-
-			// Assuming you want to spawn at the projectile's location and rotation
-			FVector SpawnLocation = GetActorLocation();
-			FRotator SpawnRotation = GetActorRotation();
-			GetWorld()->SpawnActor<AActor>(ActorToSpawn, SpawnLocation, SpawnRotation, SpawnParams);
-		}
-
-		Destroy();
+		
 	}
 	else bHit = true;
 }

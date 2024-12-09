@@ -203,7 +203,7 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.CombatSocket_RightHand = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("CombatSocket.RightHand"), FString("Right Hand"));
 	GameplayTags.CombatSocket_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("CombatSocket.LeftHand"), FString("Left Hand"));
 	GameplayTags.CombatSocket_Tail = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("CombatSocket.Tail"), FString("Tail"));
-
+	GameplayTags.CombatSocket_Ground = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("CombatSocket.Ground"), FString("Ground"));
 
 	/*
 	* Montage Tags
