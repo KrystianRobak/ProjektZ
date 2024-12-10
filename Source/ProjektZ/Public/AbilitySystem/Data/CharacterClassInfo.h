@@ -12,7 +12,8 @@ enum class ECharacterClass : uint8
 {
 	Mage,
 	Warrior,
-	Rogue
+	Rogue,
+	JungleBoss
 };
 
 USTRUCT(BlueprintType)
