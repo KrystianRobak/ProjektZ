@@ -149,22 +149,60 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 
 	GameplayTags.Ability_ConfirmState = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.ConfirmState"), FString("Run when ability starts so no other ability is beeing cast"));
 	
-	//Fire
-	
-
-
-	/*
-	* Abilities Cooldowns Tags
-	*/
-
 	GameplayTags.Abilities_Basic_Attack_1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Basic.Attack_1"), FString("FireBolt Ability"));
 	GameplayTags.Abilities_Basic_Attack_2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Basic.Attack_2"), FString("FireBolt Ability"));
 
 	GameplayTags.Abilities_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Fire.FireBolt"), FString("FireBolt Ability"));
-	GameplayTags.Abilities_Frost_FrostBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Frost.FrostBolt"), FString("FrostBolt Ability"));
-	GameplayTags.Abilities_Poison_PoisonBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Poison.PoisonBolt"), FString("FrostBolt Ability"));
-	GameplayTags.Abilities_Light_LightBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Light.LightBolt"), FString("FrostBolt Ability"));
-	GameplayTags.Abilities_Electro_ElctroBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Electro.ElctroBolt"), FString("FrostBolt Ability"));;
+	GameplayTags.Abilities_Fire_FireRing = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Fire.FireRing"), FString("Abilities_Fire_FireRing"));
+	GameplayTags.Abilities_Fire_FirePillars = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Fire.FirePillars"), FString("Abilities_Fire_FirePillars"));
+
+	GameplayTags.Abilities_Frost_Icycle = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Frost.Icycle"), FString("Abilities_Frost_Icycle"));
+	GameplayTags.Abilities_Frost_FrostArea = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Frost.FrostArea"), FString("Abilities_Frost_FrostArea"));
+	GameplayTags.Abilities_Frost_Blizzard = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Frost.Blizzard"), FString("Abilities_Frost_Blizzard"));
+
+	GameplayTags.Abilities_Poison_CloudStrike = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Poison.CloudStrike"), FString("Abilities_Poison_CloudStrike"));
+	GameplayTags.Abilities_Poison_Injection = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Poison.Injection"), FString("Abilities_Poison_Injection"));
+	GameplayTags.Abilities_Poison_DragonsBreath = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Poison.DragonsBreath"), FString("Abilities_Poison_DragonsBreath"));
+
+	GameplayTags.Abilities_Light_DivineShot = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Light.DivineShot"), FString("Abilities_Light_DivineShot"));
+	GameplayTags.Abilities_Light_DivineAmnesty = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Light.DivineAmnesty"), FString("Abilities_Light_DivineAmnesty"));
+	GameplayTags.Abilities_Light_DivineStrike = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Light.DivineStrike"), FString("Abilities_Light_DivineStrike"));
+
+	GameplayTags.Abilities_Electro_ShockBeam = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Electro.ShockBeam"), FString("Abilities_Electro_ShockBeam"));
+	GameplayTags.Abilities_Electro_Eleprison = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Electro.Eleprison"), FString("Abilities_Electro_Eleprison"));
+	GameplayTags.Abilities_Electro_ElectroStrike = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Electro.ElectroStrike"), FString("Abilities_Electro_ElectroStrike"));
+
+	GameplayTags.Abilities_Bow_ShotArrow = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Bow.ShotArrow"), FString("Abilities_Bow_ShotArrow"));
+	GameplayTags.Abilities_Bow_ChargedShot = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Bow.ChargedShot"), FString("Abilities_Bow_ChargedShot"));
+
+	GameplayTags.Abilities_Sword_ComboAttack_1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Sword.ComboAttack.1"), FString("Abilities_Sword_ComboAttack_1"));
+	GameplayTags.Abilities_Sword_ComboAttack_2 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Sword.ComboAttack.2"), FString("Abilities_Sword_ComboAttack_2"));
+	GameplayTags.Abilities_Sword_ComboAttack_3 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Sword.ComboAttack.3"), FString("Abilities_Sword_ComboAttack_3"));
+	GameplayTags.Abilities_Sword_ComboAttack_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Sword.ComboAttack.4"), FString("Abilities_Sword_ComboAttack_4"));
+	GameplayTags.Abilities_Sword_GroundSlam = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Sword.GroundSlam"), FString("Abilities_Sword_GroundSlam"));
+	
+	/*
+	* Basic Movement tags
+	*/
+
+	GameplayTags.Abilities_BasicMovement_Dash = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.BasicMovement.Dash"), FString("Abilities_BasicMovement_Dash"));
+	GameplayTags.Abilities_BasicMovement_Jump = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.BasicMovement.Jump"), FString("Abilities_BasicMovement_Jump"));
+	GameplayTags.Abilities_BasicMovement_Sprint = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.BasicMovement.Sprint"), FString("Abilities_BasicMovement_Sprint"));
+
+	/*
+	* Boss Abilities tags
+	*/
+
+	GameplayTags.Abilities_Boss_Jungle_LightningStrikes = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Boss.Jungle.LightningStrikes"), FString("Abilities_Boss_Jungle_LightningStrikes"));
+	GameplayTags.Abilities_Boss_Jungle_SummonHelpers = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Boss.Jungle.SummonHelpers"), FString("Abilities_Boss_Jungle_SummonHelpers"));
+	GameplayTags.Abilities_Boss_Jungle_ToxicClouds = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Boss.Jungle.ToxicClouds"), FString("Abilities_Boss_Jungle_ToxicClouds"));
+	GameplayTags.Abilities_Boss_Jungle_PlantStrike = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Boss.Jungle.PlantStrike"), FString("Abilities_Boss_Jungle_PlantStrike"));
+	GameplayTags.Abilities_Boss_Jungle_Earthquake = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Boss.Jungle.Earthquake"), FString("Abilities_Boss_Jungle_Earthquake"));
+	GameplayTags.Abilities_Boss_Jungle_EarthShatter = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Boss.Jungle.EarthShatter"), FString("Abilities_Boss_Jungle_EarthShatter"));
+
+	/*
+	* Abilities Cooldowns Tags
+	*/
 
 	GameplayTags.Cooldown_Fire_FireBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Fire.FireBolt"), FString("FireBolt Ability Cooldown"));
 	GameplayTags.Cooldown_Frost_FrostBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Frost.FrostBolt"), FString("FireBolt Ability Cooldown"));

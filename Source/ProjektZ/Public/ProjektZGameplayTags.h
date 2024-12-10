@@ -173,11 +173,35 @@ public:
 	FGameplayTag Abilities_Basic_Attack_1;
 	FGameplayTag Abilities_Basic_Attack_2;
 
+	FGameplayTag Abilities_Fire_FireAura;
 	FGameplayTag Abilities_Fire_FireBolt;
-	FGameplayTag Abilities_Frost_FrostBolt;
-	FGameplayTag Abilities_Poison_PoisonBolt;
-	FGameplayTag Abilities_Light_LightBolt;
-	FGameplayTag Abilities_Electro_ElctroBolt;
+	FGameplayTag Abilities_Fire_FireRing;
+	FGameplayTag Abilities_Fire_FirePillars;
+
+	FGameplayTag Abilities_Frost_Icycle;
+	FGameplayTag Abilities_Frost_FrostArea;
+	FGameplayTag Abilities_Frost_Blizzard;
+
+	FGameplayTag Abilities_Poison_CloudStrike;
+	FGameplayTag Abilities_Poison_Injection;
+	FGameplayTag Abilities_Poison_DragonsBreath;
+
+	FGameplayTag Abilities_Light_DivineShot;
+	FGameplayTag Abilities_Light_DivineAmnesty;
+	FGameplayTag Abilities_Light_DivineStrike;
+
+	FGameplayTag Abilities_Electro_ShockBeam;
+	FGameplayTag Abilities_Electro_Eleprison;
+	FGameplayTag Abilities_Electro_ElectroStrike;
+
+	FGameplayTag Abilities_Bow_ShotArrow;
+	FGameplayTag Abilities_Bow_ChargedShot;
+
+	FGameplayTag Abilities_Sword_ComboAttack_1;
+	FGameplayTag Abilities_Sword_ComboAttack_2;
+	FGameplayTag Abilities_Sword_ComboAttack_3;
+	FGameplayTag Abilities_Sword_ComboAttack_4;
+	FGameplayTag Abilities_Sword_GroundSlam;
 
 	FGameplayTag Cooldown_Fire_FireBolt;
 	FGameplayTag Cooldown_Frost_FrostBolt;
@@ -185,9 +209,28 @@ public:
 	FGameplayTag Cooldown_Light_LightBolt;
 	FGameplayTag Cooldown_Electro_ElctroBolt;
 
-
-
 	FGameplayTag Effects_HitReact;
+
+	//=================================
+	//     MOVEMENT
+	//=================================
+
+	FGameplayTag Abilities_BasicMovement_Dash;
+	FGameplayTag Abilities_BasicMovement_Jump;
+	FGameplayTag Abilities_BasicMovement_Sprint;
+
+	//=================================
+	//     BOSSES ABILITITES
+	//=================================
+
+	FGameplayTag Abilities_Boss_Jungle_LightningStrikes;
+	FGameplayTag Abilities_Boss_Jungle_SummonHelpers;
+	FGameplayTag Abilities_Boss_Jungle_ToxicClouds;
+	FGameplayTag Abilities_Boss_Jungle_PlantStrike;
+	FGameplayTag Abilities_Boss_Jungle_Earthquake;
+	FGameplayTag Abilities_Boss_Jungle_EarthShatter;
+
+
 
 	//=================================
 	//     STATS TRACK
