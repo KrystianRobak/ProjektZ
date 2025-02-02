@@ -116,7 +116,7 @@ void APC_PlayerController::CursorTrace()
 	FHitResult CameraHit;
 
 	FInt32Vector2 ViewPoint;
-	FRotator ViewRotation;
+	//FRotator ViewRotation;
 	GetViewportSize(ViewPoint.X, ViewPoint.Y);
 
 	ViewPoint.X = ViewPoint.X / 2;
