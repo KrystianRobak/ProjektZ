@@ -38,6 +38,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Element")
 	bool bHasReacted = false;
 
+	UPROPERTY();
+	TObjectPtr<USceneComponent> HomingTargetSceneComponent;
+
 	FGameplayTag GetElementTag_Implementation();
 
 	void SetReacted_Implementation(bool value);

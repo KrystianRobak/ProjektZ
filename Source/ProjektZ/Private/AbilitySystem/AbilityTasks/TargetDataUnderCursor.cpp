@@ -50,19 +50,34 @@ void UTargetDataUnderCursor::SendCameraCursorData()
 
     if (PC->DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldPosition, WorldDirection))
     {
-		Data->HitResult.Location = WorldPosition + (WorldDirection * 10000.0f);
-		Data->HitResult.ImpactPoint = Data->HitResult.Location;
-		DataHandle.Add(Data);
+        FVector TraceStart = WorldPosition;
+        FVector TraceEnd = TraceStart + (WorldDirection * 100000.0f);
 
-        AbilitySystemComponent->ServerSetReplicatedTargetData(GetAbilitySpecHandle(), GetActivationPredictionKey(), DataHandle, FGameplayTag(), AbilitySystemComponent->ScopedPredictionKey);
+        FHitResult HitResult;
+        FCollisionQueryParams TraceParams(FName(TEXT("AbilityTrace")), true, PC->GetPawn());
+        TraceParams.bReturnPhysicalMaterial = false;
 
-        if (ShouldBroadcastAbilityTaskDelegates())
+        if (PC->GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_Visibility, TraceParams))
         {
-            ValidData.Broadcast(DataHandle);
+
+            Data->HitResult = HitResult;
+            DataHandle.Add(Data);
         }
+		else
+		{
+			Data->HitResult.Location = WorldPosition + (WorldDirection * 100000.0f);
+			Data->HitResult.ImpactPoint = Data->HitResult.Location;
+			DataHandle.Add(Data);
+		}
+
+		AbilitySystemComponent->ServerSetReplicatedTargetData(GetAbilitySpecHandle(), GetActivationPredictionKey(), DataHandle, FGameplayTag(), AbilitySystemComponent->ScopedPredictionKey);
+
+		if (ShouldBroadcastAbilityTaskDelegates())
+		{
+			ValidData.Broadcast(DataHandle);
+		}
     }
 }
-
 
 void UTargetDataUnderCursor::OnTargetDataReplicatedCallback(const FGameplayAbilityTargetDataHandle& DataHandle, FGameplayTag ActivationTag)
 {
@@ -72,14 +87,3 @@ void UTargetDataUnderCursor::OnTargetDataReplicatedCallback(const FGameplayAbili
 		ValidData.Broadcast(DataHandle);
 	}
 }
-
-
-//FCollisionQueryParams Params;
-//Params.AddIgnoredActor(PC->GetPawn());
-
-//FVector TraceEnd = WorldPosition + (WorldDirection * 10000.0f);
-//FHitResult HitResult;
-
-//GetWorld()->LineTraceSingleByChannel(HitResult, WorldPosition, TraceEnd, ECollisionChannel::ECC_Visibility, Params);
-
-//Data->HitResult = HitResult;

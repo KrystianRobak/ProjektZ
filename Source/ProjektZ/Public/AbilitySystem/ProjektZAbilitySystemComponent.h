@@ -37,7 +37,7 @@ public:
 	void AddAbility(const TSubclassOf<UGameplayAbility>& Ability, float Level, FAbilityData& Data);
 
 	
-
+	UFUNCTION(BlueprintCallable)
 	FGameplayTag GetAbilityTagByInputTag(const FGameplayTag& InputTag);
 
 	FGameplayAbilitySpec* GetAbilitySpecByInputTag(const FGameplayTag& InputTag);

@@ -23,6 +23,9 @@ protected:
 	virtual void SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag);
 
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
+	void SpawnProjectiles(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, int AmountOfProjectiles, AActor* HomingTarget);
+
+	UFUNCTION(BlueprintCallable, Category = "Projectile")
 	virtual void SpawnProjectileWithGivenLocation(const FVector& ProjectileTargetLocation, const FVector& ProjectileSpawnLocation, const FRotator& ProfectileSpawnRotation);
 
 protected:
@@ -36,4 +39,10 @@ protected:
 	// If IsPiercing is true and Piercing Amount is -1 it will pierce infinitely
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int PiercingAmount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	float HomingAcceleration;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool IsHomingProjectile;
 };

@@ -39,4 +39,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> ElementApplier;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	bool IsLockedInPlace = false;
 };

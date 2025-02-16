@@ -152,9 +152,6 @@ void APlayerCharacter::BeginPlay()
 		Abilities.Add(FAbilityData());	
 	}
 
-	InventoryAbilities.Add(FAbilityData());
-	InventoryAbilities.Add(FAbilityData());
-
 	for (int i = 0; i < 9; i++)
 	{
 		IsItemEquipped.Add(false);
@@ -171,11 +168,12 @@ void APlayerCharacter::ApplyItemEffect_Implementation(const FBaseItemInfo& ItemI
 
 	UProjektZAbilitySystemComponent* ASC = CastChecked<UProjektZAbilitySystemComponent>(AbilitySystemComponent);
 
-	FAbilityData& Data = InventoryAbilities[0];
-	ASC->AddAbility(ItemInfo.LMBAbility, 1, Data);
-
-	FAbilityData& Data2 = InventoryAbilities[1];
-	ASC->AddAbility(ItemInfo.RMBAbility, 1, Data2);
+	for (auto ability : ItemInfo.Abilities)
+	{
+		InventoryAbilities.Add(FAbilityData());
+		FAbilityData& Data = InventoryAbilities.Last();
+		ASC->AddAbility(ability, 1, Data);
+	}
 
 	UProjektZAbilitySystemLibrary::ApplyEffectFromEquippedItem(ItemInfo, AbilitySystemComponent, false);
 }
@@ -189,11 +187,13 @@ void APlayerCharacter::RemoveItemEffect_Implementation(const FBaseItemInfo& Item
 
 	UProjektZAbilitySystemComponent* ASC = CastChecked<UProjektZAbilitySystemComponent>(AbilitySystemComponent);
 
-	ASC->ClearAbility(InventoryAbilities[0].AbilitySpecHandle);
-	ASC->ClearAbility(InventoryAbilities[1].AbilitySpecHandle);
+	for (auto& ability : InventoryAbilities)
+	{
+		ASC->ClearAbility(ability.AbilitySpecHandle);
+	}
 
-	InventoryAbilities[1] = FAbilityData();
-	InventoryAbilities[0] = FAbilityData();
+	InventoryAbilities.Empty();
+
 	UProjektZAbilitySystemLibrary::ApplyEffectFromEquippedItem(ItemInfo, AbilitySystemComponent, true);
 }
 

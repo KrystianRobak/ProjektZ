@@ -55,10 +55,7 @@ struct FBaseItemInfo
 	TObjectPtr<USkeletalMesh> WeaponMesh = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UGameplayAbility> LMBAbility;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UGameplayAbility> RMBAbility;
+	TArray<TSubclassOf<UGameplayAbility>> Abilities;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FVector2D Dimensions;
@@ -69,8 +66,7 @@ struct FBaseItemInfo
 		this->BackgroundMaterial = newItemInfo.BackgroundMaterial;
 		this->Dimensions = newItemInfo.Dimensions;
 		this->Icon = newItemInfo.Icon;
-		this->LMBAbility = newItemInfo.LMBAbility;
-		this->RMBAbility = newItemInfo.RMBAbility;
+		this->Abilities = newItemInfo.Abilities;
 		this->WeaponMesh = newItemInfo.WeaponMesh;
 		this->ItemTypePlacement = newItemInfo.ItemTypePlacement;
 		this->ItemType = newItemInfo.ItemType;

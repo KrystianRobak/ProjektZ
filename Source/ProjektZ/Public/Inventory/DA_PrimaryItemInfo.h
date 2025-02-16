@@ -57,10 +57,7 @@ struct FPrimaryItemInfo
 	TObjectPtr<USkeletalMesh> WeaponMesh = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UGameplayAbility> LMBAbility;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UGameplayAbility> RMBAbility;
+	TArray<TSubclassOf<UGameplayAbility>> Abilities;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FVector2D Dimensions;
