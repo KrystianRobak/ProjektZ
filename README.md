@@ -27,8 +27,7 @@ Project Z focuses on cooperative gameplay, where players must strategically comb
 
 ## Completed Features
 
-- **Damage System**
-- **Character Attributes (HP, Defense, Resistance, etc.)**
+- **Damage System and Character Attributes (HP, Defense, Resistance, etc.) - Unreal Engine 5 GAS Plugin**
 - **Skill Collection & Management (Swap, Drop, Pickup)**
 - **Ability Input Queue**
 - **Inventory System**
