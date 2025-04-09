@@ -64,7 +64,7 @@ TArray<FBaseItemInfo> AProjektZGameModeBase::GenerateItemsToDrop(int amount)
         FBaseItemInfo info;
 
         // Wybierz bazowy typ przedmiotu, np. miecz (Sword)
-        FPrimaryItemInfo Primaryinfo = PrimaryIteminfo->GetInfoByType(EItemType::Axe);
+        FPrimaryItemInfo Primaryinfo = PrimaryIteminfo->GetInfoByType(EItemType::Sword);
         info = Primaryinfo;
 
         // Losuj jakoœæ przedmiotu
