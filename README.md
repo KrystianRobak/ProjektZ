@@ -22,8 +22,7 @@ Project Z focuses on cooperative gameplay, where players must strategically comb
 
 ## Art Style
 
-- **Stylized 3D Graphics**
-- **Fantasy Dungeon Crawler Aesthetic**
+- **Stylized**
 
 ## Completed Features
 
@@ -50,5 +49,11 @@ Project Z focuses on cooperative gameplay, where players must strategically comb
 - **Roguelike Progression System** – Unlock persistent upgrades after each run.
 - **PvP Mode** – Competitive multiplayer battles (if time permits).
 - **Spell Construction System** – Build custom spells from modular components.
+
+
+## Showcase
+
+https://github.com/user-attachments/assets/173bdae5-60c0-4bcc-a9e5-447aecb48184
+
 
 ---
