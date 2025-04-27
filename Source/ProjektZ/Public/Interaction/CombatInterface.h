@@ -79,4 +79,10 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void IncrementMinionCount(int32 Amount);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetBlocking(bool ShouldBlock);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool GetIsBlocking();
 };

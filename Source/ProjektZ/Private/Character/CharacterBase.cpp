@@ -142,6 +142,17 @@ void ACharacterBase::IncrementMinionCount_Implementation(int32 Amount)
 	MinionCount += Amount;
 }
 
+void ACharacterBase::SetBlocking_Implementation(bool ShouldBlock)
+{
+	IsBlocking = ShouldBlock;
+
+}
+
+bool ACharacterBase::GetIsBlocking_Implementation()
+{
+	return IsBlocking;
+}
+
 void ACharacterBase::InitAbilityActorInfo()
 {
 

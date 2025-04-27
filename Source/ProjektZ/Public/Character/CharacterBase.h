@@ -59,6 +59,10 @@ public:
 
 	virtual void IncrementMinionCount_Implementation(int32 Amount) override;
 
+	virtual void SetBlocking_Implementation(bool ShouldBlock) override;
+
+	virtual bool GetIsBlocking_Implementation() override;
+
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
 
@@ -84,6 +88,9 @@ protected:
 	void StartWeaponDissolveTimeLine(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
 protected:
+
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	bool IsBlocking;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;

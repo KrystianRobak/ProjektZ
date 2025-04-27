@@ -300,7 +300,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	bool bCriticalHit = FMath::RandRange(0, 100) < EffectiveCriticalHitChance;
 
 	// Check whether hit is blocked
-	bool bBlocked = FMath::RandRange(0, 100) < BlockChance;
+	//bool bBlocked = FMath::RandRange(0, 100) < BlockChance;
+	bool bBlocked = TargetCombatInterface->Execute_GetIsBlocking(TargetActor);
 
 	UProjektZAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCriticalHit);
 	UProjektZAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);

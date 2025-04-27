@@ -64,6 +64,8 @@ public:
 	void virtual BeginPlay() override;
 
 
+
+
 	UFUNCTION(Server, Reliable)
 	void ApplyItemEffect(const FBaseItemInfo& ItemInfo);
 
@@ -83,7 +85,7 @@ public:
 	void InitOverlayWidgets();
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void ChangeItemMesh(const USkeletalMesh* ItemMesh, EItemPlacement ItemPlacement);
+	void ChangeItemMesh(const USkeletalMesh* ItemMesh, EItemPlacement ItemPlacement, EItemType ItemType);
 
 	void SlowDownPlayer();
 

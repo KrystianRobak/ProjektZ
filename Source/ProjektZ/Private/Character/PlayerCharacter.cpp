@@ -227,14 +227,14 @@ void APlayerCharacter::EquipItem(const FBaseItemInfo ItemInfo)
 		ApplyItemEffect(ItemInfo);
 	}
 
-	ChangeItemMesh(ItemInfo.WeaponMesh, ItemInfo.ItemTypePlacement);
+	ChangeItemMesh(ItemInfo.WeaponMesh, ItemInfo.ItemTypePlacement, ItemInfo.ItemType);
 }
 
 void APlayerCharacter::DeequipItem(const FBaseItemInfo& ItemInfo)
 {
 	if (ItemInfo.ItemTypePlacement == EItemPlacement::Noone) return;
 
-	ChangeItemMesh(nullptr, ItemInfo.ItemTypePlacement);
+	ChangeItemMesh(nullptr, ItemInfo.ItemTypePlacement, ItemInfo.ItemType);
 
 	IsItemEquipped[ItemInfo.ItemTypePlacement] = false;
 	ItemInfos[ItemInfo.ItemTypePlacement] = FBaseItemInfo();
