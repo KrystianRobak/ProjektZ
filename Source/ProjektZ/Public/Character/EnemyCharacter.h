@@ -60,6 +60,9 @@ public:
 	UPROPERTY()
 	TObjectPtr<AMyAIController> MyAIController;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Events")
+	void OnDeath();
+
 protected:
 	virtual void BeginPlay() override;
 

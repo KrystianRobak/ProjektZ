@@ -68,6 +68,7 @@ void AEnemyCharacter::Die()
 {
 	SetLifeSpan(LifeSpan);
 	if (MyAIController) MyAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
+	OnDeath();
 	Super::Die();
 }
 
