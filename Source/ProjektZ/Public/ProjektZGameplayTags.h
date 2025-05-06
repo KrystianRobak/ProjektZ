@@ -93,6 +93,9 @@ public:
 	FGameplayTag Condition_Corroded;
 	FGameplayTag Condition_Petrified;
 	FGameplayTag Condition_Rooted;
+	FGameplayTag Condition_NoJump;
+	FGameplayTag Condition_NoDash;
+	FGameplayTag Condition_NoSprint;
 
 	//=================================
 	//     INVENTORY SLOTS
@@ -189,6 +192,7 @@ public:
 	FGameplayTag Abilities_Light_DivineShot;
 	FGameplayTag Abilities_Light_DivineAmnesty;
 	FGameplayTag Abilities_Light_DivineStrike;
+	FGameplayTag Abilities_Light_LightBeam;
 
 	FGameplayTag Abilities_Electro_ShockBeam;
 	FGameplayTag Abilities_Electro_Eleprison;
@@ -207,6 +211,7 @@ public:
 	FGameplayTag Cooldown_Frost_FrostBolt;
 	FGameplayTag Cooldown_Poison_PoisonBolt;
 	FGameplayTag Cooldown_Light_LightBolt;
+	FGameplayTag Cooldown_Light_LightBeam;
 	FGameplayTag Cooldown_Electro_ElctroBolt;
 
 	FGameplayTag Effects_HitReact;
