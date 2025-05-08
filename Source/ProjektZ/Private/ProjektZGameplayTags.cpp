@@ -104,6 +104,9 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Condition_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Poison"), FString("Condition"));
 	GameplayTags.Condition_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Electro"), FString("Condition"));
 	GameplayTags.Condition_Light = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.Light"), FString("Condition"));
+	GameplayTags.Condition_NoJump = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.NoJump"), FString("Condition"));
+	GameplayTags.Condition_NoDash = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.NoDash"), FString("Condition"));
+	GameplayTags.Condition_NoSprint= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Condition.NoSprint"), FString("Condition"));
 
 	/*
 	* Damage Types Tags
@@ -167,6 +170,7 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Abilities_Light_DivineShot = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Light.DivineShot"), FString("Abilities_Light_DivineShot"));
 	GameplayTags.Abilities_Light_DivineAmnesty = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Light.DivineAmnesty"), FString("Abilities_Light_DivineAmnesty"));
 	GameplayTags.Abilities_Light_DivineStrike = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Light.DivineStrike"), FString("Abilities_Light_DivineStrike"));
+	GameplayTags.Abilities_Light_LightBeam = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Light.LightBeam"), FString("Abilities_Light_LightBeam"));
 
 	GameplayTags.Abilities_Electro_ShockBeam = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Electro.ShockBeam"), FString("Abilities_Electro_ShockBeam"));
 	GameplayTags.Abilities_Electro_Eleprison = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Electro.Eleprison"), FString("Abilities_Electro_Eleprison"));
@@ -209,6 +213,7 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Cooldown_Poison_PoisonBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Poison.PoisonBolt"), FString("FireBolt Ability Cooldown"));
 	GameplayTags.Cooldown_Light_LightBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Light.LightBolt"), FString("FireBolt Ability Cooldown"));
 	GameplayTags.Cooldown_Electro_ElctroBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Electro.ElctroBolt"), FString("FireBolt Ability Cooldown"));
+	GameplayTags.Cooldown_Light_LightBeam = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Light.LightBeam"), FString("LightBeam Ability Cooldown"));
 
 	//Fire
 
