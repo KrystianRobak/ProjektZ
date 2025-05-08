@@ -17,6 +17,4 @@ public:
 
 	UExecCalc_Damage();
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
-
-	
 };
