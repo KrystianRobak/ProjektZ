@@ -337,12 +337,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	UGameplayEffect* GELifesteal = NewObject<UGameplayEffect>(GetTransientPackage(), FName(TEXT("DamageDealt")));
 	GELifesteal->DurationPolicy = EGameplayEffectDurationType::Instant;
 
-	int32 Idx = GELifesteal->Modifiers.Num();
-	GELifesteal->Modifiers.SetNum(Idx + 1);
-	FGameplayModifierInfo& Info = GELifesteal->Modifiers[Idx];
-	Info.ModifierMagnitude = FScalableFloat(Damage);
-	Info.ModifierOp = EGameplayModOp::Additive;
-	Info.Attribute = UProjektZAttributeSet::GetDamageDealtAttribute();
-	SourceASC->ApplyGameplayEffectToSelf(GELifesteal, 1.0f, SourceASC->MakeEffectContext());
+	float LifestealPercent = 0.1f;
+	float LifestealAmount = Damage * LifestealPercent;
+	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UProjektZAttributeSet::GetHealthAttribute(), EGameplayModOp::Additive, LifestealAmount));
 }
 
