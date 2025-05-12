@@ -48,7 +48,7 @@ UPartyStatsWidgetController* AProjektZHUD::GetPartyMembersWidgetController(const
 	{
 		PartyMembersWidgetController = NewObject<UPartyStatsWidgetController>(this, PartyMembersWidgetControllerClass);
 		PartyMembersWidgetController->SetWidgetControllerParams(WcParams);
-		//PartyMembersWidgetController->BindCallbackToDependencies();
+		PartyMembersWidgetController->BindCallbackToDependencies();
 	}
 	return PartyMembersWidgetController;
 }
@@ -66,17 +66,17 @@ void AProjektZHUD::InitOverlay(APlayerController* _PlayerController, APlayerStat
 
 	OverlayWidget->SetWidgetController(WidgetController);
 
-	//UUserWidget* PartyWidget = CreateWidget<UUserWidget>(GetWorld(), PartyMembersWidgetClass);
-	//PartyMembersWidget = Cast<UProjektZUserWidget>(PartyWidget);
+	UUserWidget* PartyWidget = CreateWidget<UUserWidget>(GetWorld(), PartyMembersWidgetClass);
+	PartyMembersWidget = Cast<UProjektZUserWidget>(PartyWidget);
 
-	//UPartyStatsWidgetController* PartyWidgetController = GetPartyMembersWidgetController(WidgetControllerParams);
+	UPartyStatsWidgetController* PartyWidgetController = GetPartyMembersWidgetController(WidgetControllerParams);
 
-	//PartyMembersWidget->SetWidgetController(PartyWidgetController);
+	PartyMembersWidget->SetWidgetController(PartyWidgetController);
 
 	WidgetController->BroadcastInitialValues();
 
 	Widget->AddToViewport();
-	//PartyMembersWidget->AddToViewport();
+	PartyMembersWidget->AddToViewport();
 
 }
 

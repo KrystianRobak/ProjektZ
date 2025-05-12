@@ -31,6 +31,12 @@ public:
 
 	UPartyStatsWidgetController* GetPartyMembersWidgetController(const FWidgetControllerParams& WcParams);
 
+	UFUNCTION(BlueprintCallable)
+	UProjektZUserWidget* GetOverlayWidget() const { return OverlayWidget; }
+
+	UFUNCTION(BlueprintCallable)
+	UProjektZUserWidget* GetPartyMembersWidget() const { return PartyMembersWidget; }
+
 	void InitOverlay(APlayerController* _PlayerController, APlayerState* _PlayerState, UAbilitySystemComponent* _AbilitySystemComponent, UAttributeSet* _AttributeSet);
 
 private:
@@ -50,7 +56,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<UAttributeMenuWidgetController> AttributeMenuWidgetController;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere) 
 	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
 
 	UPROPERTY()
