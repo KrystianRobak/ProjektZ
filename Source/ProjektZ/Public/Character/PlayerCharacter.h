@@ -28,6 +28,8 @@ public:
 
 	virtual void Die() override;
 
+	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
+
 	virtual void MulticastHandleDeath_Implementation() override;
 
 	virtual UCameraComponent* GetCamera_Implementation() override;
