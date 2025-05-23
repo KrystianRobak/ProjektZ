@@ -53,6 +53,30 @@ void APlayerCharacter::Die()
 	MulticastHandleDeath();
 }
 
+void APlayerCharacter::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	if (NewCount > 0)
+	{
+		if (APC_PlayerController* ProjektZPlayerController = Cast<APC_PlayerController>(GetController()))
+		{
+			ProjektZPlayerController->DisableInput(ProjektZPlayerController);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player stunned!"));
+			bInputBlocked = true;
+		}
+
+	}
+	else
+	{
+		if (APC_PlayerController* ProjektZPlayerController = Cast<APC_PlayerController>(GetController()))
+		{
+			ProjektZPlayerController->EnableInput(ProjektZPlayerController);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Player unstunned!"));
+			bInputBlocked = false;
+		}
+
+	}
+}
+
 void APlayerCharacter::MulticastHandleDeath_Implementation()
 {
 	// Disable collision

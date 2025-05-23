@@ -48,6 +48,11 @@ void ACharacterBase::BeginPlay()
 			this,
 			&ACharacterBase::HitReactTagChanged
 		);
+
+		AbilitySystemComponent->RegisterGameplayTagEvent(FProjektZGameplayTags::Get().Debuff_Stun, EGameplayTagEventType::NewOrRemoved).AddUObject(
+			this,
+			&ACharacterBase::StunTagChanged
+		);
 	}
 }
 
@@ -156,6 +161,20 @@ bool ACharacterBase::GetIsBlocking_Implementation()
 void ACharacterBase::InitAbilityActorInfo()
 {
 
+}
+
+void ACharacterBase::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	if (NewCount > 0)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Char stunned!"));
+		GetCharacterMovement()->DisableMovement();
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Char unstunned!"));
+		GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	}
 }
 
 void ACharacterBase::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
