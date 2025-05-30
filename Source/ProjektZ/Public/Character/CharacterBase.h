@@ -42,6 +42,8 @@ public:
 
 	virtual void Die() override;
 
+	virtual void Downed() override;
+
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
 

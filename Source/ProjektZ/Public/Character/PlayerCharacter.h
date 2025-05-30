@@ -32,6 +32,11 @@ public:
 
 	virtual void MulticastHandleDeath_Implementation() override;
 
+	virtual void Downed();
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastHandleDown();
+
 	virtual UCameraComponent* GetCamera_Implementation() override;
 
 	virtual USpringArmComponent* GetBoom_Implementation() override;
@@ -126,6 +131,9 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, Category = "AbilityInputQueue", meta = (AllowPrivateAccess = "true"))
 	bool bInputBlocked = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
+	bool bDowned = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<AItemActor> ItemActorClass;
