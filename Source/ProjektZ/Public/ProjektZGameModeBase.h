@@ -23,12 +23,6 @@ class PROJEKTZ_API AProjektZGameModeBase : public AGameModeBase
 	UFUNCTION(BlueprintCallable)
 	TArray<FBaseItemInfo> GenerateItemsToDrop(int amount);
 
-<<<<<<< HEAD
-=======
-	UFUNCTION(BlueprintCallable) 
-	float GetProgressCommon(int Progress);
->>>>>>> 770e7ed0429fd500258131809b58fb54de524b7a
-
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
