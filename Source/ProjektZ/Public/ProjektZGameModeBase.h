@@ -23,6 +23,9 @@ class PROJEKTZ_API AProjektZGameModeBase : public AGameModeBase
 	UFUNCTION(BlueprintCallable)
 	TArray<FBaseItemInfo> GenerateItemsToDrop(int amount);
 
+	UFUNCTION(BlueprintCallable) 
+	float GetProgressCommon(int Progress);
+
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
@@ -36,6 +39,10 @@ public:
 	/* RANDOM ITEM GENERATOR VARIABLE SECTION */
 
 	int StageBonus;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Levels")
+	int32 Progress = 0;
+
 
 	TArray<int> GradeBonuses;
 
