@@ -144,10 +144,3 @@ TArray<FBaseItemInfo> AProjektZGameModeBase::GenerateItemsToDrop(int amount)
 
     return DroppedItems;
 }
-
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 770e7ed0429fd500258131809b58fb54de524b7a
