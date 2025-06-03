@@ -3,8 +3,11 @@
 
 #include "ProjektZGameModeBase.h"
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 770e7ed0429fd500258131809b58fb54de524b7a
 float GetProgressCommon(int Progress){
 
     if (Progress == 0) return 0.0f;
@@ -148,5 +151,8 @@ TArray<FBaseItemInfo> AProjektZGameModeBase::GenerateItemsToDrop(int amount)
 }
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 770e7ed0429fd500258131809b58fb54de524b7a
