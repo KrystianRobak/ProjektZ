@@ -3,6 +3,14 @@
 
 #include "ProjektZGameModeBase.h"
 
+
+
+float GetProgressCommon(int Progress){
+
+    if (Progress == 0) return 0.0f;
+    return FMath::Clamp(Progress / 10.f, 0.0f, 1.0f);
+}
+
 float GetPrefixChance(EItemGrad Quality)
 {
     switch (Quality)
@@ -39,14 +47,25 @@ int GetBaseValueForQuality(EItemGrad Quality)
     }
 }
 
-EItemGrad DetermineItemQuality()
+EItemGrad DetermineItemQuality(float ProgressCommon)
 {
     float Roll = FMath::FRand();
 
-    if (Roll < 0.5f) return EItemGrad::Common;        // 50% szans
-    else if (Roll < 0.8f) return EItemGrad::Rare;     // 30% szans
-    else if (Roll < 0.95f) return EItemGrad::Legendary; // 15% szans
-    else return EItemGrad::Mythic;                 // 5% szans
+    float CommonChance = FMath::Lerp(0.50f, 0.15f, ProgressCommon);
+    float RareChance = FMath::Lerp(0.30f, 0.45f, ProgressCommon);
+    float LegendaryChance = FMath::Lerp(0.15f, 0.25f, ProgressCommon);
+    float MythicChance = FMath::Lerp(0.05f, 0.15f, ProgressCommon);
+
+    float TotalChance = CommonChance + RareChance + LegendaryChance + MythicChance;
+    CommonChance /= TotalChance;
+    RareChance /= TotalChance;
+    LegendaryChance /= TotalChance;
+    MythicChance /= TotalChance;
+
+    if (Roll < CommonChance) return EItemGrad::Common; // 50% -> 15%
+    else if (Roll < CommonChance + RareChance) return EItemGrad::Rare; // 30% -> 45%
+    else if (Roll < CommonChance + RareChance + LegendaryChance) return EItemGrad::Legendary; // 15% -> 25%
+    else return EItemGrad::Mythic; //5% -> 15%
 }
 
 template<typename T>
@@ -68,7 +87,7 @@ TArray<FBaseItemInfo> AProjektZGameModeBase::GenerateItemsToDrop(int amount)
         info = Primaryinfo;
 
         // Losuj jakoœæ przedmiotu
-        EItemGrad Quality = DetermineItemQuality();
+        EItemGrad Quality = DetermineItemQuality(GetProgressCommon(Progress));
         info.ItemGrade = Quality;
 
         // Ustaw bazowe statystyki dla danej jakoœci
@@ -96,7 +115,7 @@ TArray<FBaseItemInfo> AProjektZGameModeBase::GenerateItemsToDrop(int amount)
 
                 NewAttributeModifier.EffectModifiedAttribute = GetRandomElementFromTArray(Prefix.EffectModifiers);
 
-                NewAttributeModifier.EffectMagnitude = 15;
+                NewAttributeModifier.EffectMagnitude = StatPoints;
 
                 info.Modifiers.Modifiers.Add(NewAttributeModifier);
             }
@@ -115,7 +134,7 @@ TArray<FBaseItemInfo> AProjektZGameModeBase::GenerateItemsToDrop(int amount)
 
                 NewAttributeModifier.EffectModifiedAttribute = GetRandomElementFromTArray(Suffix.EffectModifiers);
 
-                NewAttributeModifier.EffectMagnitude = 15;
+                NewAttributeModifier.EffectMagnitude = StatPoints;
 
                 info.Modifiers.Modifiers.Add(NewAttributeModifier);
             }
@@ -127,3 +146,7 @@ TArray<FBaseItemInfo> AProjektZGameModeBase::GenerateItemsToDrop(int amount)
 
     return DroppedItems;
 }
+
+
+
+
