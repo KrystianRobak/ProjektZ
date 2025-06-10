@@ -41,7 +41,7 @@ public:
 
 private:
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	TObjectPtr<UProjektZUserWidget> OverlayWidget;
 
 	UPROPERTY(EditAnywhere)
