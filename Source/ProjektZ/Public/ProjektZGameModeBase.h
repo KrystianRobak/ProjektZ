@@ -37,6 +37,10 @@ public:
 
 	int StageBonus;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Levels")
+	int32 Progress = 0;
+
+
 	TArray<int> GradeBonuses;
 
 	TArray<int> GradeCapsForModifiers;

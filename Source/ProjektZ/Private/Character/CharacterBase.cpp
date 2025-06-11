@@ -194,6 +194,12 @@ void ACharacterBase::Die()
 	MulticastHandleDeath();
 }
 
+void ACharacterBase::Downed()
+{
+	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+}
+
+
 void ACharacterBase::MulticastHandleDeath_Implementation()
 {
 	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());

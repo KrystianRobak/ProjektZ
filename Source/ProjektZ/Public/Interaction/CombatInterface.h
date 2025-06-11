@@ -59,6 +59,11 @@ public:
 
 	virtual void Die() = 0;
 
+	virtual void Downed() = 0;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool IsDowned() const;
+
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool IsDead() const;
 
