@@ -34,11 +34,15 @@ public:
 
 	bool HasAbility();
 
+	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 
 	virtual void Die() override;
+
+	virtual void Downed() override;
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();

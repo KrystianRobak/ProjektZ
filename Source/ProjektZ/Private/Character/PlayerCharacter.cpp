@@ -53,6 +53,71 @@ void APlayerCharacter::Die()
 	MulticastHandleDeath();
 }
 
+void APlayerCharacter::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	if (NewCount > 0)
+	{
+		if (APC_PlayerController* ProjektZPlayerController = Cast<APC_PlayerController>(GetController()))
+		{
+			ProjektZPlayerController->DisableInput(ProjektZPlayerController);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player stunned!"));
+			bInputBlocked = true;
+		}
+
+	}
+	else
+	{
+		if (APC_PlayerController* ProjektZPlayerController = Cast<APC_PlayerController>(GetController()))
+		{
+			ProjektZPlayerController->EnableInput(ProjektZPlayerController);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Player unstunned!"));
+			bInputBlocked = false;
+		}
+
+	}
+}
+
+void APlayerCharacter::Downed()
+{
+	if (bDowned || bDead) return;
+
+	// Disable input on controller
+	if (AController* PlayerController = GetController())
+	{
+		PlayerController->SetIgnoreMoveInput(true);
+	}
+
+	bDowned = true;
+	bDead = false;
+
+	MulticastHandleDown();
+}
+
+void APlayerCharacter::MulticastHandleDown_Implementation()
+{
+	// Disable collision
+	/*if (UCapsuleComponent* Capsule = GetCapsuleComponent())
+		{
+				Capsule->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+					}*/
+
+					// Set downed status
+	bDowned = true;
+	bDead = false;
+
+	// Update tags
+	Tags.Remove("Player");
+	Tags.Add("Downed");
+
+	// Disable input on controller
+	if (AController* PlayerController = GetController())
+	{
+		PlayerController->SetIgnoreMoveInput(true);
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("Player character has been downed. Changes applied on server and all clients."));
+}
+
 void APlayerCharacter::MulticastHandleDeath_Implementation()
 {
 	// Disable collision
@@ -61,7 +126,7 @@ void APlayerCharacter::MulticastHandleDeath_Implementation()
 		Capsule->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 
-	// Set death status
+	bDowned = true;
 	bDead = true;
 
 	// Update tags
@@ -152,7 +217,7 @@ void APlayerCharacter::BeginPlay()
 		Abilities.Add(FAbilityData());	
 	}
 
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		IsItemEquipped.Add(false);
 		ItemInfos.Add(FBaseItemInfo());
