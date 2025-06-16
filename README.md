@@ -24,8 +24,7 @@ Project Z focuses on cooperative gameplay, where players must strategically comb
 
 - **Stylized**
   
-![obraz](https://github.com/user-attachments/assets/c1a1c189-f46f-47e9-9884-7aa664b18db0)
-
+![obraz](https://github.com/user-attachments/assets/53222ee8-bb6d-4dd4-a397-591e80b0ee62)
 
 
 ## Completed Features
@@ -44,6 +43,11 @@ Project Z focuses on cooperative gameplay, where players must strategically comb
 - **Boss Rewards & Level Progression System**
 - **Item Generation**
 - **AOE Skills & Passive Abilities**
+- **Procedural Dungeon Generation**
+  
+![obraz](https://github.com/user-attachments/assets/3740ce66-2990-4677-8cde-a6b8349ddc64)
+
+![Bez tytułu](https://github.com/user-attachments/assets/6b5e683d-13c1-4723-81f1-be8ef06f4c9e)
 
 ## Features in Development
 
