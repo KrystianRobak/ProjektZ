@@ -23,6 +23,10 @@ Project Z focuses on cooperative gameplay, where players must strategically comb
 ## Art Style
 
 - **Stylized**
+  
+![obraz](https://github.com/user-attachments/assets/c1a1c189-f46f-47e9-9884-7aa664b18db0)
+
+
 
 ## Completed Features
 
