@@ -7,11 +7,21 @@ bool UElementsReactionMap::IsTagReactive(FGameplayTag MainTag, FGameplayTagConta
 {
 	for (auto elem : ElementsInformation)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Checking MainTag: %s"), *MainTag.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("Against ElementTag: %s"), *elem.ElementTag.ToString());
+
 		if (elem.ElementTag == MainTag)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("Matching ElementTag Found"));
+
 			if (TagsToCheck.HasAnyExact(elem.ReactionElementTags))
 			{
+				UE_LOG(LogTemp, Warning, TEXT("Reaction Tag Found: %s"), *elem.ReactionElementTags.ToString());
 				return true;
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Reaction Tags didn't match. Checking: %s"), *TagsToCheck.ToString());
 			}
 		}
 	}
