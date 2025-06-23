@@ -1,6 +1,6 @@
 # Project Z (WIP)
 
-**Project Z** is a stylized 3D **co-op roguelike action fantasy dungeon crawler** for **1-4 players**. The game revolves around a team working together to defeat **The Ultimate Boss** by combining their spells and abilities in creative ways.
+Project Z is a stylized 3D co-op roguelike action fantasy dungeon crawler for 1-4 players. The game revolves around a team working together to defeat The Ultimate Boss by combining their spells and abilities in creative ways.
 
 ## Game Identity
 
@@ -23,6 +23,9 @@ Project Z focuses on cooperative gameplay, where players must strategically comb
 ## Art Style
 
 - **Stylized**
+  
+![obraz](https://github.com/user-attachments/assets/53222ee8-bb6d-4dd4-a397-591e80b0ee62)
+
 
 ## Completed Features
 
@@ -40,6 +43,11 @@ Project Z focuses on cooperative gameplay, where players must strategically comb
 - **Boss Rewards & Level Progression System**
 - **Item Generation**
 - **AOE Skills & Passive Abilities**
+- **Procedural Dungeon Generation**
+  
+![obraz](https://github.com/user-attachments/assets/3740ce66-2990-4677-8cde-a6b8349ddc64)
+
+![Bez tytułu](https://github.com/user-attachments/assets/6b5e683d-13c1-4723-81f1-be8ef06f4c9e)
 
 ## Features in Development
 
