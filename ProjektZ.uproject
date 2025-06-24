@@ -66,5 +66,8 @@
 			"Name": "OnlineSubsystemSteam",
 			"Enabled": true
 		}
+	],
+	"AdditionalPluginDirectories": [
+		"Plugins"
 	]
 }

@@ -8,9 +8,8 @@ public class ProjektZTarget : TargetRules
 	public ProjektZTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
-		bUsesSteam = true;
 		DefaultBuildSettings = BuildSettingsVersion.V4;
-		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_3;
+		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_6;
 		ExtraModuleNames.Add("ProjektZ");
 	}
 }

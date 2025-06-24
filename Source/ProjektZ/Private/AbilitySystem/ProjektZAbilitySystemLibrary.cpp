@@ -13,6 +13,7 @@
 #include <GameplayEffectComponents/TargetTagsGameplayEffectComponent.h>
 #include <Interaction/CombatInterface.h>
 #include <AbilitySystem/ProjektZAbilitySystemComponent.h>
+#include "Engine/OverlapResult.h"
 
 UOverlayWidgetController* UProjektZAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
