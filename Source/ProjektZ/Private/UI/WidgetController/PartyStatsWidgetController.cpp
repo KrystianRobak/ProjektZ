@@ -5,6 +5,7 @@
 #include "AbilitySystem/ProjektZAttributeSet.h"
 #include "GameFramework/GameStateBase.h"
 #include "Player/ProjektZPlayerState.h"
+#include <Kismet/GameplayStatics.h>
 
 void UPartyStatsWidgetController::BroadcastInitialValues()
 {
@@ -29,8 +30,16 @@ void UPartyStatsWidgetController::BindCallbackToDependencies()
 
 	for (auto Player : GameState->PlayerArray)
 	{
+		if (Player = UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetPlayerState<APlayerState>())
+			continue;
+
 		AProjektZPlayerState* RemotePlayerState = Cast<AProjektZPlayerState>(Player);
+
+		if (!RemotePlayerState || !RemotePlayerState->GetAbilitySystemComponent())
+			continue;
+
 		UAbilitySystemComponent* PlayerASC = RemotePlayerState->GetAbilitySystemComponent();
+
 		const UProjektZAttributeSet* ProjektZAttributeSet = CastChecked<UProjektZAttributeSet>(RemotePlayerState->GetAttributeSet());
 		
 		PlayerASC->GetGameplayAttributeValueChangeDelegate(ProjektZAttributeSet->GetHealthAttribute()).AddLambda(
