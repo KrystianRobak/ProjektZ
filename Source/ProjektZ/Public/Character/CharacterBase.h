@@ -67,6 +67,10 @@ public:
 
 	virtual bool GetIsBlocking_Implementation() override;
 
+	virtual void SetIsGrappling_Implementation(bool ShouldBlock) override;
+
+	virtual bool GetIsGrappling_Implementation() override;
+
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
 
@@ -95,6 +99,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	bool IsBlocking;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	bool IsGrappling;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
