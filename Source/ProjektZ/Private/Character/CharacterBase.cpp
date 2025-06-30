@@ -158,6 +158,16 @@ bool ACharacterBase::GetIsBlocking_Implementation()
 	return IsBlocking;
 }
 
+void ACharacterBase::SetIsGrappling_Implementation(bool ShouldBlock)
+{
+	IsGrappling = ShouldBlock;
+}
+
+bool ACharacterBase::GetIsGrappling_Implementation()
+{
+	return IsGrappling;
+}
+
 void ACharacterBase::InitAbilityActorInfo()
 {
 

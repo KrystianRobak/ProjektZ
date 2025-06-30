@@ -90,4 +90,10 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool GetIsBlocking();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetIsGrappling(bool ShouldBlock);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool GetIsGrappling();
 };
