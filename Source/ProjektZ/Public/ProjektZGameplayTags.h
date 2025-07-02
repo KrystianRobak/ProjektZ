@@ -30,6 +30,7 @@ public:
 
 	FGameplayTag Attributes_Secondary_MaxHealth;
 	FGameplayTag Attributes_Secondary_MaxMana;
+	FGameplayTag Attributes_Secondary_MaxStamina;
 
 	FGameplayTag Attributes_Secondary_WeaponDamage;
 	FGameplayTag Attributes_Secondary_Armor;
@@ -213,8 +214,19 @@ public:
 	FGameplayTag Cooldown_Light_LightBolt;
 	FGameplayTag Cooldown_Light_LightBeam;
 	FGameplayTag Cooldown_Electro_ElctroBolt;
+	FGameplayTag Cooldown_Frost_EternalWinter;
 
 	FGameplayTag Effects_HitReact;
+
+
+	//=================================
+	//     MOVEMENT
+	//=================================
+
+	FGameplayTag Cost_Mana;
+	FGameplayTag Cost_Health;
+	FGameplayTag Cost_Stamina;
+
 
 	//=================================
 	//     MOVEMENT

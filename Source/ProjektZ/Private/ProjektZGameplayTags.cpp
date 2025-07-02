@@ -12,6 +12,7 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	/*
 	* Primary Attributes
 	*/
+
 	GameplayTags.Attributes_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Strength"), FString("Increases physical damage"));
 	GameplayTags.Attributes_Primary_Intelligence = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Intelligence"), FString("Increases magical damage"));
 	GameplayTags.Attributes_Primary_Resilience = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Resilience"), FString("Increases Armor and Armor Penetration"));
@@ -32,6 +33,7 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_Secondary_ManaRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.ManaRegeneration"), FString("Amout of Mana regenerated every 1 second"));
 	GameplayTags.Attributes_Secondary_MaxHealth = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MaxHealth"), FString("Maximum amount of Health obtainable"));
 	GameplayTags.Attributes_Secondary_MaxMana = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MaxMana"), FString("Maximum amount of Mana obtainable"));
+	GameplayTags.Attributes_Secondary_MaxStamina = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MaxStamina"), FString("Maximum amount of Stamina obtainable"));
 	GameplayTags.Attributes_Secondary_MovementSpeed = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MovementSpeed"), FString("MovementSpeed of character"));
 
 	/*
@@ -44,6 +46,7 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_Resistance_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Physical"), FString("Resistance to physical"));
 	GameplayTags.Attributes_Resistance_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Poison"), FString("Resistance to poison"));
 	GameplayTags.Attributes_Resistance_Light = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Resistance.Light"), FString("Resistance to light"));
+
 	/*
 	* Debuffs Tags
 	*/
@@ -147,6 +150,14 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.ElementTypesToConditionType.Add(GameplayTags.Element_Poison, GameplayTags.Condition_Poison);
 
 	/*
+	* Primary Attributes
+	*/
+
+	GameplayTags.Cost_Health = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cost.Health"), FString("Cost Health"));
+	GameplayTags.Cost_Mana = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cost.Mana"), FString("Cost Mana"));
+	GameplayTags.Cost_Stamina = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cost.Stamina"), FString("Cost Stamina"));
+
+	/*
 	* Abilities Tags
 	*/
 
@@ -222,6 +233,7 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	//Frost
 
 	GameplayTags.Cooldown_Frost_FrostBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Frost.FrostBolt"), FString("FrostBolt Ability Cooldown"));
+	GameplayTags.Cooldown_Frost_EternalWinter = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Frost.EternalWinter"), FString("Eternal Winter Ability Cooldown"));
 
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Effects.HitReact"), FString("Reaction to beeing hit"));
 

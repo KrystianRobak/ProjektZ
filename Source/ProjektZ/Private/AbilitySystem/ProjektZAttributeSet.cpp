@@ -41,6 +41,7 @@ void UProjektZAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, ManaRegeneration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MaxStamina, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MovementSpeed, COND_None, REPNOTIFY_Always);
 
 	//Resistance Attributes
@@ -56,7 +57,7 @@ void UProjektZAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, Mana, COND_None, REPNOTIFY_Always);
-	
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, Stamina, COND_None, REPNOTIFY_Always);
 	//Stat Tracking
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, DamageDealt, COND_None, REPNOTIFY_Always);
@@ -197,6 +198,11 @@ void UProjektZAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldMana) co
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, Mana, OldMana);
 }
 
+void UProjektZAttributeSet::OnRep_Stamina(const FGameplayAttributeData& OldStamina) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, Stamina, OldStamina);
+}
+
 void UProjektZAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, Strength, OldStrength);
@@ -265,6 +271,11 @@ void UProjektZAttributeSet::OnRep_ManaRegeneration(const FGameplayAttributeData&
 void UProjektZAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, MaxHealth, OldMaxHealth);
+}
+
+void UProjektZAttributeSet::OnRep_MaxStamina(const FGameplayAttributeData& OldMaxStamina) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, MaxStamina, OldMaxStamina);
 }
 
 void UProjektZAttributeSet::OnRep_FireResistance(const FGameplayAttributeData& OldFireResistance) const
