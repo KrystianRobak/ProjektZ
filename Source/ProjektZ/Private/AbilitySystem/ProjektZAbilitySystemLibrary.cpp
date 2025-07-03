@@ -109,10 +109,11 @@ void UProjektZAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* W
 {
 	FCharacterClassDefaultInfo ClassDefaultInfo = GetCharacterClassInfo(WorldContextObject)->GetClassDefaultInfo(CharacterClass);
 	
-	ApplyEffectToASC(ASC, ClassDefaultInfo.PrimaryAttributes, Level);
-	ApplyEffectToASC(ASC, ClassDefaultInfo.SecondaryAttribute, Level);
-	ApplyEffectToASC(ASC, ClassDefaultInfo.VitalAttribute, Level);
-	ApplyEffectToASC(ASC, ClassDefaultInfo.ResistanceAttribute, Level);
+	ApplyEffectToASC(ASC, ClassDefaultInfo.OffensiveAttributes, Level);
+	ApplyEffectToASC(ASC, ClassDefaultInfo.DefensiveAttributes, Level);
+	ApplyEffectToASC(ASC, ClassDefaultInfo.VitalAttributes, Level);
+	ApplyEffectToASC(ASC, ClassDefaultInfo.ResistanceAttributes, Level);
+	ApplyEffectToASC(ASC, ClassDefaultInfo.AmplifierAttributes, Level);
 }
 
 void UProjektZAbilitySystemLibrary::GiveCommonAbilitites(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)

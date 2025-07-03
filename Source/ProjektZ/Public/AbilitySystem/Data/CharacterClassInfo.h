@@ -22,16 +22,19 @@ struct FCharacterClassDefaultInfo
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
-	TSubclassOf<UGameplayEffect> PrimaryAttributes;
+	TSubclassOf<UGameplayEffect> OffensiveAttributes;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
-	TSubclassOf<UGameplayEffect> SecondaryAttribute;
+	TSubclassOf<UGameplayEffect> DefensiveAttributes;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
-	TSubclassOf<UGameplayEffect> VitalAttribute;
+	TSubclassOf<UGameplayEffect> VitalAttributes;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
-	TSubclassOf<UGameplayEffect> ResistanceAttribute;
+	TSubclassOf<UGameplayEffect> ResistanceAttributes;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
+	TSubclassOf<UGameplayEffect> AmplifierAttributes;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;

@@ -68,30 +68,6 @@ public:
 
 	void PopulateTagsToAttributesMap();
 
-	/*
-	 *	Primary Attributes
-	 */
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strength, Category = "Primary Attributes")
-	FGameplayAttributeData Strength;
-	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, Strength)
-
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Vitality, Category = "Primary Attributes") // NEW: Vitality
-	FGameplayAttributeData Vitality;
-	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, Vitality)
-
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Dexterity, Category = "Primary Attributes") // NEW: Dexterity
-	FGameplayAttributeData Dexterity;
-	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, Dexterity)
-
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Intelligence, Category = "Primary Attributes")
-	FGameplayAttributeData Intelligence;
-	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, Intelligence)
-
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Willpower, Category = "Primary Attributes") // NEW: Willpower
-	FGameplayAttributeData Willpower;
-	ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, Willpower)
-
-
 	 /*
 	 *	Meta Attributes
 	 */
@@ -131,9 +107,13 @@ public:
         /*
          * Secondary Attributes - Combat Stats
          */
-        UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalDamage, Category = "Secondary Attributes|Combat") // NEW: PhysicalDamage (replaces WeaponDamage)
+        UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalDamage, Category = "Secondary Attributes|Combat") // NEW: PhysicalDamage
         FGameplayAttributeData PhysicalDamage;
     ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, PhysicalDamage)
+
+        UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_WeaponDamage, Category = "Secondary Attributes|Combat") // NEW: WeaponDamage
+        FGameplayAttributeData WeaponDamage;
+    ATTRIBUTE_ACCESSORS(UProjektZAttributeSet, WeaponDamage)
 
         UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MagicPower, Category = "Secondary Attributes|Combat") // NEW: MagicPower
         FGameplayAttributeData MagicPower;
@@ -303,22 +283,10 @@ public:
     void OnRep_Stamina(const FGameplayAttributeData& OldStamina) const;
 
     UFUNCTION()
-    void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;
+    void OnRep_PhysicalDamage(const FGameplayAttributeData& OldPhysicalDamage) const; 
 
     UFUNCTION()
-    void OnRep_Vitality(const FGameplayAttributeData& OldVitality) const; // NEW OnRep
-
-    UFUNCTION()
-    void OnRep_Dexterity(const FGameplayAttributeData& OldDexterity) const; // NEW OnRep
-
-    UFUNCTION()
-    void OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const;
-
-    UFUNCTION()
-    void OnRep_Willpower(const FGameplayAttributeData& OldWillpower) const; // NEW OnRep
-
-    UFUNCTION()
-    void OnRep_PhysicalDamage(const FGameplayAttributeData& OldPhysicalDamage) const; // NEW OnRep (replaces OnRep_WeaponDamage)
+    void OnRep_WeaponDamage(const FGameplayAttributeData& OldWeaponDamage) const;
 
     UFUNCTION()
     void OnRep_MagicPower(const FGameplayAttributeData& OldMagicPower) const; // NEW OnRep

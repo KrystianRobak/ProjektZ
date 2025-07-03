@@ -241,9 +241,10 @@ void ACharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffe
 
 void ACharacterBase::InitializeDefaultAttributes() const
 {
-	ApplyEffectToSelf(DefaultPrimaryAttributes, 1);
-	ApplyEffectToSelf(DefaultSecondaryAttributes, 1);
+	ApplyEffectToSelf(DefaultOffensiveAttributes, 1);
+	ApplyEffectToSelf(DefaultDefensiveAttributes, 1);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1);
 	ApplyEffectToSelf(DefaultResistanceAttributes, 1);
+	ApplyEffectToSelf(DefaultAmplifierAttributes, 1);
 }
 

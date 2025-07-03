@@ -16,16 +16,6 @@ public:
 	static void InitializeNativeGameplayTags();
 
 	//=================================
-	//     PRIMARY ATTRIBUTES
-	//=================================
-
-	FGameplayTag Attributes_Primary_Strength;           // Affects melee damage, carry weight
-	FGameplayTag Attributes_Primary_Vitality;           // Affects health pool and regeneration
-	FGameplayTag Attributes_Primary_Dexterity;          // Affects evasion, crit chance, attack speed
-	FGameplayTag Attributes_Primary_Intelligence;       // Affects magic damage, mana pool
-	FGameplayTag Attributes_Primary_Willpower;          // Affects mana regen, resistance to debuffs
-
-	//=================================
 	//     SECONDARY ATTRIBUTES
 	//=================================
 
@@ -37,6 +27,7 @@ public:
 	FGameplayTag Attributes_Secondary_MaxStamina;
 	FGameplayTag Attributes_Secondary_StaminaRegeneration;
 
+	FGameplayTag Attributes_Secondary_WeaponDamage;
 	FGameplayTag Attributes_Secondary_PhysicalDamage;
 	FGameplayTag Attributes_Secondary_MagicPower;
 	FGameplayTag Attributes_Secondary_SpellCriticalChance;

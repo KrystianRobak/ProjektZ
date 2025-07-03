@@ -8,36 +8,6 @@ FProjektZGameplayTags FProjektZGameplayTags::GameplayTags;
 
 void FProjektZGameplayTags::InitializeNativeGameplayTags()
 {
-
-	/*
-	* Primary Attributes
-	*/
-
-	GameplayTags.Attributes_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Primary.Strength"),
-		FString("Increases melee and physical damage; improves carry weight.")
-	);
-
-	GameplayTags.Attributes_Primary_Vitality = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Primary.Vitality"),
-		FString("Increases maximum health and health regeneration.")
-	);
-
-	GameplayTags.Attributes_Primary_Dexterity = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Primary.Dexterity"),
-		FString("Improves evasion, critical hit chance, and attack speed.")
-	);
-
-	GameplayTags.Attributes_Primary_Intelligence = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Primary.Intelligence"),
-		FString("Increases magic power, spell damage, and mana pool.")
-	);
-
-	GameplayTags.Attributes_Primary_Willpower = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Attributes.Primary.Willpower"),
-		FString("Increases mana regeneration and resistance to debuffs.")
-	);
-
 	/*
 	* Secondary Resources Attributes
 	*/
@@ -79,6 +49,11 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_Secondary_PhysicalDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Secondary.PhysicalDamage"),
 		FString("Bonus physical damage added to weapon and melee attacks.")
+	);
+
+	GameplayTags.Attributes_Secondary_WeaponDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.WeaponDamage"),
+		FString("Base damage of the equipped weapon, used for scaling physical attacks.")
 	);
 
 	GameplayTags.Attributes_Secondary_MagicPower = UGameplayTagsManager::Get().AddNativeGameplayTag(

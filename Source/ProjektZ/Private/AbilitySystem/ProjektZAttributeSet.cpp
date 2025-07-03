@@ -21,20 +21,16 @@ void UProjektZAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	// --- Primary Attributes ---
-	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, Strength, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, Vitality, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, Dexterity, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, Intelligence, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, Willpower, COND_None, REPNOTIFY_Always);
 
-	// --- Secondary Attributes ---
+	// --- Attributes ---
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, PhysicalDamage, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MagicPower, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, SpellCriticalChance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, SpellCriticalDamage, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, CooldownReduction, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, AttackSpeed, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MovementSpeed, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, WeaponDamage, COND_None, REPNOTIFY_Always);
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, Armor, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, ArmorPenetration, COND_None, REPNOTIFY_Always);
@@ -42,13 +38,17 @@ void UProjektZAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, CriticalHitChance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, CriticalHitDamage, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, CriticalHitResistance, COND_None, REPNOTIFY_Always);
+
+
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, HealthRegeneration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, ManaRegeneration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, StaminaRegeneration, COND_None, REPNOTIFY_Always);
+
+
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MaxStamina, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, MovementSpeed, COND_None, REPNOTIFY_Always);
+
 
 	// --- Secondary Attributes: Amplification ---
 	DOREPLIFETIME_CONDITION_NOTIFY(UProjektZAttributeSet, FireAmplification, COND_None, REPNOTIFY_Always);
@@ -204,36 +204,16 @@ void UProjektZAttributeSet::ShowFloatingText(const FEffectProperties& Props, flo
 	}
 }
 
-// --- Primary Attribute OnRep Functions ---
-void UProjektZAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, Strength, OldStrength);
-}
-
-void UProjektZAttributeSet::OnRep_Vitality(const FGameplayAttributeData& OldVitality) const
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, Vitality, OldVitality);
-}
-
-void UProjektZAttributeSet::OnRep_Dexterity(const FGameplayAttributeData& OldDexterity) const
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, Dexterity, OldDexterity);
-}
-
-void UProjektZAttributeSet::OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, Intelligence, OldIntelligence);
-}
-
-void UProjektZAttributeSet::OnRep_Willpower(const FGameplayAttributeData& OldWillpower) const
-{
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, Willpower, OldWillpower);
-}
 
 // --- Secondary Attribute OnRep Functions ---
 void UProjektZAttributeSet::OnRep_PhysicalDamage(const FGameplayAttributeData& OldPhysicalDamage) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, PhysicalDamage, OldPhysicalDamage);
+}
+
+void UProjektZAttributeSet::OnRep_WeaponDamage(const FGameplayAttributeData& OldWeaponDamage) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UProjektZAttributeSet, WeaponDamage, OldWeaponDamage);
 }
 
 void UProjektZAttributeSet::OnRep_MagicPower(const FGameplayAttributeData& OldMagicPower) const
@@ -454,13 +434,6 @@ void UProjektZAttributeSet::OnRep_HealthRecovered(const FGameplayAttributeData& 
 void UProjektZAttributeSet::PopulateTagsToAttributesMap()
 {
 	FProjektZGameplayTags GameplayTags = FProjektZGameplayTags::Get();
-
-	// Primary Attributes
-	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Strength, GetStrengthAttribute());
-	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Vitality, GetVitalityAttribute());
-	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Dexterity, GetDexterityAttribute());
-	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Intelligence, GetIntelligenceAttribute());
-	TagsToAttributes.Add(GameplayTags.Attributes_Primary_Willpower, GetWillpowerAttribute());
 
 	// Secondary Attributes - Core Derived Stats
 	TagsToAttributes.Add(GameplayTags.Attributes_Secondary_MaxHealth, GetMaxHealthAttribute());
