@@ -19,30 +19,48 @@ public:
 	//     PRIMARY ATTRIBUTES
 	//=================================
 
-	FGameplayTag Attributes_Primary_Strength;
-	FGameplayTag Attributes_Primary_Intelligence;
-	FGameplayTag Attributes_Primary_Resilience;
-	FGameplayTag Attributes_Primary_Vigor;
+	FGameplayTag Attributes_Primary_Strength;           // Affects melee damage, carry weight
+	FGameplayTag Attributes_Primary_Vitality;           // Affects health pool and regeneration
+	FGameplayTag Attributes_Primary_Dexterity;          // Affects evasion, crit chance, attack speed
+	FGameplayTag Attributes_Primary_Intelligence;       // Affects magic damage, mana pool
+	FGameplayTag Attributes_Primary_Willpower;          // Affects mana regen, resistance to debuffs
 
 	//=================================
-	//     SECONDARY ATTRIBUTES (ATTRIBUTES CALCULATED WITH PRIMARY ATTRIBUTES)
+	//     SECONDARY ATTRIBUTES
 	//=================================
 
+	// Core derived stats
 	FGameplayTag Attributes_Secondary_MaxHealth;
+	FGameplayTag Attributes_Secondary_HealthRegeneration;
 	FGameplayTag Attributes_Secondary_MaxMana;
+	FGameplayTag Attributes_Secondary_ManaRegeneration;
 	FGameplayTag Attributes_Secondary_MaxStamina;
+	FGameplayTag Attributes_Secondary_StaminaRegeneration;
 
-	FGameplayTag Attributes_Secondary_WeaponDamage;
+	FGameplayTag Attributes_Secondary_PhysicalDamage;
+	FGameplayTag Attributes_Secondary_MagicPower;
+	FGameplayTag Attributes_Secondary_SpellCriticalChance;
+	FGameplayTag Attributes_Secondary_SpellCriticalDamage;
+	FGameplayTag Attributes_Secondary_CooldownReduction;      
+
+	FGameplayTag Attributes_Secondary_AttackSpeed;
+	FGameplayTag Attributes_Secondary_MovementSpeed;
+
 	FGameplayTag Attributes_Secondary_Armor;
 	FGameplayTag Attributes_Secondary_ArmorPenetration;
 	FGameplayTag Attributes_Secondary_BlockChance;
 	FGameplayTag Attributes_Secondary_CriticalHitChance;
-	FGameplayTag Attributes_Secondary_CriticalHitResistance;
 	FGameplayTag Attributes_Secondary_CriticalHitDamage;
-	FGameplayTag Attributes_Secondary_HealthRegeneration;
-	FGameplayTag Attributes_Secondary_ManaRegeneration;
-	FGameplayTag Attributes_Secondary_MovementSpeed;
+	FGameplayTag Attributes_Secondary_CriticalHitResistance;
 
+	// Amplification tags for elemental and magic scaling (percentage based)
+	FGameplayTag Attributes_Secondary_FireAmplification; 
+	FGameplayTag Attributes_Secondary_FrostAmplification;
+	FGameplayTag Attributes_Secondary_LightningAmplification;
+	FGameplayTag Attributes_Secondary_LightAmplification;
+	FGameplayTag Attributes_Secondary_PoisonAmplification;
+
+	FGameplayTag Attributes_Secondary_OverallMagicAmplification;
 
 	//=================================
 	//     RESISTANCES
@@ -65,9 +83,6 @@ public:
 	FGameplayTag Element_Light;
 	FGameplayTag Element_Poison;
 
-	TMap<FGameplayTag, FGameplayTag> ElementTypesToDamageTypes;
-	TMap<FGameplayTag, FGameplayTag> ElementTypesToConditionType;
-	TMap<FGameplayTag, FGameplayTag> ElementTypesToResistances;
 
 	//=================================
 	//     DAMAGE TYPES
@@ -84,6 +99,11 @@ public:
 	//=================================
 	//     CONDITIONS
 	//=================================
+
+	TMap<FGameplayTag, FGameplayTag> ElementTypesToDamageTypes;
+	TMap<FGameplayTag, FGameplayTag> ElementTypesToConditionType;
+	TMap<FGameplayTag, FGameplayTag> ElementTypesToResistances;
+
 
 	FGameplayTag Condition_Fire;
 	FGameplayTag Condition_Frost;

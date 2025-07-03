@@ -6,31 +6,34 @@
 
 UMMC_MaxHealth::UMMC_MaxHealth()
 {
-	VigorDef.AttributeToCapture = UProjektZAttributeSet::GetVigorAttribute();
-	VigorDef.AttributeSource = EGameplayEffectAttributeCaptureSource::Target;
-	VigorDef.bSnapshot = false;
+    VitalityDef.AttributeToCapture = UProjektZAttributeSet::GetVitalityAttribute();
+    VitalityDef.AttributeSource = EGameplayEffectAttributeCaptureSource::Target;
+    VitalityDef.bSnapshot = false;
 
-
-	RelevantAttributesToCapture.Add(VigorDef);
+    RelevantAttributesToCapture.Add(VitalityDef);
 }
 
 float UMMC_MaxHealth::CalculateBaseMagnitude_Implementation(const FGameplayEffectSpec& Spec) const
 {
-	// Gather tags from source and target
-	const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
-	const FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
+    // Gather tags from source and target
+    const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
+    const FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
 
-	FAggregatorEvaluateParameters EvaulationParameters;
-	EvaulationParameters.SourceTags = SourceTags;
-	EvaulationParameters.TargetTags = TargetTags;
+    FAggregatorEvaluateParameters EvaulationParameters;
+    EvaulationParameters.SourceTags = SourceTags;
+    EvaulationParameters.TargetTags = TargetTags;
 
-	float Vigor = 0.f;
-	GetCapturedAttributeMagnitude(VigorDef, Spec, EvaulationParameters, Vigor);
-	Vigor = FMath::Max<float>(Vigor, 0);
+    float Vitality = 0.f;
 
-	ICombatInterface* CombatInterface = Cast<ICombatInterface>(Spec.GetContext().GetSourceObject());
-	const int32 PlayerLevel = CombatInterface->GetPlayerLevel();
-	
-	
-	return 80.f + 2.5f * Vigor + 10.f * PlayerLevel;
+    GetCapturedAttributeMagnitude(VitalityDef, Spec, EvaulationParameters, Vitality);
+    Vitality = FMath::Max<float>(Vitality, 0);
+
+    ICombatInterface* CombatInterface = Cast<ICombatInterface>(Spec.GetContext().GetSourceObject());
+    int32 PlayerLevel = 1;
+    if (CombatInterface)
+    {
+        PlayerLevel = CombatInterface->GetPlayerLevel();
+    }
+
+    return 100.f + 10.f * Vitality;
 }

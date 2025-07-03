@@ -13,28 +13,171 @@ void FProjektZGameplayTags::InitializeNativeGameplayTags()
 	* Primary Attributes
 	*/
 
-	GameplayTags.Attributes_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Strength"), FString("Increases physical damage"));
-	GameplayTags.Attributes_Primary_Intelligence = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Intelligence"), FString("Increases magical damage"));
-	GameplayTags.Attributes_Primary_Resilience = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Resilience"), FString("Increases Armor and Armor Penetration"));
-	GameplayTags.Attributes_Primary_Vigor = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Primary.Vigor"), FString("Increases health"));
+	GameplayTags.Attributes_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Primary.Strength"),
+		FString("Increases melee and physical damage; improves carry weight.")
+	);
+
+	GameplayTags.Attributes_Primary_Vitality = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Primary.Vitality"),
+		FString("Increases maximum health and health regeneration.")
+	);
+
+	GameplayTags.Attributes_Primary_Dexterity = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Primary.Dexterity"),
+		FString("Improves evasion, critical hit chance, and attack speed.")
+	);
+
+	GameplayTags.Attributes_Primary_Intelligence = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Primary.Intelligence"),
+		FString("Increases magic power, spell damage, and mana pool.")
+	);
+
+	GameplayTags.Attributes_Primary_Willpower = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Primary.Willpower"),
+		FString("Increases mana regeneration and resistance to debuffs.")
+	);
 
 	/*
-	* Secondary Attributes
+	* Secondary Resources Attributes
 	*/
 
-	GameplayTags.Attributes_Secondary_WeaponDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.WeaponDamage"), FString("Additional damage weapon gives"));
-	GameplayTags.Attributes_Secondary_Armor =  UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.Armor"), FString("Reduces damage taken, improves block chance"));
-	GameplayTags.Attributes_Secondary_ArmorPenetration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.ArmorPenetration"), FString("Ignores armor of enemy"));
-	GameplayTags.Attributes_Secondary_BlockChance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.BlockChance"), FString("Chance to cut incoming damage in half"));
-	GameplayTags.Attributes_Secondary_CriticalHitChance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.CriticalHitChance"), FString("Chance to double damage plus critical hit bonus"));
-	GameplayTags.Attributes_Secondary_CriticalHitDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.CriticalHitDamage"), FString("Bonus damage adden when a critical hit is scored"));
-	GameplayTags.Attributes_Secondary_CriticalHitResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.CriticalHitResistance"), FString("Reduces Critical Hit Chance of attacking enemies"));
-	GameplayTags.Attributes_Secondary_HealthRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.HealthRegeneration"), FString("Amout of Health regenerated every 1 second"));
-	GameplayTags.Attributes_Secondary_ManaRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.ManaRegeneration"), FString("Amout of Mana regenerated every 1 second"));
-	GameplayTags.Attributes_Secondary_MaxHealth = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MaxHealth"), FString("Maximum amount of Health obtainable"));
-	GameplayTags.Attributes_Secondary_MaxMana = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MaxMana"), FString("Maximum amount of Mana obtainable"));
-	GameplayTags.Attributes_Secondary_MaxStamina = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MaxStamina"), FString("Maximum amount of Stamina obtainable"));
-	GameplayTags.Attributes_Secondary_MovementSpeed = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.MovementSpeed"), FString("MovementSpeed of character"));
+	GameplayTags.Attributes_Secondary_MaxHealth = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.MaxHealth"),
+		FString("Maximum amount of Health obtainable.")
+	);
+
+	GameplayTags.Attributes_Secondary_HealthRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.HealthRegeneration"),
+		FString("Amount of Health regenerated per second.")
+	);
+
+	GameplayTags.Attributes_Secondary_MaxMana = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.MaxMana"),
+		FString("Maximum amount of Mana obtainable.")
+	);
+
+	GameplayTags.Attributes_Secondary_ManaRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.ManaRegeneration"),
+		FString("Amount of Mana regenerated per second.")
+	);
+
+	GameplayTags.Attributes_Secondary_MaxStamina = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.MaxStamina"),
+		FString("Maximum amount of Stamina obtainable.")
+	);
+
+	GameplayTags.Attributes_Secondary_StaminaRegeneration = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.StaminaRegeneration"),
+		FString("Amount of Stamina regenerated per second.")
+	);
+
+	/*
+	* Secondary Combat Attributes
+	*/
+
+	GameplayTags.Attributes_Secondary_PhysicalDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.PhysicalDamage"),
+		FString("Bonus physical damage added to weapon and melee attacks.")
+	);
+
+	GameplayTags.Attributes_Secondary_MagicPower = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.MagicPower"),
+		FString("Base stat used for scaling all spell damage.")
+	);
+
+	GameplayTags.Attributes_Secondary_SpellCriticalChance = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.SpellCriticalChance"),
+		FString("Chance for spells to deal critical hits.")
+	);
+
+	GameplayTags.Attributes_Secondary_SpellCriticalDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.SpellCriticalDamage"),
+		FString("Bonus damage dealt by spells on critical hits.")
+	);
+
+	GameplayTags.Attributes_Secondary_CooldownReduction = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.CooldownReduction"),
+		FString("Percentage reduction to all skill cooldowns.")
+	);
+
+	GameplayTags.Attributes_Secondary_AttackSpeed = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.AttackSpeed"),
+		FString("Increases speed of physical and ranged attacks.")
+	);
+
+	GameplayTags.Attributes_Secondary_MovementSpeed = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.MovementSpeed"),
+		FString("Controls how fast the character moves.")
+	);
+
+	/*
+	* Secondary defensive Attributes
+	*/
+
+	GameplayTags.Attributes_Secondary_Armor = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.Armor"),
+		FString("Reduces physical damage taken; improves block effectiveness.")
+	);
+
+	GameplayTags.Attributes_Secondary_ArmorPenetration = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.ArmorPenetration"),
+		FString("Ignores a portion of enemy armor.")
+	);
+
+	GameplayTags.Attributes_Secondary_BlockChance = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.BlockChance"),
+		FString("Chance to block and reduce incoming damage.")
+	);
+
+	GameplayTags.Attributes_Secondary_CriticalHitChance = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.CriticalHitChance"),
+		FString("Chance for attacks to deal critical damage.")
+	);
+
+	GameplayTags.Attributes_Secondary_CriticalHitDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.CriticalHitDamage"),
+		FString("Bonus damage dealt on critical hits.")
+	);
+
+	GameplayTags.Attributes_Secondary_CriticalHitResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.CriticalHitResistance"),
+		FString("Reduces the chance of receiving critical hits.")
+	);
+
+	/*
+	* Amplifination Attributes
+	*/
+
+	GameplayTags.Attributes_Secondary_FireAmplification = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.FireAmplification"),
+		FString("Increases damage of all fire-based spells and effects.")
+	);
+
+	GameplayTags.Attributes_Secondary_FrostAmplification = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.FrostAmplification"),
+		FString("Increases damage of all frost-based spells and effects.")
+	);
+
+	GameplayTags.Attributes_Secondary_LightningAmplification = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.LightningAmplification"),
+		FString("Increases damage of all lightning-based spells and effects.")
+	);
+
+	GameplayTags.Attributes_Secondary_LightAmplification = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.LightAmplification"),
+		FString("Increases damage of all light-based spells and effects.")
+	);
+
+	GameplayTags.Attributes_Secondary_PoisonAmplification = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.PoisonAmplification"),
+		FString("Increases damage of all poison-based effects and spells.")
+	);
+
+	GameplayTags.Attributes_Secondary_OverallMagicAmplification = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Secondary.OverallMagicAmplification"),
+		FString("Increases all spell damage regardless of element.")
+	);
 
 	/*
 	* Resistance Types Tags
