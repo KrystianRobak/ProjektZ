@@ -95,7 +95,6 @@ bool UProjektZGameplayAbility::CheckCost(const FGameplayAbilitySpecHandle Handle
 bool UProjektZGameplayAbility::CanApplyAttributeModifiers(const UGameplayEffect* GameplayEffect, float Level, const FGameplayEffectContextHandle& EffectContext, UAbilitySystemComponent* AbilitySystemComponent) const
 {
 	FGameplayEffectSpec Spec(GameplayEffect, EffectContext, Level);
-	Spec.CalculateModifierMagnitudes();
 
 	for (int32 ModIdx = 0; ModIdx < Spec.Modifiers.Num(); ++ModIdx)
 	{

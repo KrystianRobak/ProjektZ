@@ -24,6 +24,19 @@ struct FCustomCommand
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Custom Command")
 	TArray<FString> CommandParameters;
+
+	// Constructor with all parameters passed
+	FCustomCommand()
+		: Command(TEXT(""))
+		, CommandDescription(TEXT(""))
+		, CommandParameters()
+	{}
+
+	FCustomCommand(const FString& InCommand, const FString& InDescription, const TArray<FString>& InParameters)
+		: Command(InCommand)
+		, CommandDescription(InDescription)
+		, CommandParameters(InParameters)
+	{}
 };
 
 
@@ -55,6 +68,24 @@ struct FCustomCommandBinding
 			BlueprintCallback.Execute(Params);
 		}
 	}
+
+	FCustomCommandBinding()
+		: Command()
+		, BlueprintCallback()
+		, CppCallback()
+	{}
+
+	FCustomCommandBinding(const FCustomCommand& InCommand, const FBlueprintCommandDelegate& InBlueprintCallback)
+		: Command(InCommand)
+		, BlueprintCallback(InBlueprintCallback)
+		, CppCallback()
+	{}
+
+	FCustomCommandBinding(const FCustomCommand& InCommand, const FCppCommandDelegate& InCppCallback)
+		: Command(InCommand)
+		, BlueprintCallback()
+		, CppCallback(InCppCallback)
+	{}
 };
 
 

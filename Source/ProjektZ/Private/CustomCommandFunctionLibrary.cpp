@@ -11,6 +11,8 @@ void UCustomCommandFunctionLibrary::RegisterCommand(const FCustomCommandBinding&
 	{
 		const FString LowerCommand = Binding.Command.Command.ToLower();
 		CommandMap.Add(Binding.Command.Command.ToLower(), Binding);
+		
+		UE_LOG(LogTemp, Warning, TEXT("Command Registered: %s"), *LowerCommand);
 	}
 }
 
