@@ -24,7 +24,7 @@ public:
 
 	virtual bool CheckCost(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, OUT FGameplayTagContainer* OptionalRelevantTags) const;
 
-	bool CanApplyAttributeModifiers(const UGameplayEffect* GameplayEffect, float Level, const FGameplayEffectContextHandle& EffectContext, UAbilitySystemComponent* AbilitySystemComponent) const;
+	bool CanApplyAttributeModifiers(UAbilitySystemComponent* AbilitySystemComponent) const;
 
 	UFUNCTION(BlueprintCallable)
 	void CheckReactivness(FGameplayTag TagToCheck);

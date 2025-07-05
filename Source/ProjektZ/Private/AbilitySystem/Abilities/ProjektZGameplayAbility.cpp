@@ -77,7 +77,7 @@ bool UProjektZGameplayAbility::CheckCost(const FGameplayAbilitySpecHandle Handle
 		UAbilitySystemComponent* AbilitySystemComponent = ActorInfo ? ActorInfo->AbilitySystemComponent.Get() : nullptr;
 		if (ensure(AbilitySystemComponent))
 		{
-			if (!CanApplyAttributeModifiers(CostGE, GetAbilityLevel(Handle, ActorInfo), MakeEffectContext(Handle, ActorInfo), AbilitySystemComponent))
+			if (!CanApplyAttributeModifiers(AbilitySystemComponent))
 			{
 				const FGameplayTag& CostTag = UAbilitySystemGlobals::Get().ActivateFailCostTag;
 
@@ -92,47 +92,35 @@ bool UProjektZGameplayAbility::CheckCost(const FGameplayAbilitySpecHandle Handle
 	return true;
 }
 
-bool UProjektZGameplayAbility::CanApplyAttributeModifiers(const UGameplayEffect* GameplayEffect, float Level, const FGameplayEffectContextHandle& EffectContext, UAbilitySystemComponent* AbilitySystemComponent) const
+bool UProjektZGameplayAbility::CanApplyAttributeModifiers(UAbilitySystemComponent* AbilitySystemComponent) const
 {
-	FGameplayEffectSpec Spec(GameplayEffect, EffectContext, Level);
+	float CurrentValue = 0;
+	float CostValue = 0;
 
-	for (int32 ModIdx = 0; ModIdx < Spec.Modifiers.Num(); ++ModIdx)
+	CurrentValue = AbilitySystemComponent->GetNumericAttribute(UProjektZAttributeSet::GetManaAttribute());
+	CostValue = Mana;
+
+	if (CurrentValue + CostValue < 0.f)
 	{
-		const FGameplayModifierInfo& ModDef = Spec.Def->Modifiers[ModIdx];
-		const FModifierSpec& ModSpec = Spec.Modifiers[ModIdx];
-
-		if (ModDef.ModifierOp == EGameplayModOp::Additive)
-		{
-			if (!ModDef.Attribute.IsValid())
-			{
-				continue;
-			}
-
-			float CurrentValue = 0;
-			float CostValue = 0;
-
-			if (ModDef.Attribute.AttributeName == UProjektZAttributeSet::GetManaAttribute().AttributeName)
-			{
-				CurrentValue = AbilitySystemComponent->GetNumericAttribute(UProjektZAttributeSet::GetManaAttribute());
-				CostValue = Mana;
-			}
-			else if (ModDef.Attribute.AttributeName == UProjektZAttributeSet::GetHealthAttribute().AttributeName)
-			{
-				CurrentValue = AbilitySystemComponent->GetNumericAttribute(UProjektZAttributeSet::GetHealthAttribute());
-				CostValue = Health;
-			}
-			else if (ModDef.Attribute.AttributeName == UProjektZAttributeSet::GetStaminaAttribute().AttributeName)
-			{
-				CurrentValue = AbilitySystemComponent->GetNumericAttribute(UProjektZAttributeSet::GetStaminaAttribute());
-				CostValue = Stamina;
-			}
-
-			if (CurrentValue + CostValue < 0.f)
-			{
-				return false;
-			}
-		}
+		return false;
 	}
+
+	CurrentValue = AbilitySystemComponent->GetNumericAttribute(UProjektZAttributeSet::GetHealthAttribute());
+	CostValue = Health;
+
+	if (CurrentValue + CostValue < 0.f)
+	{
+		return false;
+	}
+
+	CurrentValue = AbilitySystemComponent->GetNumericAttribute(UProjektZAttributeSet::GetStaminaAttribute());
+	CostValue = Stamina;
+
+	if (CurrentValue + CostValue < 0.f)
+	{
+		return false;
+	}
+
 	return true;
 }
 
